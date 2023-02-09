@@ -1,0 +1,12 @@
+Line2D
+AnimationTree
+AnimationPlayer
+Sprite2D
+ShapeCast2D
+AnimatedSprite2D
+Node2D
+CollisionShape2D
+CharacterBody2D
+Camera2D
+TileMap
+StaticBody2D

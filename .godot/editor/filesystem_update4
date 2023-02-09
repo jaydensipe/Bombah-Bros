@@ -1,0 +1,4 @@
+res://Entities/Player/Player.tscn
+res://Entities/Player/Player.gd
+res://Global/Game.tscn
+res://Stages/MapGrass/MapGrass.tscn

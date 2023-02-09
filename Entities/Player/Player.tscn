@@ -1,0 +1,189 @@
+[gd_scene load_steps=23 format=3 uid="uid://by0cg54hrj2v7"]
+
+[ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_kruu1"]
+[ext_resource type="Texture2D" uid="uid://crmoo8o2yrf8u" path="res://Assets/Characters/bombbill_body.png" id="2_1lfxf"]
+[ext_resource type="Texture2D" uid="uid://mepwcxf2cpy" path="res://Assets/Characters/bombbill_head.png" id="3_60xpl"]
+[ext_resource type="Texture2D" uid="uid://3skr0upcqmhm" path="res://Assets/Characters/bombbill_leg.png" id="3_shv2m"]
+[ext_resource type="Texture2D" uid="uid://cqowa1rbud2kr" path="res://Assets/Characters/bombbill_arm.png" id="5_qp5ub"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_45rdq"]
+size = Vector2(80, 160)
+
+[sub_resource type="Animation" id="Animation_syw60"]
+resource_name = "Idle"
+
+[sub_resource type="Animation" id="Animation_vd3dp"]
+resource_name = "Run"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body/Leg1:rotation")
+tracks/0/interp = 4
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.785397, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body/Leg2:rotation")
+tracks/1/interp = 4
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.785397, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body/Arm1:rotation")
+tracks/2/interp = 4
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.5708, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body/Arm2:rotation")
+tracks/3/interp = 4
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -1.5708, 0.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_2c2mw"]
+resource_name = "Spinning"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body/Arm1:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 1.5708, 3.14159, 4.71239, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eo6p5"]
+_data = {
+"Idle": SubResource("Animation_syw60"),
+"Run": SubResource("Animation_vd3dp"),
+"Spinning": SubResource("Animation_2c2mw")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lr30s"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_f2w0t"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_456wy"]
+filter_enabled = true
+filters = ["Body/Arm1:rotation"]
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_o737i"]
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_gb7bv"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3yq6o"]
+animation = &"Spinning"
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_o3rm4"]
+graph_offset = Vector2(-19.7881, 25.1088)
+nodes/Run/node = SubResource("AnimationNodeAnimation_f2w0t")
+nodes/Run/position = Vector2(373.333, 26.6667)
+nodes/RunSpinBlend/node = SubResource("AnimationNodeBlend2_456wy")
+nodes/RunSpinBlend/position = Vector2(760, 106.667)
+nodes/RunTimeScale/node = SubResource("AnimationNodeTimeScale_o737i")
+nodes/RunTimeScale/position = Vector2(560, 66.6667)
+nodes/SpinTimeScale/node = SubResource("AnimationNodeTimeScale_gb7bv")
+nodes/SpinTimeScale/position = Vector2(573.333, 253.333)
+nodes/Spinning/node = SubResource("AnimationNodeAnimation_3yq6o")
+nodes/Spinning/position = Vector2(373.333, 266.667)
+nodes/output/position = Vector2(1000, 146.667)
+node_connections = [&"output", 0, &"RunSpinBlend", &"RunSpinBlend", 0, &"RunTimeScale", &"RunSpinBlend", 1, &"SpinTimeScale", &"RunTimeScale", 0, &"Run", &"SpinTimeScale", 0, &"Spinning"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vawlx"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_32wh8"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_c24e4"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_aqjp4"]
+states/Idle/node = SubResource("AnimationNodeAnimation_lr30s")
+states/Idle/position = Vector2(520, 100.593)
+states/RunningAndSpinning/node = SubResource("AnimationNodeBlendTree_o3rm4")
+states/RunningAndSpinning/position = Vector2(709.667, 98.9465)
+states/Start/position = Vector2(376.667, 101.827)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_vawlx"), "Idle", "RunningAndSpinning", SubResource("AnimationNodeStateMachineTransition_32wh8"), "RunningAndSpinning", "Idle", SubResource("AnimationNodeStateMachineTransition_c24e4")]
+graph_offset = Vector2(-219, 50)
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_h7y72"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_kruu1")
+speed = 125
+friction = 0.4
+acceleration = 0.1
+metadata/_edit_group_ = true
+
+[node name="Body" type="Sprite2D" parent="."]
+y_sort_enabled = true
+texture = ExtResource("2_1lfxf")
+
+[node name="Head" type="Sprite2D" parent="Body"]
+texture = ExtResource("3_60xpl")
+
+[node name="Leg1" type="Sprite2D" parent="Body"]
+z_index = -1
+position = Vector2(-1, 1)
+texture = ExtResource("3_shv2m")
+
+[node name="Leg2" type="Sprite2D" parent="Body"]
+position = Vector2(0, 1)
+texture = ExtResource("3_shv2m")
+
+[node name="Arm2" type="Sprite2D" parent="Body"]
+z_index = -1
+texture = ExtResource("5_qp5ub")
+
+[node name="Arm1" type="Sprite2D" parent="Body"]
+texture = ExtResource("5_qp5ub")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+scale = Vector2(0.1, 0.1)
+shape = SubResource("RectangleShape2D_45rdq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_eo6p5")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_aqjp4")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_h7y72")
+parameters/RunningAndSpinning/RunSpinBlend/blend_amount = 0
+parameters/RunningAndSpinning/RunTimeScale/scale = 1.0
+parameters/RunningAndSpinning/SpinTimeScale/scale = 8.0
+
+[node name="Line2D" type="Line2D" parent="."]
