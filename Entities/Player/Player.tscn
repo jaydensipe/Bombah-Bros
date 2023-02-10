@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://by0cg54hrj2v7"]
+[gd_scene load_steps=25 format=3 uid="uid://by0cg54hrj2v7"]
 
 [ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_kruu1"]
 [ext_resource type="Texture2D" uid="uid://crmoo8o2yrf8u" path="res://Assets/Characters/bombbill_body.png" id="2_1lfxf"]
@@ -126,18 +126,50 @@ node_connections = [&"output", 0, &"RunSpinBlend", &"RunSpinBlend", 0, &"RunTime
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_c24e4"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5hs04"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_aqjp4"]
 states/Idle/node = SubResource("AnimationNodeAnimation_lr30s")
 states/Idle/position = Vector2(520, 100.593)
 states/RunningAndSpinning/node = SubResource("AnimationNodeBlendTree_o3rm4")
 states/RunningAndSpinning/position = Vector2(709.667, 98.9465)
 states/Start/position = Vector2(376.667, 101.827)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_vawlx"), "Idle", "RunningAndSpinning", SubResource("AnimationNodeStateMachineTransition_32wh8"), "RunningAndSpinning", "Idle", SubResource("AnimationNodeStateMachineTransition_c24e4")]
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_vawlx"), "Idle", "RunningAndSpinning", SubResource("AnimationNodeStateMachineTransition_32wh8"), "RunningAndSpinning", "Idle", SubResource("AnimationNodeStateMachineTransition_c24e4"), "RunningAndSpinning", "End", SubResource("AnimationNodeStateMachineTransition_5hs04")]
 graph_offset = Vector2(-219, 50)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_h7y72"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ammij"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath("Body/Head:rotation")
+properties/2/spawn = true
+properties/2/sync = true
+properties/3/path = NodePath(".:speed")
+properties/3/spawn = true
+properties/3/sync = true
+properties/4/path = NodePath(".:friction")
+properties/4/spawn = true
+properties/4/sync = true
+properties/5/path = NodePath(".:acceleration")
+properties/5/spawn = true
+properties/5/sync = true
+properties/6/path = NodePath(".:state")
+properties/6/spawn = true
+properties/6/sync = true
+properties/7/path = NodePath(".:vel")
+properties/7/spawn = true
+properties/7/sync = true
+properties/8/path = NodePath("Body:scale")
+properties/8/spawn = true
+properties/8/sync = true
+
 [node name="Player" type="CharacterBody2D"]
+z_index = 1
 script = ExtResource("1_kruu1")
 speed = 125
 friction = 0.4
@@ -186,4 +218,5 @@ parameters/RunningAndSpinning/RunSpinBlend/blend_amount = 0
 parameters/RunningAndSpinning/RunTimeScale/scale = 1.0
 parameters/RunningAndSpinning/SpinTimeScale/scale = 8.0
 
-[node name="Line2D" type="Line2D" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ammij")

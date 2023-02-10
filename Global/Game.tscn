@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://d3yr8oh7m7byk"]
+[gd_scene load_steps=2 format=3 uid="uid://d3yr8oh7m7byk"]
 
-[ext_resource type="PackedScene" uid="uid://cavehbvpr3pdr" path="res://Stages/MapGrass/MapGrass.tscn" id="1_c5jvu"]
-[ext_resource type="PackedScene" uid="uid://by0cg54hrj2v7" path="res://Entities/Player/Player.tscn" id="2_os784"]
+[ext_resource type="Script" path="res://Global/Game.gd" id="1_ma1et"]
 
 [node name="Game" type="Node2D"]
-metadata/_edit_lock_ = true
+script = ExtResource("1_ma1et")
 metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(4.76837e-07, 0)
@@ -13,12 +13,12 @@ rotation = 3.14159
 scale = Vector2(9.19958, -2.90918)
 
 [node name="Current Map" type="Node2D" parent="."]
-
-[node name="MapGrass" parent="Current Map" instance=ExtResource("1_c5jvu")]
-scale = Vector2(1, 0.975796)
+position = Vector2(0, 56)
 
 [node name="Players" type="Node2D" parent="."]
 
-[node name="Player" parent="Players" instance=ExtResource("2_os784")]
-position = Vector2(-104, -64)
-acceleration = 0.05
+[node name="GUI" type="Node2D" parent="."]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Entities/Player/Player.tscn")
+spawn_path = NodePath("../Players")
