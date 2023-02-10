@@ -1,10 +1,12 @@
-Sprite2D
+Marker2D
+MultiplayerSpawner
+MultiplayerSynchronizer
+Node2D
+RayCast2D
 CollisionShape2D
 RigidBody2D
-Node2D
+Sprite2D
 Line2D
-MultiplayerSynchronizer
-MultiplayerSpawner
 LineEdit
 Button
 Label

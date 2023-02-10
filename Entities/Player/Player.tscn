@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://by0cg54hrj2v7"]
+[gd_scene load_steps=26 format=3 uid="uid://by0cg54hrj2v7"]
 
 [ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_kruu1"]
 [ext_resource type="Texture2D" uid="uid://crmoo8o2yrf8u" path="res://Assets/Characters/bombbill_body.png" id="2_1lfxf"]
@@ -6,8 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://3skr0upcqmhm" path="res://Assets/Characters/bombbill_leg.png" id="3_shv2m"]
 [ext_resource type="Texture2D" uid="uid://cqowa1rbud2kr" path="res://Assets/Characters/bombbill_arm.png" id="5_qp5ub"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_45rdq"]
-size = Vector2(80, 160)
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_v8die"]
+length = 13.0693
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y6whm"]
+size = Vector2(8, 15)
 
 [sub_resource type="Animation" id="Animation_syw60"]
 resource_name = "Idle"
@@ -158,20 +161,21 @@ properties/4/sync = true
 properties/5/path = NodePath(".:acceleration")
 properties/5/spawn = true
 properties/5/sync = true
-properties/6/path = NodePath(".:state")
+properties/6/path = NodePath("Body:scale")
 properties/6/spawn = true
 properties/6/sync = true
-properties/7/path = NodePath(".:vel")
+properties/7/path = NodePath(".:linear_velocity")
 properties/7/spawn = true
 properties/7/sync = true
-properties/8/path = NodePath("Body:scale")
+properties/8/path = NodePath(".:state")
 properties/8/spawn = true
 properties/8/sync = true
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="RigidBody2D"]
 z_index = 1
 script = ExtResource("1_kruu1")
 speed = 125
+jump_height = 300
 friction = 0.4
 acceleration = 0.1
 metadata/_edit_group_ = true
@@ -199,10 +203,22 @@ texture = ExtResource("5_qp5ub")
 [node name="Arm1" type="Sprite2D" parent="Body"]
 texture = ExtResource("5_qp5ub")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="BombSpawnPoint" type="Marker2D" parent="Body"]
+position = Vector2(6, -2)
+
+[node name="FloorDetector" type="RayCast2D" parent="."]
 position = Vector2(0, 1)
-scale = Vector2(0.1, 0.1)
-shape = SubResource("RectangleShape2D_45rdq")
+scale = Vector2(0.430122, 0.612121)
+target_position = Vector2(0, 16.3366)
+
+[node name="RayCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+scale = Vector2(0.430122, 0.612121)
+shape = SubResource("SeparationRayShape2D_v8die")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_y6whm")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

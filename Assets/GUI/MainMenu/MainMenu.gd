@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+# Signals
 signal host_pressed
 signal join_pressed
 

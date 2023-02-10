@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://d3yr8oh7m7byk"]
+[gd_scene load_steps=3 format=3 uid="uid://d3yr8oh7m7byk"]
 
 [ext_resource type="Script" path="res://Global/Game.gd" id="1_ma1et"]
+[ext_resource type="Script" path="res://Global/Projectiles.gd" id="2_p8ax3"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ma1et")
@@ -17,7 +18,14 @@ position = Vector2(0, 56)
 
 [node name="Players" type="Node2D" parent="."]
 
+[node name="Projectiles" type="Node2D" parent="."]
+script = ExtResource("2_p8ax3")
+
 [node name="GUI" type="Node2D" parent="."]
+
+[node name="BombMultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Entities/Bomb/Bomb.tscn")
+spawn_path = NodePath("../Projectiles")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Entities/Player/Player.tscn")

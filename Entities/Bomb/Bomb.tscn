@@ -1,11 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://b18k6wl2vwigw"]
+[gd_scene load_steps=4 format=3 uid="uid://b18k6wl2vwigw"]
 
+[ext_resource type="Script" path="res://Entities/Bomb/Bomb.gd" id="1_ai0b4"]
 [ext_resource type="Texture2D" uid="uid://ds6n037nxh5nk" path="res://Assets/Items/Bomb/bomb.png" id="1_vae1h"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f5cyl"]
-radius = 6.0
+radius = 4.0
 
 [node name="Bomb" type="RigidBody2D"]
+script = ExtResource("1_ai0b4")
+toss_speed = 3.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_f5cyl")
