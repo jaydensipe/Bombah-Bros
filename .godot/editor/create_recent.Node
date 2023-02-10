@@ -1,9 +1,11 @@
+MultiplayerSynchronizer
+CollisionShape2D
+Area2D
+Node2D
+PointLight2D
 Marker2D
 MultiplayerSpawner
-MultiplayerSynchronizer
-Node2D
 RayCast2D
-CollisionShape2D
 RigidBody2D
 Sprite2D
 Line2D

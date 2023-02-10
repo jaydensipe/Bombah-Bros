@@ -1,9 +1,10 @@
-res://Global/Game.tscn
-res://Entities/Player/Player.gd
 res://Entities/Player/Player.tscn
-res://Assets/GUI/MainMenu/MainMenu.gd
-res://Global/Game.gd
-res://Global/Projectiles.gd
-res://Assets/GUI/MainMenu/MainMenu.tscn
+res://Stages/MapGrass/MapGrass.tscn
+res://Global/Instancer.gd
+res://Entities/Player/Player.gd
 res://Entities/Bomb/Bomb.tscn
 res://Entities/Bomb/Bomb.gd
+res://Entities/Player/Player.gdshader
+res://Global/GlobalSignals.gd
+res://Global/Game.tscn
+res://Assets/GUI/MainMenu/MainMenu.gd

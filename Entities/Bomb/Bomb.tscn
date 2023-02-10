@@ -1,17 +1,32 @@
-[gd_scene load_steps=4 format=3 uid="uid://b18k6wl2vwigw"]
+[gd_scene load_steps=5 format=3 uid="uid://b18k6wl2vwigw"]
 
 [ext_resource type="Script" path="res://Entities/Bomb/Bomb.gd" id="1_ai0b4"]
 [ext_resource type="Texture2D" uid="uid://ds6n037nxh5nk" path="res://Assets/Items/Bomb/bomb.png" id="1_vae1h"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_f5cyl"]
-radius = 4.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_4s0ln"]
+radius = 4.5126
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qhgom"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
 
 [node name="Bomb" type="RigidBody2D"]
+collision_layer = 0
+max_contacts_reported = 50
+contact_monitor = true
 script = ExtResource("1_ai0b4")
 toss_speed = 3.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_f5cyl")
+position = Vector2(-1, 0)
+scale = Vector2(0.886407, -0.862922)
+shape = SubResource("CircleShape2D_4s0ln")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_vae1h")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_qhgom")
+
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]

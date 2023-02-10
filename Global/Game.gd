@@ -1,10 +1,11 @@
 extends Node
+class_name Game
 
 # Instances
 @onready var gui: Node2D = $GUI
 @onready var players: Node2D = $Players
 @onready var current_map: Node2D = $"Current Map"
-@onready var projectile_container: Node2D = $Projectiles
+@onready var instancer: Node2D = $Instancer
 var main_menu = load("res://Assets/GUI/MainMenu/MainMenu.tscn").instantiate()
 var player = preload("res://Entities/Player/Player.tscn")
 var map = preload("res://Stages/MapGrass/MapGrass.tscn")
@@ -12,9 +13,6 @@ var map = preload("res://Stages/MapGrass/MapGrass.tscn")
 # Server Settings
 const PORT = 9999
 var enet_peer = ENetMultiplayerPeer.new()
-
-# Signals
-signal player_connected
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -51,8 +49,6 @@ func add_map():
 func add_player(peer_id):
 	var ply = player.instantiate()
 	ply.name = str(peer_id)
-	
-	ply.throw_bomb.connect(projectile_container._instance_bomb.bind(ply))
 	
 	players.add_child(ply)
 	

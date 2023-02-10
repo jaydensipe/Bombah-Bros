@@ -6,7 +6,7 @@ class_name Player
 @export var jump_height: int = -300
 @export_range(0.0, 1.0) var friction: float = 0.1
 @export_range(0.0 , 1.0) var acceleration: float = 0.25
-@export var state = PLAYER_STATES.IDLE
+@export var player_state = PLAYER_STATES.IDLE
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 enum PLAYER_STATES {IDLE, IN_AIR, ON_GROUND, THROWING}
@@ -17,28 +17,23 @@ enum PLAYER_STATES {IDLE, IN_AIR, ON_GROUND, THROWING}
 @onready var body = $Body
 @onready var head = $Body/Head
 @onready var floor_detector = $FloorDetector
-
-# Signals
-signal throw_bomb()
+@onready var bomb_throw_location = $Body/BombSpawnPoint
 
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
 
-func _physics_process(delta) -> void:
+func _physics_process(_delta) -> void:
 	if (not is_multiplayer_authority()): return
 	
-	rotation = 0		
-	
 	hold_throw()
-	
 	
 func _integrate_forces(state):
 	if (not is_multiplayer_authority()): return
 	
 	move_player(state)
 	
-func move_player(physics_state) -> void:
-	
+func move_player(_state) -> void:
+	# Floor detection
 	if !floor_detector.is_colliding():
 		set_player_state.rpc(PLAYER_STATES.IN_AIR)
 	else: 
@@ -53,17 +48,17 @@ func move_player(physics_state) -> void:
 	else:
 		set_axis_velocity(Vector2(lerp(linear_velocity.x, 0.0, friction), 0))
 		
-		if (state == PLAYER_STATES.ON_GROUND):
+		if (player_state == PLAYER_STATES.ON_GROUND):
 			set_player_state.rpc(PLAYER_STATES.IDLE)
 		
 	# Jumping
-	if Input.is_action_just_pressed("Jump") and (state == PLAYER_STATES.ON_GROUND or state == PLAYER_STATES.IDLE):
+	if Input.is_action_just_pressed("Jump") and (player_state == PLAYER_STATES.ON_GROUND or player_state == PLAYER_STATES.IDLE):
 		set_player_state.rpc(PLAYER_STATES.IN_AIR)
 		apply_central_impulse(Vector2.UP * jump_height);
 
 func hold_throw() -> void:
 	if (Input.is_action_just_released("Hold_Attack")):
-		emit_signal("throw_bomb")
+		GlobalSignals.signal_throw_bomb(bomb_throw_location.global_position, get_global_mouse_position())
 		
 	if (Input.is_action_pressed("Hold_Attack")):
 		set_player_state.rpc(PLAYER_STATES.THROWING)
@@ -94,5 +89,5 @@ func set_player_state(new_state):
 		_:
 			pass
 			
-	state = new_state
+	player_state = new_state
 	

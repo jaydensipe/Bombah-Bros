@@ -1,10 +1,19 @@
-[gd_scene load_steps=26 format=3 uid="uid://by0cg54hrj2v7"]
+[gd_scene load_steps=29 format=3 uid="uid://by0cg54hrj2v7"]
 
+[ext_resource type="Shader" path="res://Entities/Player/Player.gdshader" id="1_44idu"]
 [ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_kruu1"]
 [ext_resource type="Texture2D" uid="uid://crmoo8o2yrf8u" path="res://Assets/Characters/bombbill_body.png" id="2_1lfxf"]
 [ext_resource type="Texture2D" uid="uid://mepwcxf2cpy" path="res://Assets/Characters/bombbill_head.png" id="3_60xpl"]
 [ext_resource type="Texture2D" uid="uid://3skr0upcqmhm" path="res://Assets/Characters/bombbill_leg.png" id="3_shv2m"]
 [ext_resource type="Texture2D" uid="uid://cqowa1rbud2kr" path="res://Assets/Characters/bombbill_arm.png" id="5_qp5ub"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1eufr"]
+friction = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8d3vx"]
+shader = ExtResource("1_44idu")
+shader_parameter/line_color = Color(0, 0, 0, 1)
+shader_parameter/line_thickness = 0.5
 
 [sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_v8die"]
 length = 13.0693
@@ -146,33 +155,31 @@ graph_offset = Vector2(-219, 50)
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/sync = true
-properties/1/path = NodePath(".:rotation")
+properties/1/path = NodePath("Body/Head:rotation")
 properties/1/spawn = true
 properties/1/sync = true
-properties/2/path = NodePath("Body/Head:rotation")
+properties/2/path = NodePath(".:speed")
 properties/2/spawn = true
 properties/2/sync = true
-properties/3/path = NodePath(".:speed")
+properties/3/path = NodePath(".:friction")
 properties/3/spawn = true
 properties/3/sync = true
-properties/4/path = NodePath(".:friction")
+properties/4/path = NodePath(".:acceleration")
 properties/4/spawn = true
 properties/4/sync = true
-properties/5/path = NodePath(".:acceleration")
+properties/5/path = NodePath(".:linear_velocity")
 properties/5/spawn = true
 properties/5/sync = true
 properties/6/path = NodePath("Body:scale")
 properties/6/spawn = true
 properties/6/sync = true
-properties/7/path = NodePath(".:linear_velocity")
-properties/7/spawn = true
-properties/7/sync = true
-properties/8/path = NodePath(".:state")
-properties/8/spawn = true
-properties/8/sync = true
 
 [node name="Player" type="RigidBody2D"]
 z_index = 1
+collision_layer = 2
+physics_material_override = SubResource("PhysicsMaterial_1eufr")
+continuous_cd = 2
+lock_rotation = true
 script = ExtResource("1_kruu1")
 speed = 125
 jump_height = 300
@@ -182,29 +189,35 @@ metadata/_edit_group_ = true
 
 [node name="Body" type="Sprite2D" parent="."]
 y_sort_enabled = true
+material = SubResource("ShaderMaterial_8d3vx")
 texture = ExtResource("2_1lfxf")
 
 [node name="Head" type="Sprite2D" parent="Body"]
+use_parent_material = true
 texture = ExtResource("3_60xpl")
 
 [node name="Leg1" type="Sprite2D" parent="Body"]
 z_index = -1
+use_parent_material = true
 position = Vector2(-1, 1)
 texture = ExtResource("3_shv2m")
 
 [node name="Leg2" type="Sprite2D" parent="Body"]
+use_parent_material = true
 position = Vector2(0, 1)
 texture = ExtResource("3_shv2m")
 
 [node name="Arm2" type="Sprite2D" parent="Body"]
 z_index = -1
+use_parent_material = true
 texture = ExtResource("5_qp5ub")
 
 [node name="Arm1" type="Sprite2D" parent="Body"]
+use_parent_material = true
 texture = ExtResource("5_qp5ub")
 
 [node name="BombSpawnPoint" type="Marker2D" parent="Body"]
-position = Vector2(6, -2)
+position = Vector2(8, -2)
 
 [node name="FloorDetector" type="RayCast2D" parent="."]
 position = Vector2(0, 1)
