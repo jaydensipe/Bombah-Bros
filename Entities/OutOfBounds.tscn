@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://dmr1do8o2ue1j"]
+
+[node name="OutOfBounds" type="Node2D"]

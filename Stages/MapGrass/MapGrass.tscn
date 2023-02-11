@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://etkcowhonnpq"]
+[gd_scene load_steps=10 format=3 uid="uid://etkcowhonnpq"]
 
 [ext_resource type="Texture2D" uid="uid://dopnn0u81eeif" path="res://Assets/TileMap/tiles.png" id="1_7r0pq"]
 [ext_resource type="Texture2D" uid="uid://ggkvfrwy0kms" path="res://Assets/Decoration/clouds.png" id="2_4gikk"]
+[ext_resource type="PackedScene" uid="uid://cw3yeel2mt5hp" path="res://Stages/OutOfBounds.tscn" id="3_25win"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_5wmrr"]
 tile_data = PackedInt32Array(0, 131073, 0, 1, 131073, 0, 65537, 131073, 2, 2, 131073, 0, 65538, 131073, 2, 3, 131073, 0)
@@ -3258,3 +3259,7 @@ position = Vector2(78.4176, -15.0611)
 texture = ExtResource("2_4gikk")
 region_enabled = true
 region_rect = Rect2(12.3806, 83.2558, 49.0524, 35.8096)
+
+[node name="OutOfBounds" parent="." instance=ExtResource("3_25win")]
+position = Vector2(0, -357.24)
+scale = Vector2(2.9648, 3.48945)

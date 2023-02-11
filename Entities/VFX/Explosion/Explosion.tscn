@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://dcrmm2ccgf0gt"]
+
+[ext_resource type="Texture2D" uid="uid://dooe0x3bhfxwu" path="res://Assets/VFX/explosion.png" id="1_556bm"]
+[ext_resource type="Script" path="res://Entities/VFX/Explosion/Explosion.gd" id="1_hcpyp"]
+
+[sub_resource type="Animation" id="Animation_be3uo"]
+resource_name = "Explosion"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b5pqv"]
+_data = {
+"Explosion": SubResource("Animation_be3uo")
+}
+
+[node name="Explosion" type="Node2D"]
+script = ExtResource("1_hcpyp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_556bm")
+offset = Vector2(0, -20)
+hframes = 8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Explosion"
+speed_scale = 1.5
+libraries = {
+"": SubResource("AnimationLibrary_b5pqv")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

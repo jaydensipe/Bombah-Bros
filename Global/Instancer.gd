@@ -18,3 +18,4 @@ func bomb_throw_instance(instance_pos: Vector2, throw_pos: Vector2):
 	b.position = instance_pos
 	b.angular_velocity = b.starting_velocity
 	b.apply_impulse(throw_pos * b.toss_speed)
+	
