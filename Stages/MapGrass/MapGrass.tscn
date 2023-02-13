@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://etkcowhonnpq"]
+[gd_scene load_steps=14 format=3 uid="uid://etkcowhonnpq"]
 
 [ext_resource type="Texture2D" uid="uid://dopnn0u81eeif" path="res://Assets/TileMap/tiles.png" id="1_7r0pq"]
 [ext_resource type="Texture2D" uid="uid://ggkvfrwy0kms" path="res://Assets/Decoration/clouds.png" id="2_4gikk"]
@@ -14,6 +14,9 @@ polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fl87i"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_0jlsq"]
 polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k3nof"]
@@ -1723,7 +1726,6 @@ texture = ExtResource("1_7r0pq")
 9:16/0 = 0
 9:16/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 9:16/0/physics_layer_0/angular_velocity = 0.0
-9:16/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 10:16/0 = 0
 10:16/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 10:16/0/physics_layer_0/angular_velocity = 0.0
@@ -1817,7 +1819,9 @@ texture = ExtResource("1_7r0pq")
 8:17/0 = 0
 8:17/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 8:17/0/physics_layer_0/angular_velocity = 0.0
+8:17/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 9:17/0 = 0
+9:17/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_0jlsq")
 9:17/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 9:17/0/physics_layer_0/angular_velocity = 0.0
 9:17/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)

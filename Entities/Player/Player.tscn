@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://by0cg54hrj2v7"]
+[gd_scene load_steps=32 format=3 uid="uid://by0cg54hrj2v7"]
 
 [ext_resource type="Shader" path="res://Entities/Player/Player.gdshader" id="1_44idu"]
 [ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_kruu1"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://mepwcxf2cpy" path="res://Assets/Characters/bombbill_head.png" id="3_60xpl"]
 [ext_resource type="Texture2D" uid="uid://3skr0upcqmhm" path="res://Assets/Characters/bombbill_leg.png" id="3_shv2m"]
 [ext_resource type="Texture2D" uid="uid://cqowa1rbud2kr" path="res://Assets/Characters/bombbill_arm.png" id="5_qp5ub"]
+[ext_resource type="Texture2D" uid="uid://i2xlmhqbqjkg" path="res://Assets/VFX/line.png" id="7_qafpr"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1eufr"]
 friction = 0.0
@@ -15,11 +16,26 @@ shader = ExtResource("1_44idu")
 shader_parameter/line_color = Color(0, 0, 0, 1)
 shader_parameter/line_thickness = 0.5
 
-[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_v8die"]
-length = 13.0693
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_emkpi"]
+lifetime_randomness = 0.25
+particle_flag_disable_z = true
+direction = Vector3(-20, -3, 0)
+spread = 25.0
+gravity = Vector3(0, 98, 0)
+initial_velocity_min = 35.1
+initial_velocity_max = 147.77
+angular_velocity_min = -111.55
+angular_velocity_max = 324.51
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color = Color(0, 0.776471, 0.337255, 1)
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 1.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_y6whm"]
-size = Vector2(8, 15)
+[sub_resource type="Curve" id="Curve_a2xcl"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.25, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="Animation" id="Animation_syw60"]
 resource_name = "Idle"
@@ -118,7 +134,7 @@ filters = ["Body/Arm1:rotation"]
 animation = &"Spinning"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_o3rm4"]
-graph_offset = Vector2(-19.7881, 25.1088)
+graph_offset = Vector2(-164.237, -14.292)
 nodes/Run/node = SubResource("AnimationNodeAnimation_f2w0t")
 nodes/Run/position = Vector2(373.333, 26.6667)
 nodes/RunSpinBlend/node = SubResource("AnimationNodeBlend2_456wy")
@@ -151,6 +167,12 @@ graph_offset = Vector2(-219, 50)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_h7y72"]
 
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_v8die"]
+length = 13.0693
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y6whm"]
+size = Vector2(8, 15)
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ammij"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
@@ -173,23 +195,9 @@ properties/5/sync = true
 properties/6/path = NodePath("Body:scale")
 properties/6/spawn = true
 properties/6/sync = true
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_emkpi"]
-lifetime_randomness = 0.25
-particle_flag_disable_z = true
-direction = Vector3(-20, -3, 0)
-spread = 25.0
-gravity = Vector3(0, 98, 0)
-initial_velocity_min = 35.1
-initial_velocity_max = 147.77
-angular_velocity_min = -111.55
-angular_velocity_max = 324.51
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
-color = Color(0, 0.776471, 0.337255, 1)
-collision_mode = 1
-collision_friction = 0.0
-collision_bounce = 1.0
+properties/7/path = NodePath(".:throw_power")
+properties/7/spawn = true
+properties/7/sync = true
 
 [node name="Player" type="RigidBody2D" groups=["Player"]]
 z_index = 1
@@ -234,27 +242,33 @@ use_parent_material = true
 texture = ExtResource("5_qp5ub")
 
 [node name="BombSpawnPoint" type="Marker2D" parent="Body"]
-position = Vector2(13, -2)
 
-[node name="RayCollision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
-scale = Vector2(0.430122, 0.612121)
-shape = SubResource("SeparationRayShape2D_v8die")
+[node name="VFX" type="Node2D" parent="."]
 
-[node name="FloorDetector" type="RayCast2D" parent="."]
-position = Vector2(0, -1)
-target_position = Vector2(0, 11)
+[node name="WalkParticles" type="GPUParticles2D" parent="VFX"]
+position = Vector2(0, 8)
+emitting = false
+amount = 10
+process_material = SubResource("ParticleProcessMaterial_emkpi")
+lifetime = 0.5
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
-shape = SubResource("RectangleShape2D_y6whm")
+[node name="AimLine" type="Line2D" parent="VFX"]
+z_index = -1
+texture_repeat = 2
+width_curve = SubResource("Curve_a2xcl")
+texture = ExtResource("7_qafpr")
+texture_mode = 1
+joint_mode = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="Animation" type="Node2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Animation"]
+root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_eo6p5")
 }
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
+[node name="AnimationTree" type="AnimationTree" parent="Animation"]
 tree_root = SubResource("AnimationNodeStateMachine_aqjp4")
 anim_player = NodePath("../AnimationPlayer")
 active = true
@@ -263,12 +277,18 @@ parameters/RunningAndSpinning/RunSpinBlend/blend_amount = 0
 parameters/RunningAndSpinning/RunTimeScale/scale = 1.0
 parameters/RunningAndSpinning/SpinTimeScale/scale = 8.0
 
+[node name="RayCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+scale = Vector2(0.430122, 0.612121)
+shape = SubResource("SeparationRayShape2D_v8die")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_y6whm")
+
+[node name="FloorDetector" type="RayCast2D" parent="."]
+position = Vector2(0, -1)
+target_position = Vector2(0, 11)
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ammij")
-
-[node name="WalkParticles" type="GPUParticles2D" parent="."]
-position = Vector2(0, 8)
-emitting = false
-amount = 10
-process_material = SubResource("ParticleProcessMaterial_emkpi")
-lifetime = 0.5

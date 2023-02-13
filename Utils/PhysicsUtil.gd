@@ -1,6 +1,7 @@
 extends Node
 class_name PhysicsUtil
 
+# Thanks, https://youtu.be/_kA1fbBH4ug
 static func calculate_arc_velocity(from, to, arc_height, gravity = ProjectSettings.get_setting("physics/2d/default_gravity")) -> Vector2:
 	var linear_velocity = Vector2()
 	
