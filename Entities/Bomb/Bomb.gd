@@ -30,12 +30,21 @@ func explode() -> void:
 				player.global_transform.origin.direction_to(self.global_transform.origin).normalized())
 	
 func bomb_effects(body) -> void:
+	if (body is TileMap):
+		var hit_cell = body.local_to_map(global_position)
+		var cell_data = body.get_cell_tile_data(0, hit_cell)
+		if (cell_data != null):
+			var terrain_type = cell_data.get_custom_data("terrain_tile_type")
+			GlobalSignals.signal_instance_particles(self.global_position, terrain_type)
+		else:
+			GlobalSignals.signal_instance_particles(self.global_position, "dirt")
+	
 	bomb_sprite.hide()
 	
 	var vfx: Node2D = explosion_vfx.instantiate()
 	add_child(vfx)
 	
-	GlobalSignals.signal_instance_particles(self.global_position, "dirt")
+	
 
 
 func _on_collision_detection_body_entered(body):

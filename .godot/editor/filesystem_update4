@@ -1,9 +1,4 @@
-res://Entities/Bomb/Bomb.tscn
-res://Global/Instancer.gd
-res://Global/GlobalSignals.gd
-res://Entities/Bomb/Bomb.gd
 res://Global/Game.tscn
-res://Entities/Player/Player.tscn
-res://Entities/Player/Player.gd
-res://Stages/OutOfBounds.tscn
-res://Utils/PhysicsUtil.gd
+res://Stages/MapGrass/MapGrass.tscn
+res://Entities/Bomb/Bomb.tscn
+res://Entities/Bomb/Bomb.gd
