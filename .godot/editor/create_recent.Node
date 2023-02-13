@@ -1,3 +1,7 @@
+GPUParticles2D
+LightOccluder2D
+PointLight2D
+LightmapGI
 RayCast2D
 RemoteTransform2D
 CollisionShape2D
@@ -5,9 +9,7 @@ Area2D
 OutOfBounds
 AnimationPlayer
 Sprite2D
-PointLight2D
 CanvasModulate
-LightOccluder2D
 DirectionalLight2D
 MultiplayerSynchronizer
 Node2D
@@ -28,4 +30,3 @@ AnimatedSprite2D
 CharacterBody2D
 Camera2D
 TileMap
-StaticBody2D

@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://by0cg54hrj2v7"]
+[gd_scene load_steps=30 format=3 uid="uid://by0cg54hrj2v7"]
 
 [ext_resource type="Shader" path="res://Entities/Player/Player.gdshader" id="1_44idu"]
 [ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_kruu1"]
@@ -174,12 +174,30 @@ properties/6/path = NodePath("Body:scale")
 properties/6/spawn = true
 properties/6/sync = true
 
-[node name="Player" type="RigidBody2D"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_emkpi"]
+lifetime_randomness = 0.25
+particle_flag_disable_z = true
+direction = Vector3(-20, -3, 0)
+spread = 25.0
+gravity = Vector3(0, 98, 0)
+initial_velocity_min = 35.1
+initial_velocity_max = 147.77
+angular_velocity_min = -111.55
+angular_velocity_max = 324.51
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+color = Color(0, 0.776471, 0.337255, 1)
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 1.0
+
+[node name="Player" type="RigidBody2D" groups=["Player"]]
 z_index = 1
 collision_layer = 2
 physics_material_override = SubResource("PhysicsMaterial_1eufr")
 gravity_scale = 0.75
 continuous_cd = 2
+lock_rotation = true
 script = ExtResource("1_kruu1")
 jump_height = 300
 friction = 0.4
@@ -247,3 +265,10 @@ parameters/RunningAndSpinning/SpinTimeScale/scale = 8.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ammij")
+
+[node name="WalkParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, 8)
+emitting = false
+amount = 10
+process_material = SubResource("ParticleProcessMaterial_emkpi")
+lifetime = 0.5

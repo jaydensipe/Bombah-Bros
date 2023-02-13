@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dcrmm2ccgf0gt"]
+[gd_scene load_steps=6 format=3 uid="uid://dcrmm2ccgf0gt"]
 
 [ext_resource type="Texture2D" uid="uid://dooe0x3bhfxwu" path="res://Assets/VFX/explosion.png" id="1_556bm"]
 [ext_resource type="Script" path="res://Entities/VFX/Explosion/Explosion.gd" id="1_hcpyp"]
+[ext_resource type="Texture2D" uid="uid://dtqgludbpra62" path="res://Assets/Decoration/light.png" id="3_7scrc"]
 
 [sub_resource type="Animation" id="Animation_be3uo"]
 resource_name = "Explosion"
@@ -18,6 +19,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PointLight2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(0.1, 0.1), Vector2(0.25, 0.25), Vector2(0.5, 0.5), Vector2(0.25, 0.25), Vector2(0, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b5pqv"]
 _data = {
@@ -32,6 +45,7 @@ scale = Vector2(0.75, 0.75)
 texture = ExtResource("1_556bm")
 offset = Vector2(0, -20)
 hframes = 8
+frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Explosion"
@@ -39,5 +53,10 @@ speed_scale = 1.5
 libraries = {
 "": SubResource("AnimationLibrary_b5pqv")
 }
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(0.25, 0.25)
+color = Color(0.498039, 0.286275, 0.0313726, 1)
+texture = ExtResource("3_7scrc")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

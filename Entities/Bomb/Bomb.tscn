@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ds6n037nxh5nk" path="res://Assets/Items/Bomb/bomb.png" id="1_vae1h"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4s0ln"]
-radius = 4.5126
+radius = 4.5
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qhgom"]
 properties/0/path = NodePath(".:position")
@@ -12,12 +12,11 @@ properties/0/spawn = true
 properties/0/sync = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t60d0"]
-radius = 21.587
+radius = 20.0
 
 [node name="Bomb" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 3
-mass = 0.01
 gravity_scale = 0.75
 max_contacts_reported = 50
 contact_monitor = true

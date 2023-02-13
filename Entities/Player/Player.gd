@@ -3,12 +3,12 @@ class_name Player
 
 # Player configuration
 var health: float = 0.0
+var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var speed: int = 150
 @export var jump_height: int = -300
 @export_range(0.0, 1.0) var friction: float = 0.1
 @export_range(0.0 , 1.0) var acceleration: float = 0.25
-@export var player_state = PLAYER_STATES.IDLE
-var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
+@export var player_state: PLAYER_STATES = PLAYER_STATES.IDLE
 
 enum PLAYER_STATES {IDLE, IN_AIR, ON_GROUND, THROWING}
 
@@ -19,6 +19,7 @@ enum PLAYER_STATES {IDLE, IN_AIR, ON_GROUND, THROWING}
 @onready var head = $Body/Head
 @onready var floor_detector = $FloorDetector
 @onready var bomb_throw_location = $Body/BombSpawnPoint
+@onready var walk_particles = $WalkParticles
 
 # Signals
 signal taken_damage(damage_dealt)
@@ -61,13 +62,13 @@ func move_player(_state) -> void:
 		apply_central_impulse(Vector2.UP * jump_height);
 
 @rpc("any_peer", "call_local")
-func take_damage(damage_dealt: float, damage_pos: Vector2):
+func take_damage(damage_dealt: float, damage_pos: Vector2) -> void:
 	health += damage_dealt
 	apply_central_impulse(damage_pos * (-1 * health))
 
 func hold_throw() -> void:
 	if (Input.is_action_just_released("Hold_Attack")):
-		GlobalSignals.signal_throw_bomb(bomb_throw_location.global_position, get_global_mouse_position())
+		GlobalSignals.signal_throw_bomb(bomb_throw_location.global_position, get_local_mouse_position())
 		
 	if (Input.is_action_pressed("Hold_Attack")):
 		set_player_state.rpc(PLAYER_STATES.THROWING)
@@ -78,18 +79,24 @@ func flip_body() -> void:
 	var direction = sign(get_global_mouse_position().x - global_position.x)
 	if direction < 0:
 		body.scale.x = body.scale.y * -1
+		walk_particles.process_material.direction = Vector3(20, -3, 0)
 	else:
 		body.scale.x = body.scale.y * 1
+		walk_particles.process_material.direction = Vector3(-20, -3, 0)
 	
 @rpc("call_local")
 func set_player_state(new_state):	
 	match new_state:
 		PLAYER_STATES.IDLE: 
+			walk_particles.set_deferred("emitting", false)	
+			
 			anim_state_machine.travel("Idle")
 		PLAYER_STATES.IN_AIR: 
+			walk_particles.set_deferred("emitting", false)	
+			
 			anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 0.0)
 		PLAYER_STATES.ON_GROUND: 
-			set_deferred("lock_rotation", true)		
+			walk_particles.set_deferred("emitting", true)	
 			
 			anim_state_machine.travel("RunningAndSpinning")
 			anim_tree.set("parameters/RunningAndSpinning/RunTimeScale/scale", linear_velocity.x * 0.06)

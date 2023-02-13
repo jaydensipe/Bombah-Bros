@@ -18,13 +18,13 @@ var enet_peer = ENetMultiplayerPeer.new()
 func _ready():
 	load_main_menu()
 	
-func load_main_menu():
+func load_main_menu() -> void:
 	main_menu.host_pressed.connect(_host_server)
 	main_menu.join_pressed.connect(_join_server)
 	
 	load_ui_element(main_menu)
 	
-func _host_server():
+func _host_server() -> void:
 	remove_ui_element(main_menu)
 
 	add_map()
@@ -35,7 +35,7 @@ func _host_server():
 
 	add_player(multiplayer.get_unique_id())
 	
-func _join_server():
+func _join_server() -> void:
 	remove_ui_element(main_menu)
 
 	add_map()
@@ -43,18 +43,18 @@ func _join_server():
 	enet_peer.create_client("localhost", PORT)
 	multiplayer.multiplayer_peer = enet_peer
 	
-func add_map():
+func add_map() -> void:
 	current_map.add_child(map.instantiate())
 	
-func add_player(peer_id):
+func add_player(peer_id) -> void:
 	var ply = player.instantiate()
 	ply.name = str(peer_id)
 	
 	players.add_child(ply)
 	
-func load_ui_element(ui: CanvasLayer):
+func load_ui_element(ui: CanvasLayer) -> void:
 	gui.add_child(ui)
 	
-func remove_ui_element(ui: CanvasLayer):
+func remove_ui_element(ui: CanvasLayer) -> void:
 	gui.remove_child(ui)
 	ui.queue_free()
