@@ -6,7 +6,17 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var bomb_damage: float = 35.0
 @onready var bomb_sprite: Sprite2D = $Sprite2D
 @onready var explosion_radius: Area2D = $ExplosionRadius
+@onready var collision_detection: Area2D = $CollisionDetection
 @onready var explosion_vfx = preload("res://Entities/VFX/Explosion/Explosion.tscn")
+
+func _ready():
+	enable_collision_when_thrown.rpc()
+
+@rpc("any_peer", "call_local")	
+func enable_collision_when_thrown():
+	await get_tree().create_timer(0.05).timeout
+	collision_detection.set_collision_mask_value(2, true)
+	set_collision_mask_value(2, true)
 
 func _physics_process(delta):
 	move(delta)
@@ -20,14 +30,14 @@ func move(delta) -> void:
 func explode() -> void:
 	if (not is_multiplayer_authority()): return
 	
-#	TODO: Readd collision mask
 	var players_affected: Array = explosion_radius.get_overlapping_bodies()
 	var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
 	for player in players_affected:
 		var result = space_state.intersect_ray(PhysicsRayQueryParameters2D.create(self.global_position, player.global_position, self.collision_mask))
 		if (result && result.collider.is_in_group("Player")):
-			player.take_damage.rpc_id(player.get_multiplayer_authority(), bomb_damage, \
-				player.global_transform.origin.direction_to(self.global_transform.origin).normalized())
+			var distance: float = player.global_position.distance_to(self.global_position)
+			player.take_damage.rpc_id(player.get_multiplayer_authority(), bomb_damage * PhysicsUtil.inverse_square_law(distance) * 100.0, \
+				player.global_position.direction_to(self.global_position).normalized())
 	
 func bomb_effects(body) -> void:
 	if (body is TileMap):
@@ -43,9 +53,6 @@ func bomb_effects(body) -> void:
 	
 	var vfx: Node2D = explosion_vfx.instantiate()
 	add_child(vfx)
-	
-	
-
 
 func _on_collision_detection_body_entered(body):
 	bomb_effects(body)

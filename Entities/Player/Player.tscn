@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://by0cg54hrj2v7"]
+[gd_scene load_steps=31 format=3 uid="uid://by0cg54hrj2v7"]
 
 [ext_resource type="Shader" path="res://Entities/Player/Player.gdshader" id="1_44idu"]
 [ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_kruu1"]
@@ -7,9 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://3skr0upcqmhm" path="res://Assets/Characters/bombbill_leg.png" id="3_shv2m"]
 [ext_resource type="Texture2D" uid="uid://cqowa1rbud2kr" path="res://Assets/Characters/bombbill_arm.png" id="5_qp5ub"]
 [ext_resource type="Texture2D" uid="uid://i2xlmhqbqjkg" path="res://Assets/VFX/line.png" id="7_qafpr"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1eufr"]
-friction = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8d3vx"]
 shader = ExtResource("1_44idu")
@@ -189,27 +186,25 @@ properties/3/sync = true
 properties/4/path = NodePath(".:acceleration")
 properties/4/spawn = true
 properties/4/sync = true
-properties/5/path = NodePath(".:linear_velocity")
+properties/5/path = NodePath("Body:scale")
 properties/5/spawn = true
 properties/5/sync = true
-properties/6/path = NodePath("Body:scale")
+properties/6/path = NodePath(".:throw_power")
 properties/6/spawn = true
 properties/6/sync = true
-properties/7/path = NodePath(".:throw_power")
+properties/7/path = NodePath(".:vel")
 properties/7/spawn = true
 properties/7/sync = true
 
-[node name="Player" type="RigidBody2D" groups=["Player"]]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 1
 collision_layer = 2
-physics_material_override = SubResource("PhysicsMaterial_1eufr")
-gravity_scale = 0.75
-continuous_cd = 2
-lock_rotation = true
+collision_mask = 3
+platform_floor_layers = 4294967291
 script = ExtResource("1_kruu1")
-jump_height = 300
 friction = 0.4
 acceleration = 0.1
+air_acceleration = 0.025
 metadata/_edit_group_ = true
 
 [node name="Body" type="Sprite2D" parent="."]
@@ -285,10 +280,6 @@ shape = SubResource("SeparationRayShape2D_v8die")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_y6whm")
-
-[node name="FloorDetector" type="RayCast2D" parent="."]
-position = Vector2(0, -1)
-target_position = Vector2(0, 11)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ammij")

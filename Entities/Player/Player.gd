@@ -1,14 +1,16 @@
-extends RigidBody2D
+extends CharacterBody2D
 class_name Player
 
 # Player configuration
 var health: float = 0.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
+@export var vel: Vector2 = Vector2.ZERO
 @export var throw_power: float = MAX_THROW_POWER
 @export var speed: int = 150
 @export var jump_height: int = -300
 @export_range(0.0, 1.0) var friction: float = 0.1
 @export_range(0.0 , 1.0) var acceleration: float = 0.25
+@export_range(0.0 , 1.0) var air_acceleration: float = 0.05
 @export var player_state: PLAYER_STATES = PLAYER_STATES.IDLE
 
 const MAX_THROW_POWER = 150.0
@@ -19,7 +21,6 @@ enum PLAYER_STATES {IDLE, IN_AIR, ON_GROUND, THROWING}
 @onready var anim_state_machine: AnimationNodeStateMachinePlayback = $Animation/AnimationTree.get("parameters/playback")
 @onready var body = $Body
 @onready var head = $Body/Head
-@onready var floor_detector = $FloorDetector
 @onready var bomb_throw_location = $Body/BombSpawnPoint
 @onready var walk_particles = $VFX/WalkParticles
 @onready var aim_line = $VFX/AimLine
@@ -31,46 +32,50 @@ func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
 
 func _process(delta):
+	if (not is_multiplayer_authority()): return
+	
 	display_aim_line(delta)
 	
-func _physics_process(_delta) -> void:
+func _physics_process(delta) -> void:
 	if (not is_multiplayer_authority()): return
 	
+	move_player(delta)
 	hold_throw()
 	
-func _integrate_forces(state):
-	if (not is_multiplayer_authority()): return
-	
-	move_player(state)
-	
-func move_player(_state) -> void:
+func move_player(delta) -> void:
 	# Floor detection
-	if !floor_detector.is_colliding():
+	if !is_on_floor():
 		set_player_state.rpc(PLAYER_STATES.IN_AIR)
 	else: 
 		set_player_state.rpc(PLAYER_STATES.ON_GROUND)
-	
+		
+	# Apply gravity
+	velocity.y += gravity * delta
+	vel.x = velocity.x
 	flip_body()
 	
 	# Moving
 	var dir = Input.get_axis("Left", "Right")
-	if dir != 0:
-		set_axis_velocity(Vector2(lerp(linear_velocity.x, dir * speed, acceleration), 0))
+	
+	if (player_state == PLAYER_STATES.IN_AIR):
+		velocity.x = lerp(velocity.x, dir * speed, air_acceleration)
+	elif dir != 0:
+		velocity.x = lerp(velocity.x, dir * speed, acceleration)
 	else:
-		set_axis_velocity(Vector2(lerp(linear_velocity.x, 0.0, friction), 0))
-		
-		if (player_state == PLAYER_STATES.ON_GROUND):
-			set_player_state.rpc(PLAYER_STATES.IDLE)
-		
+		velocity.x = lerp(velocity.x, 0.0, friction)
+		set_player_state.rpc(PLAYER_STATES.IDLE)
+	
+	move_and_slide()
+	
 	# Jumping
 	if Input.is_action_just_pressed("Jump") and (player_state == PLAYER_STATES.ON_GROUND or player_state == PLAYER_STATES.IDLE):
 		set_player_state.rpc(PLAYER_STATES.IN_AIR)
-		apply_central_impulse(Vector2.UP * jump_height);
+		velocity.y = jump_height
 
 @rpc("any_peer", "call_local")
 func take_damage(damage_dealt: float, damage_pos: Vector2) -> void:
 	health += damage_dealt
-	apply_central_impulse(damage_pos * (-1 * health))
+	velocity += damage_pos * (-1 * health)
 
 func hold_throw() -> void:
 	if (Input.is_action_just_released("Hold_Attack")):
@@ -127,7 +132,7 @@ func set_player_state(new_state):
 			walk_particles.set_deferred("emitting", true)	
 			
 			anim_state_machine.travel("RunningAndSpinning")
-			anim_tree.set("parameters/RunningAndSpinning/RunTimeScale/scale", linear_velocity.x * 0.06)
+			anim_tree.set("parameters/RunningAndSpinning/RunTimeScale/scale", vel.x * 0.06)
 			anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 0.0)				
 		PLAYER_STATES.THROWING: 
 			throw_power = clampf(throw_power - 2.0, 0.0, MAX_THROW_POWER)

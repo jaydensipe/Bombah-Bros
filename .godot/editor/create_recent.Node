@@ -1,3 +1,4 @@
+CharacterBody2D
 Bomb
 GPUParticles2D
 LightOccluder2D
@@ -28,6 +29,4 @@ CanvasLayer
 AnimationTree
 ShapeCast2D
 AnimatedSprite2D
-CharacterBody2D
 Camera2D
-TileMap
