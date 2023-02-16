@@ -1,3 +1,4 @@
+Node2D
 CharacterBody2D
 Bomb
 GPUParticles2D
@@ -14,7 +15,6 @@ Sprite2D
 CanvasModulate
 DirectionalLight2D
 MultiplayerSynchronizer
-Node2D
 Marker2D
 MultiplayerSpawner
 RigidBody2D

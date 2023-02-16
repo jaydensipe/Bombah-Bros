@@ -1,5 +1,5 @@
 res://Entities/Bomb/Bomb.tscn
-res://Entities/Bomb/Bomb.gd
 res://Global/Game.tscn
 res://Entities/Player/Player.tscn
 res://Entities/VFX/Explosion/Explosion.tscn
+res://Entities/Bomb/Bomb.gd

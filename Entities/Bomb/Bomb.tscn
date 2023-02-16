@@ -1,11 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bww4xeesbgw0e"]
+[gd_scene load_steps=6 format=3 uid="uid://bww4xeesbgw0e"]
 
 [ext_resource type="Script" path="res://Entities/Bomb/Bomb.gd" id="1_x7y6g"]
 [ext_resource type="Texture2D" uid="uid://ds6n037nxh5nk" path="res://Assets/Items/Bomb/bomb.png" id="2_qljrt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3l8su"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_rtyc0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t60d0"]
 radius = 20.0
@@ -22,20 +20,11 @@ script = ExtResource("1_x7y6g")
 bomb_damage = 125.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 0)
-scale = Vector2(-0.355119, 0.34571)
+scale = Vector2(-0.494545, 0.481442)
 shape = SubResource("CircleShape2D_3l8su")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_qljrt")
-
-[node name="CollisionDetection" type="Area2D" parent="."]
-collision_layer = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetection"]
-position = Vector2(-1, 0)
-scale = Vector2(0.44, 0.44)
-shape = SubResource("CircleShape2D_rtyc0")
 
 [node name="ExplosionRadius" type="Area2D" parent="."]
 scale = Vector2(2.3, 2.3)
@@ -47,5 +36,3 @@ shape = SubResource("CircleShape2D_t60d0")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_qhgom")
-
-[connection signal="body_entered" from="CollisionDetection" to="." method="_on_collision_detection_body_entered"]

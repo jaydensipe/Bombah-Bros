@@ -2,11 +2,12 @@ extends CharacterBody2D
 class_name Bomb
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
+var has_exploded: bool = false
 @export var spin_velocity: float = 20.0
 @export var bomb_damage: float = 35.0
+
 @onready var bomb_sprite: Sprite2D = $Sprite2D
 @onready var explosion_radius: Area2D = $ExplosionRadius
-@onready var collision_detection: Area2D = $CollisionDetection
 @onready var explosion_vfx = preload("res://Entities/VFX/Explosion/Explosion.tscn")
 
 func _ready():
@@ -14,17 +15,22 @@ func _ready():
 
 @rpc("any_peer", "call_local")	
 func enable_collision_when_thrown():
-	await get_tree().create_timer(0.05).timeout
-	collision_detection.set_collision_mask_value(2, true)
+	await get_tree().create_timer(0.1).timeout
 	set_collision_mask_value(2, true)
 
 func _physics_process(delta):
 	move(delta)
 
 func move(delta) -> void:
+	if (has_exploded): return
+	
 	bomb_sprite.rotate(spin_velocity * delta)
 	velocity.y += gravity * delta 
-	move_and_collide(velocity * delta)
+	var collision = move_and_collide(velocity * delta)
+	if (collision):
+		has_exploded = true
+		bomb_effects(collision.get_collider())
+		explode.rpc()	
 	
 @rpc("any_peer")
 func explode() -> void:
@@ -53,7 +59,4 @@ func bomb_effects(body) -> void:
 	
 	var vfx: Node2D = explosion_vfx.instantiate()
 	add_child(vfx)
-
-func _on_collision_detection_body_entered(body):
-	bomb_effects(body)
-	explode.rpc()
+	

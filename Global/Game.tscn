@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dc8lwm2u8y4r"]
+[gd_scene load_steps=4 format=3 uid="uid://dc8lwm2u8y4r"]
 
 [ext_resource type="Script" path="res://Global/Game.gd" id="1_ma1et"]
+[ext_resource type="Script" path="res://Global/Camera.gd" id="2_gs472"]
 [ext_resource type="Script" path="res://Global/Instancer.gd" id="2_tttpa"]
 
 [node name="Game" type="Node2D"]
@@ -8,7 +9,10 @@ script = ExtResource("1_ma1et")
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera" type="Node2D" parent="."]
+script = ExtResource("2_gs472")
+
+[node name="Camera2D" type="Camera2D" parent="Camera"]
 position = Vector2(4.76837e-07, 0)
 rotation = 3.14159
 scale = Vector2(9.19958, -2.90918)
