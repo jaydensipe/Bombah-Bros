@@ -10,15 +10,15 @@ var has_exploded: bool = false
 @onready var explosion_radius: Area2D = $ExplosionRadius
 @onready var explosion_vfx = preload("res://Entities/VFX/Explosion/Explosion.tscn")
 
-func _ready():
+func _ready() -> void:
 	enable_collision_when_thrown.rpc()
 
 @rpc("any_peer", "call_local")	
 func enable_collision_when_thrown():
 	await get_tree().create_timer(0.1).timeout
-	set_collision_mask_value(2, true)
+	set_collision_mask_value(EnumUtil.PhysicsLayers.Player, true)
 
-func _physics_process(delta):
+func _physics_process(delta) -> void:
 	move(delta)
 
 func move(delta) -> void:
@@ -53,7 +53,7 @@ func bomb_effects(body) -> void:
 			var terrain_type = cell_data.get_custom_data("terrain_tile_type")
 			GlobalSignals.signal_instance_particles(self.global_position, terrain_type)
 		else:
-			GlobalSignals.signal_instance_particles(self.global_position, "dirt")
+			GlobalSignals.signal_instance_particles(self.global_position, EnumUtil.TerrainTypes.Dirt)
 	
 	bomb_sprite.hide()
 	

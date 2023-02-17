@@ -1,5 +1,14 @@
-res://Entities/Bomb/Bomb.tscn
 res://Global/Game.tscn
 res://Entities/Player/Player.tscn
+res://Entities/Bomb/Bomb.tscn
+res://Entities/VFX/Particles/Smoke.tscn
+res://Entities/VFX/Particles/SmokeParticles.tscn
+res://Global/Instancer.gd
 res://Entities/VFX/Explosion/Explosion.tscn
 res://Entities/Bomb/Bomb.gd
+res://Entities/Player/Player.gd
+res://Entities/VFX/Explosion/Explosion.gd
+res://Utils/EnumUtil.gd
+res://Entities/Player/Player.gdshader
+res://Global/Game/Instancer.gd
+res://Utils/PhysicsUtil.gd

@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dc8lwm2u8y4r"]
+[gd_scene load_steps=4 format=3 uid="uid://drwee1r7ndkgt"]
 
 [ext_resource type="Script" path="res://Global/Game.gd" id="1_ma1et"]
-[ext_resource type="Script" path="res://Global/Camera.gd" id="2_gs472"]
-[ext_resource type="Script" path="res://Global/Instancer.gd" id="2_tttpa"]
+[ext_resource type="Script" path="res://Global/Game/Camera.gd" id="2_gs472"]
+[ext_resource type="Script" path="res://Global/Game/Instancer.gd" id="2_tttpa"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ma1et")

@@ -1,7 +1,7 @@
+GPUParticles2D
 Node2D
 CharacterBody2D
 Bomb
-GPUParticles2D
 LightOccluder2D
 PointLight2D
 LightmapGI

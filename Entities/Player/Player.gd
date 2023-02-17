@@ -27,20 +27,35 @@ enum PLAYER_STATES {IDLE, IN_AIR, ON_GROUND, THROWING}
 
 # Signals
 signal taken_damage(damage_dealt)
-
-func _enter_tree():
+	
+	
+func _enter_tree() -> void:
 	set_multiplayer_authority(str(name).to_int())
-
-func _process(delta):
+	
+func _process(delta) -> void:
 	if (not is_multiplayer_authority()): return
 	
 	display_aim_line(delta)
 	
 func _physics_process(delta) -> void:
+#	move_aim_controller(delta)
+	
 	if (not is_multiplayer_authority()): return
 	
 	move_player(delta)
 	hold_throw()
+	
+func move_aim_controller(delta) -> void:
+	var direction: Vector2
+	direction.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	direction.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+
+	if abs(direction.x) == 1 and abs(direction.y) == 1:
+		direction = direction.normalized()
+
+	var movement = direction * delta
+	if (movement):  
+		get_viewport().warp_mouse(get_global_mouse_position()+movement) 
 	
 func move_player(delta) -> void:
 	# Floor detection
@@ -129,7 +144,8 @@ func set_player_state(new_state):
 			
 			anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 0.0)
 		PLAYER_STATES.ON_GROUND: 
-			walk_particles.set_deferred("emitting", true)	
+			if (velocity.x > 70.0 or velocity.x < -70):
+				walk_particles.set_deferred("emitting", true)	
 			
 			anim_state_machine.travel("RunningAndSpinning")
 			anim_tree.set("parameters/RunningAndSpinning/RunTimeScale/scale", vel.x * 0.06)

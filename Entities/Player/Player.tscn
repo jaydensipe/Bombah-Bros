@@ -1,11 +1,11 @@
-[gd_scene load_steps=31 format=3 uid="uid://by0cg54hrj2v7"]
+[gd_scene load_steps=31 format=3 uid="uid://cdqfchkilcvid"]
 
 [ext_resource type="Shader" path="res://Entities/Player/Player.gdshader" id="1_44idu"]
 [ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_kruu1"]
-[ext_resource type="Texture2D" uid="uid://crmoo8o2yrf8u" path="res://Assets/Characters/bombbill_body.png" id="2_1lfxf"]
-[ext_resource type="Texture2D" uid="uid://mepwcxf2cpy" path="res://Assets/Characters/bombbill_head.png" id="3_60xpl"]
-[ext_resource type="Texture2D" uid="uid://3skr0upcqmhm" path="res://Assets/Characters/bombbill_leg.png" id="3_shv2m"]
-[ext_resource type="Texture2D" uid="uid://cqowa1rbud2kr" path="res://Assets/Characters/bombbill_arm.png" id="5_qp5ub"]
+[ext_resource type="Texture2D" uid="uid://crmoo8o2yrf8u" path="res://Assets/Characters/BombBill/bombbill_body.png" id="3_illw5"]
+[ext_resource type="Texture2D" uid="uid://mepwcxf2cpy" path="res://Assets/Characters/BombBill/bombbill_head.png" id="4_f1g1p"]
+[ext_resource type="Texture2D" uid="uid://3skr0upcqmhm" path="res://Assets/Characters/BombBill/bombbill_leg.png" id="5_ud7te"]
+[ext_resource type="Texture2D" uid="uid://cqowa1rbud2kr" path="res://Assets/Characters/BombBill/bombbill_arm.png" id="6_w86ja"]
 [ext_resource type="Texture2D" uid="uid://i2xlmhqbqjkg" path="res://Assets/VFX/line.png" id="7_qafpr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8d3vx"]
@@ -210,31 +210,31 @@ metadata/_edit_group_ = true
 [node name="Body" type="Sprite2D" parent="."]
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_8d3vx")
-texture = ExtResource("2_1lfxf")
+texture = ExtResource("3_illw5")
 
 [node name="Head" type="Sprite2D" parent="Body"]
 use_parent_material = true
-texture = ExtResource("3_60xpl")
+texture = ExtResource("4_f1g1p")
 
 [node name="Leg1" type="Sprite2D" parent="Body"]
 z_index = -1
 use_parent_material = true
 position = Vector2(-1, 1)
-texture = ExtResource("3_shv2m")
+texture = ExtResource("5_ud7te")
 
 [node name="Leg2" type="Sprite2D" parent="Body"]
 use_parent_material = true
 position = Vector2(0, 1)
-texture = ExtResource("3_shv2m")
+texture = ExtResource("5_ud7te")
 
 [node name="Arm2" type="Sprite2D" parent="Body"]
 z_index = -1
 use_parent_material = true
-texture = ExtResource("5_qp5ub")
+texture = ExtResource("6_w86ja")
 
 [node name="Arm1" type="Sprite2D" parent="Body"]
 use_parent_material = true
-texture = ExtResource("5_qp5ub")
+texture = ExtResource("6_w86ja")
 
 [node name="BombSpawnPoint" type="Marker2D" parent="Body"]
 

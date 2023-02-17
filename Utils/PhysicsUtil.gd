@@ -15,8 +15,8 @@ static func calculate_arc_velocity(from, to, arc_height, gravity = ProjectSettin
 	return linear_velocity
 	
 # Used to calculate falloff distance
-static func inverse_square_law(distance: float):
-	if (distance == 0): return
+static func inverse_square_law(distance: float) -> float:
+	if (distance == 0): return 1
 	
 	return 1 / pow(distance, 2)
 	

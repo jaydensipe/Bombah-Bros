@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://csg587hh3xlsn"]
+
+[node name="SmokeParticles" type="GPUParticles2D"]
+lifetime = 0.2

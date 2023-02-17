@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crmoo8o2yrf8u"
-path="res://.godot/imported/bombbill_body.png-33cd5c41d47a6a67525908ab79183d0d.ctex"
+uid="uid://2k1qrbv54cpn"
+path="res://.godot/imported/bombbill.png-2259db89aeaa8f181c48f35103e416ae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/bombbill_body.png"
-dest_files=["res://.godot/imported/bombbill_body.png-33cd5c41d47a6a67525908ab79183d0d.ctex"]
+source_file="res://Assets/Characters/BombBill/bombbill.png"
+dest_files=["res://.godot/imported/bombbill.png-2259db89aeaa8f181c48f35103e416ae.ctex"]
 
 [params]
 
