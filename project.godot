@@ -21,6 +21,12 @@ config/icon="res://icon.svg"
 [autoload]
 
 GlobalSignals="*res://Global/GlobalSignals.gd"
+NakamaIntegration="*res://Global/Integrations/NakamaIntegration.gd"
+Nakama="*res://Addons/com.heroiclabs.nakama/Nakama.gd"
+
+[debug]
+
+file_logging/enable_file_logging=true
 
 [display]
 

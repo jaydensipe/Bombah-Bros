@@ -28,7 +28,6 @@ enum PLAYER_STATES {IDLE, IN_AIR, ON_GROUND, THROWING}
 # Signals
 signal taken_damage(damage_dealt)
 	
-	
 func _enter_tree() -> void:
 	set_multiplayer_authority(str(name).to_int())
 	
