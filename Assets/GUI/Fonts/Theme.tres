@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bj2q0bvxlmix"]
+
+[ext_resource type="FontFile" uid="uid://c15khnnop5rlm" path="res://Assets/GUI/Fonts/DigitalDisco.ttf" id="1_8jurq"]
+
+[resource]
+default_font = ExtResource("1_8jurq")

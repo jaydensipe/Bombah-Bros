@@ -1,41 +1,91 @@
-[gd_scene load_steps=2 format=3 uid="uid://cv71ca482gtil"]
+[gd_scene load_steps=6 format=3 uid="uid://ckoaffb356cl8"]
 
 [ext_resource type="Script" path="res://Assets/GUI/MainMenu/MainMenu.gd" id="1_2ensq"]
+[ext_resource type="Theme" uid="uid://bj2q0bvxlmix" path="res://Assets/GUI/Fonts/Theme.tres" id="2_j77km"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_esr64"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_553ni"]
+font_size = 75
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sigvi"]
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_2ensq")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="TitleContainer" type="PanelContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -166.0
+offset_right = 166.0
+offset_bottom = 71.0
+grow_horizontal = 2
+theme = ExtResource("2_j77km")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_esr64")
+
+[node name="MarginContainer" type="MarginContainer" parent="TitleContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 25
+
+[node name="TitleText" type="Label" parent="TitleContainer/MarginContainer"]
+layout_mode = 2
+text = "Bombah Bros"
+label_settings = SubResource("LabelSettings_553ni")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonContainer" type="PanelContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_j77km")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_sigvi")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ButtonContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_top = 150
+theme_override_constants/margin_right = 150
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ButtonContainer/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="MatchMakingButton" type="Button" parent="ButtonContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Bombah Bros"
-horizontal_alignment = 1
-vertical_alignment = 1
+theme = ExtResource("2_j77km")
+text = "1v1 Matchmaking"
 
-[node name="HostButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ButtonContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Host"
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("2_j77km")
+theme_override_constants/separation = 15
 
-[node name="JoinButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HostButton" type="Button" parent="ButtonContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Join"
+text = "Host Private Lobby"
 
-[node name="AddressEntry" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="JoinButton" type="Button" parent="ButtonContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-placeholder_text = "Enter Address"
-alignment = 1
+text = "Join Private Lobby"
 
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[node name="Settings" type="Button" parent="ButtonContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_j77km")
+text = "Settings
+"
+
+[node name="QuitButton" type="Button" parent="ButtonContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="ButtonContainer/MarginContainer/VBoxContainer/HBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="ButtonContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="ButtonContainer/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
