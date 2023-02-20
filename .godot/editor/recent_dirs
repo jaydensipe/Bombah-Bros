@@ -1,3 +1,6 @@
+res://Global
+res://Entities/StateMachine/States/Player
+res://Entities/StateMachine
 J:/GodotGames/BombahBros Versions/V1 Multiplayer Test
 res://Assets/GUI/Fonts
 res://Global/Integrations
@@ -6,7 +9,6 @@ C:/Users/Jayden/Desktop
 J:/GodotGames/BombahBros
 res://Entities/Bomb
 res://Entities/VFX/Explosion/Particles/Dirt
-res://Global
 res://Stages/MapGrass
 res://Config
 res://Entities/Player

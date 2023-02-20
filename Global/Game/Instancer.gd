@@ -6,8 +6,8 @@ class_name Instancer
 @onready var explosion_dirt = load("res://Entities/VFX/Explosion/Particles/Dirt/Explosions_DirtParticles.tscn")
 
 func _ready() -> void:
-	GlobalSignals.connect(GlobalSignals.THROW_BOMB, _instance_bomb)
-	GlobalSignals.connect(GlobalSignals.INSTANCE_PARTICLES, _instance_particles)
+	GlobalSignalManager.connect(GlobalSignalManager.THROW_BOMB, _instance_bomb)
+	GlobalSignalManager.connect(GlobalSignalManager.INSTANCE_PARTICLES, _instance_particles)
 	
 func _instance_bomb(instance_pos: Vector2, throw_pos: Vector2, throw_strength: float) -> void:
 	spawn_bomb_instance.rpc(instance_pos, throw_pos, throw_strength)

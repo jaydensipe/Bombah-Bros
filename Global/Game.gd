@@ -9,12 +9,19 @@ class_name Game
 var multiplayer_bridge: NakamaMultiplayerBridge
 var main_menu = preload("res://Assets/GUI/MainMenu/MainMenu.tscn")
 var loading_menu = load("res://Assets/GUI/Loading/Loading.tscn").instantiate()
-var join_game_menu = load("res://Assets/GUI/JoinGame/JoinGame.tscn")
-var player = preload("res://Entities/Player/Player.tscn")
+var join_game_menu = load("res://Assets/GUI/JoinGame/JoinGame.tscn").instantiate()
+var player = load("res://Entities/Player/Player.tscn")
 var map = load("res://Stages/MapGrass/MapGrass.tscn")
+var current_ui_reference: WeakRef
+var previous_ui_element_reference: WeakRef
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
+	GlobalUiManager.connect(GlobalUiManager.JOIN_GAME_MENU_BACK, ui_go_back)
+	join_game_menu.join_pressed.connect(_join_match)
+	
+	initialize_main_menu()
+	
+func initialize_main_menu() -> void:
 	load_connecting_menu()
 	multiplayer_bridge = await NakamaIntegration.initialize_nakama()
 	load_main_menu()
@@ -44,9 +51,6 @@ func _host_server() -> void:
 func _join_server() -> void:
 	remove_ui_element(main_menu)
 	
-	join_game_menu = join_game_menu.instantiate()
-	join_game_menu.join_pressed.connect(_join_match)
-	
 	load_ui_element(join_game_menu)
 	
 func _join_match(connection_string: String) -> void:	
@@ -60,14 +64,21 @@ func add_map() -> void:
 	current_map.add_child(map.instantiate())
 	
 func add_player(peer_id: int) -> void:
-	var ply = player.instantiate()
+	var ply: Player = player.instantiate()
 	ply.name = str(peer_id)
+	ply.position = Vector2(-226, -53)
 	
 	players.add_child(ply)
 	
 func load_ui_element(ui: CanvasLayer) -> void:
+	current_ui_reference = weakref(ui)
 	gui.add_child(ui)
 	
 func remove_ui_element(ui: CanvasLayer) -> void:
+	previous_ui_element_reference = weakref(ui)
 	gui.remove_child(ui)
-	ui.queue_free()
+	
+func ui_go_back():
+	var temp = previous_ui_element_reference.get_ref()
+	remove_ui_element(current_ui_reference.get_ref())
+	load_ui_element(temp)

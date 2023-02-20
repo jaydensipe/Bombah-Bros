@@ -1,9 +1,10 @@
-res://Global/Game.tscn
-res://Assets/GUI/Loading/Loading.tscn
-res://Assets/GUI/MainMenu/MainMenu.tscn
+res://Entities/Player/Player.tscn
 res://Assets/GUI/Fonts/Theme.tres
-res://Global/Game.gd
-res://Assets/GUI/Loading/Loading.gd
-res://Assets/GUI/JoinGame/JoinGame.tscn
-res://Assets/GUI/MainMenu/MainMenu.gd
+res://Global/Game.tscn
+res://Global/GlobalUIManager.gd
 res://Assets/GUI/JoinGame/JoinGame.gd
+res://Assets/GUI/JoinGame/JoinGame.tscn
+res://Global/Game.gd
+res://Stages/MapGrass/MapGrass.tscn
+res://Entities/Player/Player.gd
+res://Entities/StateMachine/States/Player/Run.gd

@@ -1,3 +1,8 @@
+Marker2D
+HBoxContainer
+Node
+Node2D
+State
 MarginContainer
 Button
 LineEdit
@@ -6,11 +11,9 @@ VBoxContainer
 PanelContainer
 CanvasLayer
 CanvasGroup
-HBoxContainer
 GraphEdit
 AcceptDialog
 GPUParticles2D
-Node2D
 CharacterBody2D
 Bomb
 LightOccluder2D
@@ -26,7 +29,4 @@ Sprite2D
 CanvasModulate
 DirectionalLight2D
 MultiplayerSynchronizer
-Marker2D
 MultiplayerSpawner
-RigidBody2D
-Line2D

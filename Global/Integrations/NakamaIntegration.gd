@@ -9,6 +9,7 @@ func _ready() -> void:
 	client = Nakama.create_client("01132476322718204193", "nakamabbrosdev.games", 7350, "https")
 
 func initialize_nakama():
+	# Unique ID for each player
 	var id = OS.get_unique_id()
 	
 	session = await client.authenticate_device_async(id)
