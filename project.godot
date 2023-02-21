@@ -24,6 +24,7 @@ NakamaIntegration="*res://Global/Integrations/NakamaIntegration.gd"
 Nakama="*res://Addons/com.heroiclabs.nakama/Nakama.gd"
 GlobalSignalManager="*res://Global/GlobalSignalManager.gd"
 GlobalUiManager="*res://Global/GlobalUIManager.gd"
+GlobalGameInformation="*res://Global/GlobalGameInformation.gd"
 
 [debug]
 

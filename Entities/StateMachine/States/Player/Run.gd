@@ -19,12 +19,12 @@ func _update_physics_process(_delta: float) -> void:
 		
 @rpc("call_local")
 func do_animations() -> void:
-	if (player.vel.x > 70.0 or player.vel.x < -70):
+	if (player.velocity.x > 70.0 or player.velocity.x < -70):
 		player.walk_particles.set_deferred("emitting", true)	
 				
 	player.anim_state_machine.travel("Running")
-	player.anim_tree.set("parameters/RunningAndSpinning/RunTimeScale/scale", player.vel.x * 0.06)
-	player.anim_tree.set("parameters/Running/RunTimeScale/scale", player.vel.x * 0.06)
+	player.anim_tree.set("parameters/RunningAndSpinning/RunTimeScale/scale", player.velocity.x * 0.06)
+	player.anim_tree.set("parameters/Running/RunTimeScale/scale", player.velocity.x * 0.06)
 	
 @rpc("call_local")
 func cleanup_animations() -> void:

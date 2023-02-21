@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://385uped2d8nh"]
+
+[ext_resource type="Texture2D" uid="uid://bva6p80q8guwr" path="res://icon.svg" id="1_cxywi"]
+
+[node name="PlayerInformation" type="VBoxContainer"]
+offset_right = 128.0
+offset_bottom = 158.0
+size_flags_horizontal = 4
+
+[node name="Avatar" type="TextureRect" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("1_cxywi")
+
+[node name="Username" type="Label" parent="."]
+layout_mode = 2
+text = "Username"
+horizontal_alignment = 1

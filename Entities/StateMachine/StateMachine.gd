@@ -5,15 +5,12 @@ class_name StateMachine
 # Configuration
 @export var initial_state: State
 @onready var state: State = initial_state
-@export var state_name: String
 
 # Signals
 signal transitioned(state_name)
 
 func _ready() -> void:
 	await owner.ready
-	
-	state_name = state.name
 	
 	# The state machine assigns itself to the State objects' state_machine property.
 	for child in get_children():

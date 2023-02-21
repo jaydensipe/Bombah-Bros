@@ -6,7 +6,7 @@ func _update_process(_delta: float) -> void:
 
 # Virtual function. Corresponds to the `_physics_process()` callback.
 func _update_physics_process(_delta: float) -> void:
-	do_animations.rpc()
+	do_animations.rpc(player.state_machine.state.name)
 	
 	if (Input.is_action_just_released("Hold_Attack")):
 		GlobalSignalManager.signal_throw_bomb(player.bomb_throw_location.global_position, player.get_global_mouse_position(), player.throw_power)
@@ -18,8 +18,8 @@ func _update_physics_process(_delta: float) -> void:
 	player.throw_power = clampf(player.throw_power - 2.0, 0.0, player.MAX_THROW_POWER)
 	
 @rpc("call_local")
-func do_animations() -> void:
-	if (player.state_machine.state.name == "Run" || player.state_machine.state.name == "Air"):
+func do_animations(state_name: String) -> void:
+	if (state_name == "Run" || state_name == "Air"):
 		player.anim_state_machine.travel("RunningAndSpinning")	
 		player.anim_tree.set("parameters/RunningAndSpinning/SpinTimeScale/scale", (player.MAX_THROW_POWER + 1 - player.throw_power) * 0.1)
 		player.anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 1.0)

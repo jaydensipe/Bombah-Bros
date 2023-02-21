@@ -12,12 +12,14 @@ func initialize_nakama():
 	# Unique ID for each player
 	var id = OS.get_unique_id()
 	
+	# Create Nakama Session
 	session = await client.authenticate_device_async(id)
 	if session.is_exception():
 		printerr("An error occurred: %s" % session)
 		return
 	print("Successfully authenticated: %s" % session)
 	
+	# Create Nakama Socket
 	socket = Nakama.create_socket_from(client)
 	
 	var connected: NakamaAsyncResult = await socket.connect_async(session)

@@ -3332,5 +3332,10 @@ region_rect = Rect2(12.3806, 83.2558, 49.0524, 35.8096)
 position = Vector2(0, -357.24)
 scale = Vector2(2.9648, 3.48945)
 
-[node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(-226, -53.5374)
+[node name="Spawns" type="Node2D" parent="."]
+
+[node name="Spawn1" type="Marker2D" parent="Spawns"]
+position = Vector2(-226, -53)
+
+[node name="Spawn2" type="Marker2D" parent="Spawns"]
+position = Vector2(226, -53)

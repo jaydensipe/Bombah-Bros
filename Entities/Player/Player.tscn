@@ -204,27 +204,21 @@ size = Vector2(8, 15)
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/sync = true
-properties/1/path = NodePath("Body/Head:rotation")
+properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/sync = true
-properties/2/path = NodePath(".:speed")
+properties/2/path = NodePath("Body:scale")
 properties/2/spawn = true
 properties/2/sync = true
-properties/3/path = NodePath(".:friction")
+properties/3/path = NodePath(".:throw_power")
 properties/3/spawn = true
 properties/3/sync = true
-properties/4/path = NodePath(".:acceleration")
+properties/4/path = NodePath(".:velocity")
 properties/4/spawn = true
 properties/4/sync = true
-properties/5/path = NodePath("Body:scale")
+properties/5/path = NodePath("Body/Head:rotation")
 properties/5/spawn = true
 properties/5/sync = true
-properties/6/path = NodePath(".:throw_power")
-properties/6/spawn = true
-properties/6/sync = true
-properties/7/path = NodePath(".:vel")
-properties/7/spawn = true
-properties/7/sync = true
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 1
@@ -285,6 +279,24 @@ texture = ExtResource("7_qafpr")
 texture_mode = 1
 joint_mode = 2
 
+[node name="Animation" type="Node2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Animation"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_eo6p5")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="Animation"]
+tree_root = SubResource("AnimationNodeStateMachine_aqjp4")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_h7y72")
+parameters/Running/RunTimeScale/scale = 1.0
+parameters/RunningAndSpinning/RunSpinBlend/blend_amount = 1.0
+parameters/RunningAndSpinning/RunTimeScale/scale = 1.0
+parameters/RunningAndSpinning/SpinTimeScale/scale = 8.0
+
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("8_ohr0v")
 initial_state = NodePath("Idle")
@@ -307,24 +319,6 @@ script = ExtResource("11_8310s")
 
 [node name="None" type="Node" parent="ActionStateMachine"]
 script = ExtResource("12_rvtg3")
-
-[node name="Animation" type="Node2D" parent="."]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Animation"]
-root_node = NodePath("../..")
-libraries = {
-"": SubResource("AnimationLibrary_eo6p5")
-}
-
-[node name="AnimationTree" type="AnimationTree" parent="Animation"]
-tree_root = SubResource("AnimationNodeStateMachine_aqjp4")
-anim_player = NodePath("../AnimationPlayer")
-active = true
-parameters/playback = SubResource("AnimationNodeStateMachinePlayback_h7y72")
-parameters/Running/RunTimeScale/scale = 1.0
-parameters/RunningAndSpinning/RunSpinBlend/blend_amount = 1.0
-parameters/RunningAndSpinning/RunTimeScale/scale = 1.0
-parameters/RunningAndSpinning/SpinTimeScale/scale = 8.0
 
 [node name="RayCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1)

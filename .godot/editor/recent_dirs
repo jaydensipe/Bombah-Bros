@@ -1,4 +1,5 @@
 res://Global
+res://Entities/Player
 res://Entities/StateMachine/States/Player
 res://Entities/StateMachine
 J:/GodotGames/BombahBros Versions/V1 Multiplayer Test
@@ -11,4 +12,3 @@ res://Entities/Bomb
 res://Entities/VFX/Explosion/Particles/Dirt
 res://Stages/MapGrass
 res://Config
-res://Entities/Player
