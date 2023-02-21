@@ -30,8 +30,9 @@ size_flags_horizontal = 4
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="PlayerInformation2" parent="PanelContainer/InformationContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_6q6jg")]
+[node name="HostInformation" parent="PanelContainer/InformationContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_6q6jg")]
 layout_mode = 2
+host_label = true
 
 [node name="MapSelection" parent="PanelContainer/InformationContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_8wr5c")]
 layout_mode = 2
@@ -68,7 +69,7 @@ theme_override_constants/separation = 400
 
 [node name="BackButton" type="Button" parent="PanelContainer/ButtonContainer/HBoxContainer"]
 layout_mode = 2
-text = "Back"
+text = "Leave"
 
 [node name="StartButton" type="Button" parent="PanelContainer/ButtonContainer/HBoxContainer"]
 layout_mode = 2
@@ -76,3 +77,4 @@ text = "Start Game"
 
 [connection signal="pressed" from="PanelContainer/GameIDContainer/HBoxContainer/CopyGameIDButton" to="." method="_on_copy_game_id_button_pressed"]
 [connection signal="pressed" from="PanelContainer/ButtonContainer/HBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="PanelContainer/ButtonContainer/HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]

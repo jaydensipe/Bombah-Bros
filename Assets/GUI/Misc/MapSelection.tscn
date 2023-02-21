@@ -24,5 +24,5 @@ text = "Previous"
 
 [node name="NextMapButton" type="Button" parent="ButtonContainer"]
 layout_mode = 2
-text = "Next Mop
+text = "Next Map
 "

@@ -15,6 +15,7 @@ var player = load("res://Entities/Player/Player.tscn")
 var map = load("res://Stages/MapGrass/MapGrass.tscn")
 var current_ui_reference: WeakRef
 var previous_ui_element_reference: WeakRef
+var connected_peers: Array = []
 
 func _ready():
 	GlobalUiManager.connect(GlobalUiManager.GAME_MENU_BACK, ui_go_back)
@@ -31,8 +32,6 @@ func load_connecting_menu() -> void:
 	load_ui_element(loading_menu)
 	
 func load_main_menu() -> void:
-	remove_ui_element(loading_menu)
-	
 	main_menu = main_menu.instantiate()
 	main_menu.host_pressed.connect(_host_server)
 	main_menu.join_pressed.connect(_join_server)
@@ -40,31 +39,38 @@ func load_main_menu() -> void:
 	load_ui_element(main_menu)
 	
 func _host_server() -> void:
-	remove_ui_element(main_menu)
-	add_map()
-
 	await multiplayer_bridge.create_match()
 	multiplayer.multiplayer_peer = multiplayer_bridge.multiplayer_peer
 	if not multiplayer.peer_connected.is_connected(add_player):
 		multiplayer.peer_connected.connect(add_player)
+		multiplayer.peer_connected.connect(initalize_game_menu.client_connected_ui.bind(multiplayer_bridge))
+		initalize_game_menu.start_match.connect(_start_match)
 	
 	GlobalGameInformation.current_game_id = multiplayer_bridge.match_id
 
 	add_player(multiplayer.get_unique_id())
-#	load_ui_element(initalize_game_menu)
+	load_ui_element(initalize_game_menu)
 	
 func _join_server() -> void:
-	remove_ui_element(main_menu)
-	
 	load_ui_element(join_game_menu)
 	
 func _join_match(connection_string: String) -> void:	
-	add_map()
-
 	await multiplayer_bridge.join_match(connection_string)
-	remove_ui_element(join_game_menu)
 	multiplayer.multiplayer_peer = multiplayer_bridge.multiplayer_peer
 	
+	load_ui_element(initalize_game_menu)	
+	
+func _start_match() -> void:
+	test.rpc()
+	
+@rpc("call_local")
+func test() -> void:
+	remove_ui_element(current_ui_reference.get_ref())
+	add_map()
+	
+	for peer_id in connected_peers:
+		instance_and_set_player_spawn.rpc(peer_id, get_random_spawn_location_from_current_map())
+		
 func add_map() -> void:
 	current_map.add_child(map.instantiate())
 	
@@ -72,8 +78,7 @@ func get_current_map() -> Node2D:
 	return current_map.get_child(0)
 	
 func add_player(peer_id: int) -> void:
-#	pass
-	instance_and_set_player_spawn.rpc(peer_id, get_random_spawn_location_from_current_map())
+	connected_peers.append(peer_id)
 
 @rpc("call_local")
 func instance_and_set_player_spawn(peer_id, spawn_location):
@@ -91,6 +96,9 @@ func get_random_spawn_location_from_current_map() -> Vector2:
 	return selected_spawn.position
 	
 func load_ui_element(ui: CanvasLayer) -> void:
+	if (current_ui_reference):
+		remove_ui_element(current_ui_reference.get_ref())
+	
 	current_ui_reference = weakref(ui)
 	gui.add_child(ui)
 	

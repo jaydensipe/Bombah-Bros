@@ -1,11 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://385uped2d8nh"]
+[gd_scene load_steps=3 format=3 uid="uid://385uped2d8nh"]
 
 [ext_resource type="Texture2D" uid="uid://bva6p80q8guwr" path="res://icon.svg" id="1_cxywi"]
+[ext_resource type="Script" path="res://Assets/GUI/Misc/PlayerInformation.gd" id="1_gxw57"]
 
 [node name="PlayerInformation" type="VBoxContainer"]
 offset_right = 128.0
-offset_bottom = 158.0
-size_flags_horizontal = 4
+offset_bottom = 164.0
+theme_override_constants/separation = 10
+script = ExtResource("1_gxw57")
 
 [node name="Avatar" type="TextureRect" parent="."]
 layout_mode = 2
@@ -14,5 +16,5 @@ texture = ExtResource("1_cxywi")
 
 [node name="Username" type="Label" parent="."]
 layout_mode = 2
-text = "Username"
+text = "Waiting..."
 horizontal_alignment = 1

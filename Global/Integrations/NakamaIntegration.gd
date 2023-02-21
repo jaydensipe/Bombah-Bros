@@ -28,6 +28,14 @@ func initialize_nakama():
 		return
 	print("Socket connected.")
 	
+	init_user()
+	
 	return NakamaMultiplayerBridge.new(socket)
+	
+func init_user():
+	var account = await client.get_account_async(session)
+	GlobalGameInformation.username = account.user.username
+	GlobalGameInformation.avatar_url = account.user.avatar_url
+	GlobalGameInformation.user_id = account.user.id
 	
 	
