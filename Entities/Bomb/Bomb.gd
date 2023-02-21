@@ -1,19 +1,20 @@
 extends CharacterBody2D
 class_name Bomb
 
+# Configuration
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var has_exploded: bool = false
 @export var spin_velocity: float = 20.0
 @export var bomb_damage: float = 35.0
 
+# Instances
 @onready var bomb_sprite: Sprite2D = $Sprite2D
 @onready var explosion_radius: Area2D = $ExplosionRadius
 @onready var explosion_vfx = preload("res://Entities/VFX/Explosion/Explosion.tscn")
 
 func _ready() -> void:
-	enable_collision_when_thrown.rpc()
+	enable_collision_when_thrown()
 
-@rpc("any_peer", "call_local")	
 func enable_collision_when_thrown():
 	await get_tree().create_timer(0.1).timeout
 	set_collision_mask_value(EnumUtil.PhysicsLayers.Player, true)
@@ -39,7 +40,10 @@ func explode() -> void:
 	var players_affected: Array = explosion_radius.get_overlapping_bodies()
 	var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
 	for player in players_affected:
+		# Determines if player should be hit by using a raycast
 		var result = space_state.intersect_ray(PhysicsRayQueryParameters2D.create(self.global_position, player.global_position, self.collision_mask))
+		
+		# Does damage to hit player and calculates damage falloff
 		if (result && result.collider.is_in_group("Player")):
 			var distance: float = player.global_position.distance_to(self.global_position)
 			player.take_damage.rpc_id(player.get_multiplayer_authority(), bomb_damage * PhysicsUtil.inverse_square_law(distance) * 100.0, \
@@ -51,9 +55,9 @@ func bomb_effects(body) -> void:
 		var cell_data = body.get_cell_tile_data(0, hit_cell)
 		if (cell_data != null):
 			var terrain_type = cell_data.get_custom_data("terrain_tile_type")
-			GlobalSignals.signal_instance_particles(self.global_position, terrain_type)
+			GlobalSignalManager.signal_instance_particles(self.global_position, terrain_type)
 		else:
-			GlobalSignals.signal_instance_particles(self.global_position, EnumUtil.TerrainTypes.Dirt)
+			GlobalSignalManager.signal_instance_particles(self.global_position, EnumUtil.TerrainTypes.Dirt)
 	
 	bomb_sprite.hide()
 	

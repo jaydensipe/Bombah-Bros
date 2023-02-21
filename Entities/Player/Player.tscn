@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://cdqfchkilcvid"]
+[gd_scene load_steps=44 format=3 uid="uid://byrr8vf2rto6i"]
 
 [ext_resource type="Shader" path="res://Entities/Player/Player.gdshader" id="1_44idu"]
 [ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_kruu1"]
@@ -7,6 +7,12 @@
 [ext_resource type="Texture2D" uid="uid://3skr0upcqmhm" path="res://Assets/Characters/BombBill/bombbill_leg.png" id="5_ud7te"]
 [ext_resource type="Texture2D" uid="uid://cqowa1rbud2kr" path="res://Assets/Characters/BombBill/bombbill_arm.png" id="6_w86ja"]
 [ext_resource type="Texture2D" uid="uid://i2xlmhqbqjkg" path="res://Assets/VFX/line.png" id="7_qafpr"]
+[ext_resource type="Script" path="res://Entities/StateMachine/StateMachine.gd" id="8_ohr0v"]
+[ext_resource type="Script" path="res://Entities/StateMachine/States/Player/Run.gd" id="9_rw6jk"]
+[ext_resource type="Script" path="res://Entities/StateMachine/States/Player/Idle.gd" id="10_wbrf8"]
+[ext_resource type="Script" path="res://Entities/StateMachine/States/Player/Throwing.gd" id="11_8310s"]
+[ext_resource type="Script" path="res://Entities/StateMachine/States/Player/Air.gd" id="11_lvd7f"]
+[ext_resource type="Script" path="res://Entities/StateMachine/States/Player/None.gd" id="12_rvtg3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8d3vx"]
 shader = ExtResource("1_44idu")
@@ -116,12 +122,25 @@ _data = {
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lr30s"]
 animation = &"Idle"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1qaky"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_6ew3a"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_nrtbo"]
+graph_offset = Vector2(-502.667, 77.3333)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_1qaky")
+nodes/Animation/position = Vector2(-80, 173.333)
+nodes/RunTimeScale/node = SubResource("AnimationNodeTimeScale_6ew3a")
+nodes/RunTimeScale/position = Vector2(120, 146.667)
+node_connections = [&"output", 0, &"RunTimeScale", &"RunTimeScale", 0, &"Animation"]
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_f2w0t"]
 animation = &"Run"
 
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_456wy"]
 filter_enabled = true
-filters = ["Body/Arm1:rotation"]
+filters = ["Body/Arm2:rotation", "Body/Leg1:rotation", "Body/Leg2:rotation"]
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_o737i"]
 
@@ -131,7 +150,7 @@ filters = ["Body/Arm1:rotation"]
 animation = &"Spinning"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_o3rm4"]
-graph_offset = Vector2(-164.237, -14.292)
+graph_offset = Vector2(57.7027, 47.7593)
 nodes/Run/node = SubResource("AnimationNodeAnimation_f2w0t")
 nodes/Run/position = Vector2(373.333, 26.6667)
 nodes/RunSpinBlend/node = SubResource("AnimationNodeBlend2_456wy")
@@ -143,23 +162,34 @@ nodes/SpinTimeScale/position = Vector2(573.333, 253.333)
 nodes/Spinning/node = SubResource("AnimationNodeAnimation_3yq6o")
 nodes/Spinning/position = Vector2(373.333, 266.667)
 nodes/output/position = Vector2(1000, 146.667)
-node_connections = [&"output", 0, &"RunSpinBlend", &"RunSpinBlend", 0, &"RunTimeScale", &"RunSpinBlend", 1, &"SpinTimeScale", &"RunTimeScale", 0, &"Run", &"SpinTimeScale", 0, &"Spinning"]
+node_connections = [&"output", 0, &"RunSpinBlend", &"RunSpinBlend", 0, &"SpinTimeScale", &"RunSpinBlend", 1, &"RunTimeScale", &"RunTimeScale", 0, &"Run", &"SpinTimeScale", 0, &"Spinning"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vawlx"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_32wh8"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gyotu"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_c24e4"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0ckcv"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5hs04"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hfamn"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a2nps"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qcpkn"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xby8q"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nbvsm"]
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_aqjp4"]
+states/End/position = Vector2(932, 105.612)
 states/Idle/node = SubResource("AnimationNodeAnimation_lr30s")
-states/Idle/position = Vector2(520, 100.593)
+states/Idle/position = Vector2(496, 105.588)
+states/Running/node = SubResource("AnimationNodeBlendTree_nrtbo")
+states/Running/position = Vector2(651.667, 105.689)
 states/RunningAndSpinning/node = SubResource("AnimationNodeBlendTree_o3rm4")
-states/RunningAndSpinning/position = Vector2(709.667, 98.9465)
+states/RunningAndSpinning/position = Vector2(667.667, 227.262)
 states/Start/position = Vector2(376.667, 101.827)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_vawlx"), "Idle", "RunningAndSpinning", SubResource("AnimationNodeStateMachineTransition_32wh8"), "RunningAndSpinning", "Idle", SubResource("AnimationNodeStateMachineTransition_c24e4"), "RunningAndSpinning", "End", SubResource("AnimationNodeStateMachineTransition_5hs04")]
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_vawlx"), "Idle", "RunningAndSpinning", SubResource("AnimationNodeStateMachineTransition_gyotu"), "RunningAndSpinning", "End", SubResource("AnimationNodeStateMachineTransition_0ckcv"), "RunningAndSpinning", "Idle", SubResource("AnimationNodeStateMachineTransition_hfamn"), "Idle", "Running", SubResource("AnimationNodeStateMachineTransition_a2nps"), "Running", "Idle", SubResource("AnimationNodeStateMachineTransition_qcpkn"), "Running", "RunningAndSpinning", SubResource("AnimationNodeStateMachineTransition_xby8q"), "RunningAndSpinning", "Running", SubResource("AnimationNodeStateMachineTransition_nbvsm")]
 graph_offset = Vector2(-219, 50)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_h7y72"]
@@ -174,27 +204,21 @@ size = Vector2(8, 15)
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/sync = true
-properties/1/path = NodePath("Body/Head:rotation")
+properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/sync = true
-properties/2/path = NodePath(".:speed")
+properties/2/path = NodePath("Body:scale")
 properties/2/spawn = true
 properties/2/sync = true
-properties/3/path = NodePath(".:friction")
+properties/3/path = NodePath(".:throw_power")
 properties/3/spawn = true
 properties/3/sync = true
-properties/4/path = NodePath(".:acceleration")
+properties/4/path = NodePath(".:velocity")
 properties/4/spawn = true
 properties/4/sync = true
-properties/5/path = NodePath("Body:scale")
+properties/5/path = NodePath("Body/Head:rotation")
 properties/5/spawn = true
 properties/5/sync = true
-properties/6/path = NodePath(".:throw_power")
-properties/6/spawn = true
-properties/6/sync = true
-properties/7/path = NodePath(".:vel")
-properties/7/spawn = true
-properties/7/sync = true
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 1
@@ -268,9 +292,33 @@ tree_root = SubResource("AnimationNodeStateMachine_aqjp4")
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource("AnimationNodeStateMachinePlayback_h7y72")
-parameters/RunningAndSpinning/RunSpinBlend/blend_amount = 0
+parameters/Running/RunTimeScale/scale = 1.0
+parameters/RunningAndSpinning/RunSpinBlend/blend_amount = 1.0
 parameters/RunningAndSpinning/RunTimeScale/scale = 1.0
 parameters/RunningAndSpinning/SpinTimeScale/scale = 8.0
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("8_ohr0v")
+initial_state = NodePath("Idle")
+
+[node name="Run" type="Node" parent="StateMachine"]
+script = ExtResource("9_rw6jk")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("10_wbrf8")
+
+[node name="Air" type="Node" parent="StateMachine"]
+script = ExtResource("11_lvd7f")
+
+[node name="ActionStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("8_ohr0v")
+initial_state = NodePath("None")
+
+[node name="Throwing" type="Node" parent="ActionStateMachine"]
+script = ExtResource("11_8310s")
+
+[node name="None" type="Node" parent="ActionStateMachine"]
+script = ExtResource("12_rvtg3")
 
 [node name="RayCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1)

@@ -17,7 +17,6 @@ properties/0/sync = true
 collision_layer = 4
 platform_floor_layers = 4294967289
 script = ExtResource("1_x7y6g")
-bomb_damage = 125.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(-0.494545, 0.481442)

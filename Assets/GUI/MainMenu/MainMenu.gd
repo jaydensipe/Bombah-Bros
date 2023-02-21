@@ -9,3 +9,6 @@ func _on_host_button_pressed():
 
 func _on_join_button_pressed():
 	emit_signal("join_pressed")
+
+func _on_quit_button_pressed() -> void:
+	get_tree().quit()
