@@ -56,10 +56,10 @@ theme_override_constants/margin_right = 150
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="MatchMakingButton" type="Button" parent="ButtonContainer/MarginContainer/VBoxContainer"]
+[node name="PlayWithABotButton" type="Button" parent="ButtonContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("2_j77km")
-text = "1v1 Matchmaking"
+text = "Play with a Bot"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ButtonContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -88,4 +88,5 @@ text = "Quit"
 
 [connection signal="pressed" from="ButtonContainer/MarginContainer/VBoxContainer/HBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="ButtonContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="ButtonContainer/MarginContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="ButtonContainer/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

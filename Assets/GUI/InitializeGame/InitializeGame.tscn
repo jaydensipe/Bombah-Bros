@@ -20,7 +20,7 @@ theme = ExtResource("2_h3den")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
-theme_override_constants/margin_top = 50
+theme_override_constants/margin_top = 70
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/InformationContainer"]
 layout_mode = 2
@@ -40,11 +40,23 @@ layout_mode = 2
 [node name="PlayerInformation" parent="PanelContainer/InformationContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_6q6jg")]
 layout_mode = 2
 
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/InformationContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/margin_top = -45
+
+[node name="WaitingLabel" type="Label" parent="PanelContainer/InformationContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Waiting for host to start..."
+
 [node name="GameIDContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-theme_override_constants/margin_bottom = 105
+theme_override_constants/margin_bottom = 85
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/GameIDContainer"]
 layout_mode = 2

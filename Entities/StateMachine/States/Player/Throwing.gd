@@ -5,17 +5,20 @@ func _update_process(_delta: float) -> void:
 	pass
 
 # Virtual function. Corresponds to the `_physics_process()` callback.
-func _update_physics_process(_delta: float) -> void:
+func _update_physics_process(delta: float) -> void:
 	do_animations.rpc(player.state_machine.state.name)
 	
 	if (Input.is_action_just_released("Hold_Attack")):
-		GlobalSignalManager.signal_throw_bomb(player.bomb_throw_location.global_position, player.get_global_mouse_position(), player.throw_power)
+		GlobalSignalManager.signal_throw_bomb(player.bomb_throw_location.global_position, player.get_global_mouse_position(), player.throw_power)			
+		player.throw()
 		player.throw_power = player.MAX_THROW_POWER
-		assigned_state_machine.transfer_to("None")
 		
-	player.display_aim_line(_delta)
+		assigned_state_machine.transfer_to("None", {Reload = true})
+
+	display_aim_line(delta)
+	update_trajectory(delta)
 	
-	player.throw_power = clampf(player.throw_power - 2.0, 0.0, player.MAX_THROW_POWER)
+	player.throw_power = clampf(player.throw_power - 2.5, 0.0, player.MAX_THROW_POWER)
 	
 @rpc("call_local")
 func do_animations(state_name: String) -> void:
@@ -37,3 +40,21 @@ func enter(_msg := {}) -> void:
 # to clean up the state.
 func exit() -> void:
 	pass
+	
+func display_aim_line(delta) -> void:
+	player.aim_line.show()
+	update_trajectory(delta)
+
+func update_trajectory(delta) -> void:
+	player.aim_line.clear_points()
+	
+	var max_points = 250
+	var pos = player.bomb_throw_location.position
+	var arc_height = player.get_local_mouse_position().y - player.bomb_throw_location.position.y - player.throw_power
+	
+	arc_height = min(arc_height, -32)
+	var local_vel = PhysicsUtil.calculate_arc_velocity(pos, player.get_local_mouse_position(), arc_height)
+	for i in max_points:
+		player.aim_line.add_point(pos)
+		local_vel.y += player.gravity * delta
+		pos += local_vel * delta

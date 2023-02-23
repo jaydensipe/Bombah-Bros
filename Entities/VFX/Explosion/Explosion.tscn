@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dcrmm2ccgf0gt"]
+[gd_scene load_steps=6 format=3 uid="uid://3srtqh41ev0x"]
 
 [ext_resource type="Texture2D" uid="uid://dooe0x3bhfxwu" path="res://Assets/VFX/explosion.png" id="1_556bm"]
 [ext_resource type="Script" path="res://Entities/VFX/Explosion/Explosion.gd" id="1_hcpyp"]

@@ -1,6 +1,9 @@
+res://Global/Game
 res://Global
-res://Entities/Player
 res://Entities/StateMachine/States/Player
+J:/GodotGames/BombahBros Versions/V2
+res://Entities/Player
+res://Assets/GUI/InitializeGame
 res://Entities/StateMachine
 J:/GodotGames/BombahBros Versions/V1 Multiplayer Test
 res://Assets/GUI/Fonts

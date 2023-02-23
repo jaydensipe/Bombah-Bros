@@ -1,6 +1,11 @@
 extends Node
 class_name Game
 
+# Configuration
+var current_ui_reference: WeakRef
+var previous_ui_element_reference: WeakRef
+var connected_peers: Array = []
+
 # Instances
 @onready var gui: Node2D = $GUI
 @onready var players: Node2D = $Players
@@ -11,19 +16,17 @@ var main_menu = preload("res://Assets/GUI/MainMenu/MainMenu.tscn")
 var loading_menu = load("res://Assets/GUI/Loading/Loading.tscn").instantiate()
 var join_game_menu = load("res://Assets/GUI/JoinGame/JoinGame.tscn").instantiate()
 var initalize_game_menu = load("res://Assets/GUI/InitializeGame/InitializeGame.tscn").instantiate()
+var settings = load("res://Assets/GUI/Settings/Settings.tscn").instantiate()
 var player = load("res://Entities/Player/Player.tscn")
 var map = load("res://Stages/MapGrass/MapGrass.tscn")
-var current_ui_reference: WeakRef
-var previous_ui_element_reference: WeakRef
-var connected_peers: Array = []
 
 func _ready():
-	GlobalUiManager.connect(GlobalUiManager.GAME_MENU_BACK, ui_go_back)
-	join_game_menu.join_pressed.connect(_join_match)
-	
 	initialize_main_menu()
 	
 func initialize_main_menu() -> void:
+	GlobalUiManager.connect(GlobalUiManager.GAME_MENU_BACK, ui_go_back)
+	join_game_menu.join_pressed.connect(_join_match)
+	
 	load_connecting_menu()
 	multiplayer_bridge = await NakamaIntegration.initialize_nakama()
 	load_main_menu()
@@ -35,6 +38,7 @@ func load_main_menu() -> void:
 	main_menu = main_menu.instantiate()
 	main_menu.host_pressed.connect(_host_server)
 	main_menu.join_pressed.connect(_join_server)
+	main_menu.settings_pressed.connect(_settings)
 	
 	load_ui_element(main_menu)
 	
@@ -43,7 +47,7 @@ func _host_server() -> void:
 	multiplayer.multiplayer_peer = multiplayer_bridge.multiplayer_peer
 	if not multiplayer.peer_connected.is_connected(add_player):
 		multiplayer.peer_connected.connect(add_player)
-		multiplayer.peer_connected.connect(initalize_game_menu.client_connected_ui.bind(multiplayer_bridge))
+		multiplayer.peer_connected.connect(initalize_game_menu.host_connected_ui.bind(multiplayer_bridge))
 		initalize_game_menu.start_match.connect(_start_match)
 	
 	GlobalGameInformation.current_game_id = multiplayer_bridge.match_id
@@ -56,12 +60,16 @@ func _join_server() -> void:
 	
 func _join_match(connection_string: String) -> void:	
 	await multiplayer_bridge.join_match(connection_string)
+	multiplayer.peer_connected.connect(initalize_game_menu.client_connected_ui.bind(multiplayer_bridge))
 	multiplayer.multiplayer_peer = multiplayer_bridge.multiplayer_peer
 	
 	load_ui_element(initalize_game_menu)	
 	
 func _start_match() -> void:
 	test.rpc()
+	
+func _settings() -> void:
+	load_ui_element(settings)
 	
 @rpc("call_local")
 func test() -> void:

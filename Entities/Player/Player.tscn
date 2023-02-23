@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://byrr8vf2rto6i"]
+[gd_scene load_steps=45 format=3 uid="uid://byrr8vf2rto6i"]
 
 [ext_resource type="Shader" path="res://Entities/Player/Player.gdshader" id="1_44idu"]
 [ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_kruu1"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://Entities/StateMachine/States/Player/Throwing.gd" id="11_8310s"]
 [ext_resource type="Script" path="res://Entities/StateMachine/States/Player/Air.gd" id="11_lvd7f"]
 [ext_resource type="Script" path="res://Entities/StateMachine/States/Player/None.gd" id="12_rvtg3"]
+[ext_resource type="Script" path="res://Entities/StateMachine/States/Player/Reloading.gd" id="14_8i3gn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8d3vx"]
 shader = ExtResource("1_44idu")
@@ -226,9 +227,6 @@ collision_layer = 2
 collision_mask = 3
 platform_floor_layers = 4294967291
 script = ExtResource("1_kruu1")
-friction = 0.4
-acceleration = 0.1
-air_acceleration = 0.025
 metadata/_edit_group_ = true
 
 [node name="Body" type="Sprite2D" parent="."]
@@ -297,6 +295,15 @@ parameters/RunningAndSpinning/RunSpinBlend/blend_amount = 1.0
 parameters/RunningAndSpinning/RunTimeScale/scale = 1.0
 parameters/RunningAndSpinning/SpinTimeScale/scale = 8.0
 
+[node name="Timers" type="Node2D" parent="."]
+
+[node name="ReloadTimer" type="Timer" parent="Timers"]
+wait_time = 0.25
+
+[node name="WaitForReloadTimer" type="Timer" parent="Timers"]
+wait_time = 0.75
+one_shot = true
+
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("8_ohr0v")
 initial_state = NodePath("Idle")
@@ -319,6 +326,9 @@ script = ExtResource("11_8310s")
 
 [node name="None" type="Node" parent="ActionStateMachine"]
 script = ExtResource("12_rvtg3")
+
+[node name="Reloading" type="Node" parent="ActionStateMachine"]
+script = ExtResource("14_8i3gn")
 
 [node name="RayCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1)

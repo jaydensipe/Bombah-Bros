@@ -5,7 +5,7 @@ class_name Bomb
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var has_exploded: bool = false
 @export var spin_velocity: float = 20.0
-@export var bomb_damage: float = 35.0
+@export var bomb_damage: float = 75.0
 
 # Instances
 @onready var bomb_sprite: Sprite2D = $Sprite2D

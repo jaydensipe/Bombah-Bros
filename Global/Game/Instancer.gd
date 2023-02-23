@@ -28,7 +28,7 @@ func _instance_particles(instance_pos: Vector2, terrain_type: String) -> void:
 	
 	match terrain_type:
 		EnumUtil.TerrainTypes.Dirt: e_d = explosion_dirt.instantiate()
-		_: printerr("Error instancing explosion particles")
+		_: printerr("Error instancing explosion particles.")
 	
 	add_child(e_d, true)
 	e_d.position = instance_pos

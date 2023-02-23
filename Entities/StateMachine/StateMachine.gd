@@ -20,7 +20,6 @@ func _ready() -> void:
 # The state machine subscribes to node callbacks and delegates them to the state objects.
 func _process(delta: float) -> void:
 	if (not is_multiplayer_authority()): return
-	
 	state._update_process(delta)
 
 func _physics_process(delta: float) -> void:

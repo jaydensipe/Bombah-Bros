@@ -28,6 +28,7 @@ func initialize_nakama():
 		return
 	print("Socket connected.")
 	
+	# Inits current user
 	init_user()
 	
 	return NakamaMultiplayerBridge.new(socket)
