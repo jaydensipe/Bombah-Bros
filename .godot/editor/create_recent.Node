@@ -1,3 +1,7 @@
+CollisionShape2D
+Area2D
+GPUParticles2D
+CanvasGroup
 AudioStreamPlayer2D
 Timer
 Node2D
@@ -27,7 +31,3 @@ MultiplayerSynchronizer
 MultiplayerSpawner
 HBoxContainer
 TextureRect
-CenterContainer
-Panel
-Marker2D
-State

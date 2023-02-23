@@ -16,4 +16,11 @@ signal screen_shake
 const SCREEN_SHAKE: String = "screen_shake"
 func signal_screen_shake() -> void:
 	emit_signal(SCREEN_SHAKE)
+	
+# UI
+signal game_menu_back
+const GAME_MENU_BACK: String = "game_menu_back"
+func signal_game_menu_back() -> void:
+	emit_signal(GAME_MENU_BACK)
+
 

@@ -12,6 +12,15 @@ func _update_physics_process(delta: float) -> void:
 			
 		assigned_state_machine.transfer_to("Throwing")
 		
+func _start_reloading():
+	if (player.ammo_count >= 6):
+		player.reload_timer.stop()
+		assigned_state_machine.transfer_to("None")
+		return
+		
+	player.ammo_count += 1
+#	player.player_sound.pitch_scale = (player.ammo_count / 3.0)
+		
 # Virtual function. Called by the state machine upon changing the active state. The `msg` parameter
 # is a dictionary with arbitrary data the state can use to initialize itself.
 func enter(_msg := {}) -> void:
@@ -23,12 +32,4 @@ func enter(_msg := {}) -> void:
 # to clean up the state.
 func exit() -> void:
 	pass
-	
-func _start_reloading():
-	if (player.ammo_count >= 6):
-		player.reload_timer.stop()
-		assigned_state_machine.transfer_to("None")
-		return
-		
-	player.ammo_count += 1
-#	player.player_sound.pitch_scale = (player.ammo_count / 3.0)
+

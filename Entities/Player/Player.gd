@@ -41,7 +41,9 @@ func _enter_tree() -> void:
 func _physics_process(delta) -> void:
 	if (not is_multiplayer_authority()): return
 	
-	move_player(delta)	
+	move_player(delta)
+	if (GlobalGameInformation.CONTROLLER_ENABLED):
+		controller_aim(delta)
 
 func set_spawn_position(pos: Vector2):
 	spawn_position = pos
@@ -56,21 +58,26 @@ func throw():
 	
 	ammo_count -= 1
 	can_throw = false
+	throw_power = MAX_THROW_POWER
+	
 	await get_tree().create_timer(bomb_delay_throw_time).timeout
 	
 	can_throw = true
 	
-func move_aim_controller(delta) -> void:
-	var direction: Vector2
-	direction.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	direction.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-
+func controller_aim(delta) -> void:
+	var direction : Vector2
+	var movement : Vector2
+	
+	direction.x = Input.get_axis("Controller_RS_Left", "Controller_RS_Right")
+	direction.y = Input.get_axis("Controller_RS_Up", "Controller_RS_Down")
+	
 	if abs(direction.x) == 1 and abs(direction.y) == 1:
 		direction = direction.normalized()
-
-	var movement = direction * delta
-	if (movement):  
-		get_viewport().warp_mouse(get_global_mouse_position()+movement) 
+	
+	movement = 500.0 * direction * delta
+	
+	if (movement):
+		get_viewport().warp_mouse(get_viewport().get_mouse_position() + movement)
 	
 func move_player(delta) -> void:
 	# Apply gravity
@@ -97,6 +104,7 @@ func flip_body() -> void:
 		walk_particles.process_material.direction = Vector3(-20, -3, 0)
 		
 func debug_options():
+	GlobalDebugMananger.add_debug_item(self, "name")	
 	GlobalDebugMananger.add_debug_item(self, "position")
 	GlobalDebugMananger.add_debug_item(self, "ammo_count")
 	GlobalDebugMananger.add_debug_item(state_machine, "state")

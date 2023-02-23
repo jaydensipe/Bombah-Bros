@@ -10,7 +10,7 @@ func _update_physics_process(_delta: float) -> void:
 		assigned_state_machine.transfer_to("Air")
 		return
 		
-	do_animations.rpc()	
+	do_animations.rpc()
 
 	player.velocity.x = lerp(player.velocity.x, 0.0, player.friction)
 	

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhh25o6s81hdk"
-path="res://.godot/imported/cursor_256x256.png-ab157703990a764c8dc4cde0ebdd58c6.ctex"
+uid="uid://dxkrtt3nn4fpo"
+path="res://.godot/imported/splinter.png-15eb606417d5f89c4d2cf98697c8c220.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/GUI/Fonts/cursor_256x256.png"
-dest_files=["res://.godot/imported/cursor_256x256.png-ab157703990a764c8dc4cde0ebdd58c6.ctex"]
+source_file="res://Assets/VFX/splinter.png"
+dest_files=["res://.godot/imported/splinter.png-15eb606417d5f89c4d2cf98697c8c220.ctex"]
 
 [params]
 

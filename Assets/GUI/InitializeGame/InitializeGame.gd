@@ -1,8 +1,5 @@
 extends CanvasLayer
 
-# Configuration
-@export var is_host_viewing: bool = false
-
 # Instances
 @onready var player_information = $PanelContainer/InformationContainer/VBoxContainer/HBoxContainer/PlayerInformation
 @onready var host_information = $PanelContainer/InformationContainer/VBoxContainer/HBoxContainer/HostInformation
@@ -16,10 +13,11 @@ func _ready() -> void:
 	if (!is_multiplayer_authority()):
 		start_button.disabled = true
 		start_button.hide()
+		game_id_button.disabled = true
 		game_id_button.hide()
 
 func _on_back_button_pressed() -> void:
-	GlobalUiManager.signal_game_menu_back()
+	GlobalSignalManager.signal_game_menu_back()
 
 func _on_copy_game_id_button_pressed() -> void:
 	DisplayServer.clipboard_set(GlobalGameInformation.current_game_id)

@@ -12,7 +12,9 @@ func _update_physics_process(_delta: float) -> void:
 			
 		assigned_state_machine.transfer_to("Throwing")
 		
-	clear_aim_line()
+	
+func _switch_to_reload():
+	assigned_state_machine.transfer_to("Reloading")
 
 # Virtual function. Called by the state machine upon changing the active state. The `msg` parameter
 # is a dictionary with arbitrary data the state can use to initialize itself.
@@ -26,9 +28,3 @@ func enter(_msg := {}) -> void:
 # to clean up the state.
 func exit() -> void:
 	pass
-	
-func _switch_to_reload():
-	assigned_state_machine.transfer_to("Reloading")
-	
-func clear_aim_line() -> void:
-	player.aim_line.clear_points()

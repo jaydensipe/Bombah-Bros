@@ -10,7 +10,7 @@ var has_exploded: bool = false
 # Instances
 @onready var bomb_sprite: Sprite2D = $Sprite2D
 @onready var explosion_radius: Area2D = $ExplosionRadius
-@onready var explosion_vfx = preload("res://Entities/VFX/Explosion/Explosion.tscn")
+@onready var explosion_vfx: PackedScene = preload("res://Entities/VFX/Explosion/Explosion.tscn")
 
 func _ready() -> void:
 	enable_collision_when_thrown()
@@ -30,7 +30,7 @@ func move(delta) -> void:
 	var collision = move_and_collide(velocity * delta)
 	if (collision):
 		has_exploded = true
-		bomb_effects(collision.get_collider())
+		bomb_effects(collision.get_collider(), collision.get_collider_rid())
 		explode.rpc()	
 	
 @rpc("any_peer")
@@ -49,13 +49,14 @@ func explode() -> void:
 			player.take_damage.rpc_id(player.get_multiplayer_authority(), bomb_damage * PhysicsUtil.inverse_square_law(distance) * 100.0, \
 				player.global_position.direction_to(self.global_position).normalized())
 	
-func bomb_effects(body) -> void:
+func bomb_effects(body, body_rid) -> void:
 	if (body is TileMap):
-		var hit_cell = body.local_to_map(global_position)
-		var cell_data = body.get_cell_tile_data(0, hit_cell)
+		# Determines projectile based on hit terrain type
+		var tile_map: TileMap = body
+		var hit_cell = tile_map.get_coords_for_body_rid(body_rid)
+		var cell_data = tile_map.get_cell_tile_data(0, hit_cell)
 		if (cell_data != null):
-			var terrain_type = cell_data.get_custom_data("terrain_tile_type")
-			GlobalSignalManager.signal_instance_particles(self.global_position, terrain_type)
+			GlobalSignalManager.signal_instance_particles(self.global_position, cell_data.get_custom_data("terrain_tile_type"))
 		else:
 			GlobalSignalManager.signal_instance_particles(self.global_position, EnumUtil.TerrainTypes.Dirt)
 	
@@ -63,4 +64,3 @@ func bomb_effects(body) -> void:
 	
 	var vfx: Node2D = explosion_vfx.instantiate()
 	add_child(vfx)
-	

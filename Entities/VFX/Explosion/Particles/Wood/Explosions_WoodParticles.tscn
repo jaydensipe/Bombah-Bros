@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://fiwl0iaug5nu"]
+
+[ext_resource type="Texture2D" uid="uid://dxkrtt3nn4fpo" path="res://Assets/VFX/splinter.png" id="1_4u6dx"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lje6e"]
+lifetime_randomness = 1.0
+particle_flag_disable_z = true
+direction = Vector3(0, -98, 0)
+gravity = Vector3(0, 98, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 150.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+angle_min = -180.0
+angle_max = 180.0
+scale_min = 0.5
+scale_max = 0.75
+turbulence_enabled = true
+turbulence_influence_min = 0.04
+turbulence_influence_max = 0.04
+collision_mode = 1
+collision_friction = 0.5
+collision_bounce = 0.0
+collision_use_scale = true
+
+[node name="Explosions_Wood" type="GPUParticles2D"]
+position = Vector2(0, 11)
+emitting = false
+amount = 64
+process_material = SubResource("ParticleProcessMaterial_lje6e")
+texture = ExtResource("1_4u6dx")
+lifetime = 3.0
+one_shot = true
+speed_scale = 3.0
+explosiveness = 1.0
+randomness = 1.0
+fixed_fps = 60
+trail_lifetime = 0.1

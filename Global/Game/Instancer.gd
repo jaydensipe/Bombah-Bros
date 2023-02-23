@@ -2,8 +2,9 @@ extends Node2D
 class_name Instancer
 
 # Instances
-@onready var bomb = preload("res://Entities/Bomb/Bomb.tscn")
-@onready var explosion_dirt = load("res://Entities/VFX/Explosion/Particles/Dirt/Explosions_DirtParticles.tscn")
+@onready var bomb: PackedScene = preload("res://Entities/Bomb/Bomb.tscn")
+@onready var explosion_dirt: PackedScene = load("res://Entities/VFX/Explosion/Particles/Dirt/Explosions_DirtParticles.tscn")
+@onready var explosion_wood: PackedScene = load("res://Entities/VFX/Explosion/Particles/Wood/Explosions_WoodParticles.tscn")
 
 func _ready() -> void:
 	GlobalSignalManager.connect(GlobalSignalManager.THROW_BOMB, _instance_bomb)
@@ -24,12 +25,15 @@ func spawn_bomb_instance(instance_pos: Vector2, throw_pos: Vector2, throw_streng
 	b.velocity = PhysicsUtil.calculate_arc_velocity(instance_pos, throw_pos, arc_height)
 	
 func _instance_particles(instance_pos: Vector2, terrain_type: String) -> void:
-	var e_d: GPUParticles2D
+	var explosion_particles: GPUParticles2D
 	
 	match terrain_type:
-		EnumUtil.TerrainTypes.Dirt: e_d = explosion_dirt.instantiate()
-		_: printerr("Error instancing explosion particles.")
+		EnumUtil.TerrainTypes.Dirt: explosion_particles = explosion_dirt.instantiate()
+		EnumUtil.TerrainTypes.Wood: explosion_particles = explosion_wood.instantiate()
+		_: 
+			explosion_particles = explosion_dirt.instantiate()
+			printerr("Error instancing explosion particles.")
 	
-	add_child(e_d, true)
-	e_d.position = instance_pos
-	e_d.set_deferred("emitting", true)
+	add_child(explosion_particles, true)
+	explosion_particles.position = instance_pos
+	explosion_particles.set_deferred("emitting", true)

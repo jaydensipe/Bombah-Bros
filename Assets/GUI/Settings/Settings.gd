@@ -13,4 +13,4 @@ func _on_save_button_pressed() -> void:
 	await NakamaIntegration.client.update_account_async(NakamaIntegration.session, username_line_edit.text, username_line_edit.text, avatar_line_edit.text)
 	GlobalGameInformation.username = username_line_edit.text
 	GlobalGameInformation.avatar_url = avatar_line_edit.text
-	GlobalUiManager.signal_game_menu_back()
+	GlobalSignalManager.signal_game_menu_back()

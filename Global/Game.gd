@@ -24,7 +24,7 @@ func _ready():
 	initialize_main_menu()
 	
 func initialize_main_menu() -> void:
-	GlobalUiManager.connect(GlobalUiManager.GAME_MENU_BACK, ui_go_back)
+	GlobalSignalManager.connect(GlobalSignalManager.GAME_MENU_BACK, ui_go_back)
 	join_game_menu.join_pressed.connect(_join_match)
 	
 	load_connecting_menu()
@@ -97,7 +97,7 @@ func instance_and_set_player_spawn(peer_id, spawn_location):
 	players.add_child(ply)
 	
 func get_random_spawn_location_from_current_map() -> Vector2:
-	var spawns: Node2D = self.get_current_map().get_node("Spawns")
+	var spawns: Node2D = get_current_map().get_node("Spawns")
 	var selected_spawn: Marker2D = spawns.get_children().pick_random()
 	spawns.remove_child(selected_spawn)
 	

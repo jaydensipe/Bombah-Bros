@@ -18,7 +18,7 @@ func _update_physics_process(_delta: float) -> void:
 
 @rpc("call_local")		
 func do_animations() -> void:
-	player.anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 1.0)	
+	player.anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 1.0)
 
 # Virtual function. Called by the state machine upon changing the active state. The `msg` parameter
 # is a dictionary with arbitrary data the state can use to initialize itself.
