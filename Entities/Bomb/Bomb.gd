@@ -31,7 +31,7 @@ func move(delta) -> void:
 	if (collision):
 		has_exploded = true
 		bomb_effects(collision.get_collider(), collision.get_collider_rid())
-		explode.rpc()	
+		explode.rpc()
 	
 @rpc("any_peer")
 func explode() -> void:

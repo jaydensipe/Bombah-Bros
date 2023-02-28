@@ -6,13 +6,9 @@ extends VBoxContainer
 # Instances
 @onready var username_label: Label = $Username
 
-func _ready() -> void:
-	if (host_label):
-		username_label.text = GlobalGameInformation.username + "👑"
-		username_label.modulate = Color.GOLD
-
-func set_username_text(text: String):
-	if (host_label):
-		return
-		
+func set_username_text(text: String, host: bool):
 	username_label.text = text
+	
+	if host:
+		username_label.text = username_label.text + "👑"
+		username_label.modulate = Color.GOLD

@@ -1,8 +1,5 @@
 extends PlayerState
 
-# Configuration
-var previous_dir: float = 0.0
-
 # Virtual function. Corresponds to the `_process()` callback.
 func _update_process(_delta: float) -> void:
 	pass
@@ -14,9 +11,6 @@ func _update_physics_process(_delta: float) -> void:
 	var dir = Input.get_axis("Left", "Right")
 	if dir != 0:
 		player.velocity.x = lerp(player.velocity.x, dir * player.speed, player.acceleration)
-		previous_dir = dir
-	elif (Input.is_action_pressed("Left") or Input.is_action_pressed("Right")):
-		player.velocity.x = lerp(player.velocity.x, previous_dir * player.speed, player.acceleration)
 	else:
 		assigned_state_machine.transfer_to("Idle")
 		

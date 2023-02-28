@@ -6,7 +6,7 @@ func _update_process(_delta: float) -> void:
 
 # Virtual function. Corresponds to the `_physics_process()` callback.
 func _update_physics_process(_delta: float) -> void:
-	do_animations()
+	do_animations.rpc()
 	clear_aim_line()
 	
 @rpc("call_local")

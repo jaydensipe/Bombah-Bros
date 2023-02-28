@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://byrr8vf2rto6i"]
+[gd_scene load_steps=55 format=3 uid="uid://c7104tyg8m0kc"]
 
 [ext_resource type="Shader" path="res://Entities/Player/Player.gdshader" id="1_44idu"]
 [ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_kruu1"]
@@ -61,7 +61,7 @@ tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("Body/Arm1:rotation")
-tracks/0/interp = 2
+tracks/0/interp = 4
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1, 1.5),
@@ -197,7 +197,7 @@ filters = ["Body/Arm2:rotation", "Body/Leg1:rotation", "Body/Leg2:rotation"]
 animation = &"ChargeThrow"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_o3rm4"]
-graph_offset = Vector2(-100.336, 26.8264)
+graph_offset = Vector2(-110.667, 28.6667)
 nodes/Run/node = SubResource("AnimationNodeAnimation_f2w0t")
 nodes/Run/position = Vector2(373.333, 26.6667)
 nodes/RunSpinBlend/node = SubResource("AnimationNodeBlend2_456wy")
@@ -257,29 +257,26 @@ states/Start/position = Vector2(376.667, 101.827)
 states/Throw/node = SubResource("AnimationNodeBlendTree_302g5")
 states/Throw/position = Vector2(622.333, 235.333)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_vawlx"), "Idle", "RunningAndSpinning", SubResource("AnimationNodeStateMachineTransition_gyotu"), "RunningAndSpinning", "End", SubResource("AnimationNodeStateMachineTransition_0ckcv"), "RunningAndSpinning", "Idle", SubResource("AnimationNodeStateMachineTransition_hfamn"), "Idle", "Running", SubResource("AnimationNodeStateMachineTransition_a2nps"), "Running", "Idle", SubResource("AnimationNodeStateMachineTransition_qcpkn"), "Running", "RunningAndSpinning", SubResource("AnimationNodeStateMachineTransition_xby8q"), "RunningAndSpinning", "Running", SubResource("AnimationNodeStateMachineTransition_nbvsm"), "Throw", "RunningAndSpinning", SubResource("AnimationNodeStateMachineTransition_40huk"), "Throw", "Idle", SubResource("AnimationNodeStateMachineTransition_85jj6")]
-graph_offset = Vector2(-65, 39)
+graph_offset = Vector2(5, 29)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_h7y72"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ammij"]
-properties/0/path = NodePath(".:position")
+properties/0/path = NodePath(".:rotation")
 properties/0/spawn = true
 properties/0/sync = true
-properties/1/path = NodePath(".:rotation")
+properties/1/path = NodePath("Body:scale")
 properties/1/spawn = true
 properties/1/sync = true
-properties/2/path = NodePath("Body:scale")
+properties/2/path = NodePath(".:velocity")
 properties/2/spawn = true
 properties/2/sync = true
-properties/3/path = NodePath(".:throw_power")
+properties/3/path = NodePath("Body/Head:rotation")
 properties/3/spawn = true
 properties/3/sync = true
-properties/4/path = NodePath(".:velocity")
+properties/4/path = NodePath(".:position")
 properties/4/spawn = true
 properties/4/sync = true
-properties/5/path = NodePath("Body/Head:rotation")
-properties/5/spawn = true
-properties/5/sync = true
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 1

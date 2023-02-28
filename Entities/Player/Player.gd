@@ -5,7 +5,6 @@ class_name Player
 var health: float = 0.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var throw_power: float = MAX_THROW_POWER
-var spawn_position: Vector2 = Vector2.ZERO
 var can_throw: bool = true
 @export var speed: int = 150
 @export var jump_height: int = -300
@@ -46,8 +45,7 @@ func _physics_process(delta) -> void:
 		controller_aim(delta)
 
 func set_spawn_position(pos: Vector2):
-	spawn_position = pos
-	position = spawn_position
+	global_position = pos
 	
 func respawn():
 	position = Vector2.ZERO

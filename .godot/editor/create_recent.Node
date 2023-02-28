@@ -1,3 +1,5 @@
+Control
+WorldEnvironment
 CollisionShape2D
 Area2D
 GPUParticles2D
@@ -14,7 +16,6 @@ VBoxContainer
 Window
 PanelContainer
 CanvasLayer
-Control
 Node
 CheckBox
 CheckButton
@@ -29,5 +30,3 @@ SpinBox
 CodeEdit
 MultiplayerSynchronizer
 MultiplayerSpawner
-HBoxContainer
-TextureRect

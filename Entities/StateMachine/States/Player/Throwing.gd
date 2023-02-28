@@ -22,7 +22,6 @@ func _update_physics_process(delta: float) -> void:
 @rpc("call_local")
 func do_animations(state_name: String) -> void:
 	player.anim_state_machine.travel("RunningAndSpinning")	
-	player.anim_tree.set("parameters/RunningAndSpinning/SpinTimeScale/scale", (player.MAX_THROW_POWER + 1 - player.throw_power) * 0.1)
 		
 	if (state_name == "Run" || state_name == "Air"):
 		player.anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 1.0)
