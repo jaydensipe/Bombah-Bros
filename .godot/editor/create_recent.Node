@@ -1,3 +1,5 @@
+AudioStreamPlayer2D
+AudioStreamPlayer
 ParallaxLayer
 ParallaxBackground
 DirectionalLight2D
@@ -8,7 +10,6 @@ CollisionShape2D
 Area2D
 GPUParticles2D
 CanvasGroup
-AudioStreamPlayer2D
 Timer
 Node2D
 ItemList
@@ -29,4 +30,3 @@ LinkButton
 GridContainer
 TabBar
 TabContainer
-SpinBox

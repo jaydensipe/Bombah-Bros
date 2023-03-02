@@ -22,13 +22,16 @@ func do_animations() -> void:
 	if (player.velocity.x > 70.0 or player.velocity.x < -70):
 		player.walk_particles.set_deferred("emitting", true)	
 				
-	player.anim_state_machine.travel("Running")
-	player.anim_tree.set("parameters/RunningAndSpinning/RunTimeScale/scale", player.velocity.x * 0.06)
-	player.anim_tree.set("parameters/Running/RunTimeScale/scale", player.velocity.x * 0.06)
+	player.anim_tree.set("parameters/Movement/IdleRunBlend/blend_amount", 1.0)
+	player.anim_tree.set("parameters/Movement/RunningTimeScale/scale", player.velocity.x * 0.06)
 	
 @rpc("call_local")
 func cleanup_animations() -> void:
 	player.walk_particles.set_deferred("emitting", false)
+	
+func play_walk_sound() -> void:
+	if (player.is_on_floor()):
+		player.walk_audio.play()
 
 # Virtual function. Called by the state machine upon changing the active state. The `msg` parameter
 # is a dictionary with arbitrary data the state can use to initialize itself.

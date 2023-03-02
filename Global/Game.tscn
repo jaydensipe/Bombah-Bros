@@ -14,9 +14,6 @@ metadata/_edit_lock_ = true
 script = ExtResource("2_gs472")
 
 [node name="Camera2D" type="Camera2D" parent="Camera"]
-position = Vector2(4.76837e-07, 0)
-rotation = 3.14159
-scale = Vector2(9.19958, -2.90918)
 
 [node name="Current Map" type="Node2D" parent="."]
 position = Vector2(0, 56)

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://3srtqh41ev0x"]
+[gd_scene load_steps=7 format=3 uid="uid://3srtqh41ev0x"]
 
 [ext_resource type="Texture2D" uid="uid://dooe0x3bhfxwu" path="res://Assets/VFX/explosion.png" id="1_556bm"]
 [ext_resource type="Script" path="res://Entities/VFX/Explosion/Explosion.gd" id="1_hcpyp"]
 [ext_resource type="Texture2D" uid="uid://dtqgludbpra62" path="res://Assets/Decoration/light.png" id="3_7scrc"]
+[ext_resource type="AudioStream" uid="uid://b7g6q2k7x2hq5" path="res://Assets/Audio/explosion.wav" id="4_1svji"]
 
 [sub_resource type="Animation" id="Animation_be3uo"]
 resource_name = "Explosion"
@@ -57,5 +58,9 @@ libraries = {
 scale = Vector2(0.1, 0.1)
 color = Color(0.498039, 0.286275, 0.0313726, 1)
 texture = ExtResource("3_7scrc")
+
+[node name="ExplosionAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_1svji")
+bus = &"VFX"
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

@@ -18,18 +18,13 @@ func _update_physics_process(delta: float) -> void:
 
 	display_aim_line(delta)
 	update_trajectory(delta)
-	do_animations.rpc(player.state_machine.state.name)	
 	
 	player.throw_power = clampf(player.throw_power - 2.5, 0.0, player.MAX_THROW_POWER)
 	
 @rpc("call_local")
-func do_animations(state_name: String) -> void:
-	player.anim_state_machine.travel("RunningAndSpinning")	
-	player.anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 1.0)
-	if (state_name == "Run" || state_name == "Air"):
-		player.anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 1.0)
-	else:
-		player.anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 0.0)
+func do_animations() -> void:
+	player.anim_tree.set("parameters/Movement/ChargeThrowSeek/seek_request", 0.0)
+	player.anim_tree.set("parameters/Movement/MovementThrowBlend/blend_amount", 1.0)
 
 func throw():
 	if (!player.can_throw): return
@@ -63,7 +58,7 @@ func update_trajectory(delta) -> void:
 # Virtual function. Called by the state machine upon changing the active state. The `msg` parameter
 # is a dictionary with arbitrary data the state can use to initialize itself.
 func enter(_msg := {}) -> void:
-	pass
+	do_animations.rpc()	
 	
 # Virtual function. Called by the state machine before changing the active state. Use this function
 # to clean up the state.

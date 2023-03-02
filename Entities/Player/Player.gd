@@ -18,7 +18,6 @@ const MAX_THROW_POWER = 150.0
 # Instances
 @onready var aim_line: Line2D = $VFX/AimLine
 @onready var anim_tree: AnimationTree = $Animation/AnimationTree
-@onready var anim_state_machine: AnimationNodeStateMachinePlayback = $Animation/AnimationTree.get("parameters/playback")
 @onready var state_machine: StateMachine = $StateMachine
 @onready var action_state_machine: StateMachine = $ActionStateMachine
 @onready var body: Sprite2D = $Body
@@ -27,6 +26,7 @@ const MAX_THROW_POWER = 150.0
 @onready var walk_particles: GPUParticles2D = $VFX/WalkParticles
 @onready var reload_timer: Timer = $Timers/ReloadTimer
 @onready var wait_for_reload_timer: Timer = $Timers/WaitForReloadTimer
+@onready var walk_audio: AudioStreamPlayer2D = $VFX/WalkAudio
 
 # Signals
 signal taken_damage(damage_dealt)

@@ -15,8 +15,6 @@ func _update_physics_process(_delta: float) -> void:
 	
 	if player.can_bounce:
 		bounce()
-		
-	do_animations.rpc()
 	
 	var dir = Input.get_axis("Left", "Right")
 	if dir != 0:
@@ -29,10 +27,6 @@ func bounce() -> void:
 		var collision = player.get_slide_collision(i)
 		if collision.get_collider() is TileMap and not player.is_on_floor():
 			player.velocity.x = collision.get_normal().x * abs(last_velocity) * 0.6
-
-@rpc("call_local")
-func do_animations() -> void:
-	player.anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 1.0)
 
 # Virtual function. Called by the state machine upon changing the active state. The `msg` parameter
 # is a dictionary with arbitrary data the state can use to initialize itself.
