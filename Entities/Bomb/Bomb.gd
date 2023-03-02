@@ -6,6 +6,7 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var has_exploded: bool = false
 @export var spin_velocity: float = 20.0
 @export var bomb_damage: float = 75.0
+@export var screen_shake_amount: float = 250.0
 
 # Instances
 @onready var bomb_sprite: Sprite2D = $Sprite2D
@@ -33,9 +34,9 @@ func move(delta) -> void:
 		bomb_effects(collision.get_collider(), collision.get_collider_rid())
 		explode.rpc()
 	
-@rpc("any_peer")
+@rpc("any_peer", "unreliable")
 func explode() -> void:
-	if (not is_multiplayer_authority()): return
+	if (!multiplayer.is_server()): return
 	
 	var players_affected: Array = explosion_radius.get_overlapping_bodies()
 	var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
@@ -50,6 +51,8 @@ func explode() -> void:
 				player.global_position.direction_to(self.global_position).normalized())
 	
 func bomb_effects(body, body_rid) -> void:
+	GlobalSignalManager.signal_screen_shake(screen_shake_amount, 0.05)
+	
 	if (body is TileMap):
 		# Determines projectile based on hit terrain type
 		var tile_map: TileMap = body

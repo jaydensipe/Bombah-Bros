@@ -7,8 +7,8 @@ class_name Instancer
 @onready var explosion_wood: PackedScene = load("res://Entities/VFX/Explosion/Particles/Wood/Explosions_WoodParticles.tscn")
 
 func _ready() -> void:
-	GlobalSignalManager.connect(GlobalSignalManager.THROW_BOMB, _instance_bomb)
-	GlobalSignalManager.connect(GlobalSignalManager.INSTANCE_PARTICLES, _instance_particles)
+	GlobalSignalManager.throw_bomb.connect(_instance_bomb)
+	GlobalSignalManager.instance_particles.connect(_instance_particles)
 	
 func _instance_bomb(instance_pos: Vector2, throw_pos: Vector2, throw_strength: float) -> void:
 	spawn_bomb_instance.rpc(instance_pos, throw_pos, throw_strength)
@@ -32,7 +32,7 @@ func _instance_particles(instance_pos: Vector2, terrain_type: String) -> void:
 		EnumUtil.TerrainTypes.Wood: explosion_particles = explosion_wood.instantiate()
 		_: 
 			explosion_particles = explosion_dirt.instantiate()
-			printerr("Error instancing explosion particles.")
+			push_error("Error instancing explosion particles.")
 	
 	add_child(explosion_particles, true)
 	explosion_particles.position = instance_pos

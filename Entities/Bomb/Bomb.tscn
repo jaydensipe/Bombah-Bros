@@ -4,14 +4,18 @@
 [ext_resource type="Texture2D" uid="uid://ds6n037nxh5nk" path="res://Assets/Items/Bomb/bomb.png" id="2_qljrt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3l8su"]
+radius = 4.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t60d0"]
-radius = 20.0
+radius = 20.8696
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qhgom"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/sync = true
+properties/1/path = NodePath(".:spin_velocity")
+properties/1/spawn = true
+properties/1/sync = true
 
 [node name="Bomb" type="CharacterBody2D"]
 collision_layer = 4
@@ -19,7 +23,6 @@ platform_floor_layers = 4294967289
 script = ExtResource("1_x7y6g")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(-0.494545, 0.481442)
 shape = SubResource("CircleShape2D_3l8su")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

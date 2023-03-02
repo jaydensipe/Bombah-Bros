@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://c7104tyg8m0kc"]
+[gd_scene load_steps=54 format=3 uid="uid://c7104tyg8m0kc"]
 
 [ext_resource type="Shader" path="res://Entities/Player/Player.gdshader" id="1_44idu"]
 [ext_resource type="Script" path="res://Entities/Player/Player.gd" id="1_kruu1"]
@@ -20,9 +20,6 @@
 shader = ExtResource("1_44idu")
 shader_parameter/line_color = Color(0, 0, 0, 1)
 shader_parameter/line_thickness = 0.5
-
-[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_v8die"]
-length = 13.0693
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y6whm"]
 size = Vector2(8, 15)
@@ -262,21 +259,18 @@ graph_offset = Vector2(5, 29)
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_h7y72"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ammij"]
-properties/0/path = NodePath(".:rotation")
+properties/0/path = NodePath("Body:scale")
 properties/0/spawn = true
 properties/0/sync = true
-properties/1/path = NodePath("Body:scale")
+properties/1/path = NodePath(".:velocity")
 properties/1/spawn = true
 properties/1/sync = true
-properties/2/path = NodePath(".:velocity")
+properties/2/path = NodePath("Body/Head:rotation")
 properties/2/spawn = true
 properties/2/sync = true
-properties/3/path = NodePath("Body/Head:rotation")
+properties/3/path = NodePath(".:position")
 properties/3/spawn = true
 properties/3/sync = true
-properties/4/path = NodePath(".:position")
-properties/4/spawn = true
-properties/4/sync = true
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 1
@@ -316,11 +310,6 @@ use_parent_material = true
 texture = ExtResource("6_w86ja")
 
 [node name="BombSpawnPoint" type="Marker2D" parent="Body"]
-
-[node name="RayCollision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
-scale = Vector2(0.430122, 0.612121)
-shape = SubResource("SeparationRayShape2D_v8die")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)

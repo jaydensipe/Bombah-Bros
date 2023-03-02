@@ -7,10 +7,10 @@ var previous_ui_element_reference: WeakRef
 
 # Instances
 var main_menu = preload("res://Assets/GUI/MainMenu/MainMenu.tscn")
-var loading_menu = load("res://Assets/GUI/Loading/Loading.tscn").instantiate()
-var join_game_menu = load("res://Assets/GUI/JoinGame/JoinGame.tscn").instantiate()
-var initalize_game_menu = load("res://Assets/GUI/InitializeGame/InitializeGame.tscn").instantiate()
-var settings = load("res://Assets/GUI/Settings/Settings.tscn").instantiate()
+var loading_menu: Loading = load("res://Assets/GUI/Loading/Loading.tscn").instantiate()
+var join_game_menu: JoinGame = load("res://Assets/GUI/JoinGame/JoinGame.tscn").instantiate()
+var initalize_game_menu: InitializeGame = load("res://Assets/GUI/InitializeGame/InitializeGame.tscn").instantiate()
+var settings: Settings = load("res://Assets/GUI/Settings/Settings.tscn").instantiate()
 
 # Signals
 signal join_match
@@ -20,7 +20,7 @@ func _ready() -> void:
 	init_signal_connections()
 	
 func init_signal_connections() -> void:
-	GlobalSignalManager.connect(GlobalSignalManager.GAME_MENU_BACK, ui_go_back)
+	GlobalSignalManager.game_menu_back.connect(ui_go_back)
 	join_game_menu.join_pressed.connect(_join_match)
 
 func load_connecting_menu() -> void:

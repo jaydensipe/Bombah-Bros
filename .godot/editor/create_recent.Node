@@ -1,3 +1,7 @@
+ParallaxLayer
+ParallaxBackground
+DirectionalLight2D
+Tree
 Control
 WorldEnvironment
 CollisionShape2D
@@ -7,7 +11,6 @@ CanvasGroup
 AudioStreamPlayer2D
 Timer
 Node2D
-Tree
 ItemList
 MarginContainer
 ScrollContainer
@@ -27,6 +30,3 @@ GridContainer
 TabBar
 TabContainer
 SpinBox
-CodeEdit
-MultiplayerSynchronizer
-MultiplayerSpawner

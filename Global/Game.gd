@@ -18,8 +18,8 @@ func _ready() -> void:
 	initialize_multiplayer_bridge()
 	
 func init_signal_connections() -> void:
-	gui.connect("host_server", _host_server)
-	gui.connect("join_match", _join_match)	
+	gui.host_server.connect(_host_server)
+	gui.join_match.connect(_join_match)
 	
 # Server Setup
 func initialize_multiplayer_bridge() -> void:
@@ -43,21 +43,23 @@ func _host_server() -> void:
 	
 func _start_match() -> void:
 	host_start_game.rpc()
+	instance_and_set_player_spawn()
 	
 @rpc("call_local")
 func host_start_game() -> void:
 	gui.remove_ui_element(gui.current_ui_reference.get_ref())
 	add_map()
-	instance_and_set_player_spawn(get_random_spawn_location_from_current_map())	
 
-func instance_and_set_player_spawn(spawn_location):
+func instance_and_set_player_spawn():
+	if (!multiplayer.is_server()): return
+	
 	for peer_id in connected_peers:
 		var ply: Player = player.instantiate()
 		ply.name = str(peer_id)
 
-		ply.set_spawn_position(spawn_location)
 		players.add_child(ply)
-	
+		ply.set_spawn_position.rpc(get_random_spawn_location_from_current_map())
+		
 func get_random_spawn_location_from_current_map() -> Vector2:
 	var spawns: Node2D = get_current_map().get_node("Spawns")
 	var selected_spawn: Marker2D = spawns.get_children().pick_random()

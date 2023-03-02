@@ -13,6 +13,7 @@ func _update_physics_process(_delta: float) -> void:
 	do_animations.rpc()
 
 	player.velocity.x = lerp(player.velocity.x, 0.0, player.friction)
+	player.can_bounce = false
 	
 	var dir = Input.get_axis("Left", "Right")
 	if dir != 0:
@@ -23,7 +24,7 @@ func _update_physics_process(_delta: float) -> void:
 
 @rpc("call_local")
 func do_animations() -> void:
-	player.anim_state_machine.travel("Idle")	
+	player.anim_state_machine.travel("Idle")
 	
 # Virtual function. Called by the state machine upon changing the active state. The `msg` parameter
 # is a dictionary with arbitrary data the state can use to initialize itself.

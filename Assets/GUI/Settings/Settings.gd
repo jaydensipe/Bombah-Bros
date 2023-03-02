@@ -1,4 +1,5 @@
 extends CanvasLayer
+class_name Settings
 
 # Instances
 @onready var username_line_edit: LineEdit = $PanelContainer/TabContainer/User/ScrollContainer/MarginContainer/GridContainer/UsernameLineEdit

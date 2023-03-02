@@ -5,6 +5,7 @@ func _on_body_entered(body):
 	if (body is Player):
 		respawn.rpc_id(body.get_multiplayer_authority(), body)
 		return
+	
 	body.queue_free()
 
 # TEMPORARY: FIX LATER

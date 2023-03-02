@@ -14,6 +14,8 @@ func do_animations() -> void:
 	player.anim_state_machine.travel("Throw")
 	
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
+	if (!is_multiplayer_authority()): return
+	
 	if (anim_name == "Throw"):
 		assigned_state_machine.transfer_to("None", { Reload = true })
 

@@ -1,4 +1,5 @@
 extends CanvasLayer
+class_name MainMenu
 
 # Signals
 signal host_pressed

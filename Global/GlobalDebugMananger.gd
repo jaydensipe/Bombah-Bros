@@ -5,10 +5,10 @@ class DebugItem:
 	var property: String
 	var label: Label
 	
-	func _init(object, property, label):
-		self.object = object
-		self.property = property
-		self.label = label
+	func _init(obj, prop, lab):
+		self.object = obj
+		self.property = prop
+		self.label = lab
 		
 	func update_label():
 		label.text = "%s: %s" % [property, str(object.get_indexed(property))]
@@ -25,7 +25,7 @@ func _ready() -> void:
 	self.hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if (Input.is_action_just_pressed("OpenDebug")):
 		DEBUG_MODE = !DEBUG_MODE
 		debug_menu()
@@ -34,11 +34,16 @@ func _process(delta: float) -> void:
 		item.update_label()
 
 func debug_menu():
-	if (DEBUG_MODE): self.show()
-	else: self.hide()
+	if (DEBUG_MODE): 
+		self.show()
+	else: 
+		self.hide()
 	
-func add_debug_item(object: Object, property):
+func add_debug_item(object: Object, property, root: bool = false):
 	var label = Label.new()
+	
+	if root:
+		label.self_modulate = Color.RED
 	
 	container.add_child(label)
 	debug_items.append(DebugItem.new(object, property, label))

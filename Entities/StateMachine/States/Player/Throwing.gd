@@ -1,32 +1,46 @@
 extends PlayerState
 
+# Configuration
+var bomb_delay_throw_time: float = 0.2
+
 # Virtual function. Corresponds to the `_process()` callback.
 func _update_process(_delta: float) -> void:
 	pass
 
 # Virtual function. Corresponds to the `_physics_process()` callback.
 func _update_physics_process(delta: float) -> void:
-	do_animations.rpc(player.state_machine.state.name)
 	
 	if (Input.is_action_just_released("Hold_Attack")):
 		GlobalSignalManager.signal_throw_bomb(player.bomb_throw_location.global_position, player.get_global_mouse_position(), player.throw_power)			
-		player.throw()
+		throw()
 
 		assigned_state_machine.transfer_to("PostThrow", {Reload = true})
 
 	display_aim_line(delta)
 	update_trajectory(delta)
+	do_animations.rpc(player.state_machine.state.name)	
 	
 	player.throw_power = clampf(player.throw_power - 2.5, 0.0, player.MAX_THROW_POWER)
 	
 @rpc("call_local")
 func do_animations(state_name: String) -> void:
 	player.anim_state_machine.travel("RunningAndSpinning")	
-		
+	player.anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 1.0)
 	if (state_name == "Run" || state_name == "Air"):
 		player.anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 1.0)
 	else:
 		player.anim_tree.set("parameters/RunningAndSpinning/RunSpinBlend/blend_amount", 0.0)
+
+func throw():
+	if (!player.can_throw): return
+	
+	player.ammo_count -= 1
+	player.can_throw = false
+	player.throw_power = player.MAX_THROW_POWER
+	
+	await get_tree().create_timer(bomb_delay_throw_time).timeout
+	
+	player.can_throw = true
 
 func display_aim_line(delta) -> void:
 	player.aim_line.show()

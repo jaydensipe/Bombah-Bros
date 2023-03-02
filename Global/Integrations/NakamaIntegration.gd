@@ -15,7 +15,7 @@ func initialize_nakama():
 	# Create Nakama Session
 	session = await client.authenticate_device_async(id)
 	if session.is_exception():
-		printerr("An error occurred: %s" % session)
+		push_error("An error occurred: %s" % session)
 		return
 	print("Successfully authenticated: %s" % session)
 	
@@ -24,7 +24,7 @@ func initialize_nakama():
 	
 	var connected: NakamaAsyncResult = await socket.connect_async(session)
 	if connected.is_exception():
-		printerr("An error occurred: %s" % connected)
+		push_error("An error occurred: %s" % connected)
 		return
 	print("Socket connected.")
 	

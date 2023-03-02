@@ -5,7 +5,7 @@ func _update_process(_delta: float) -> void:
 	pass
 
 # Virtual function. Corresponds to the `_physics_process()` callback.
-func _update_physics_process(delta: float) -> void:
+func _update_physics_process(_delta: float) -> void:
 	if (Input.is_action_pressed("Hold_Attack") and player.ammo_count > 0 and player.can_throw):
 		if (!player.reload_timer.is_stopped()):
 			player.reload_timer.stop()

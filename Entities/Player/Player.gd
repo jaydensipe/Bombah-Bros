@@ -6,10 +6,10 @@ var health: float = 0.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var throw_power: float = MAX_THROW_POWER
 var can_throw: bool = true
+var can_bounce: bool = false
 @export var speed: int = 150
 @export var jump_height: int = -300
 @export var ammo_count: int = 6
-@export var bomb_delay_throw_time: float = 0.2
 @export_range(0.0, 1.0) var friction: float = 0.1
 @export_range(0.0, 1.0) var acceleration: float = 0.25
 @export_range(0.0, 1.0) var air_acceleration: float = 0.05
@@ -38,12 +38,12 @@ func _enter_tree() -> void:
 	set_multiplayer_authority(str(name).to_int())
 	
 func _physics_process(delta) -> void:
-	if (not is_multiplayer_authority()): return
+	if (!is_multiplayer_authority()): return
 	
 	move_player(delta)
-	if (GlobalGameInformation.CONTROLLER_ENABLED):
-		controller_aim(delta)
+	controller_aim(delta)
 
+@rpc("call_local", "any_peer")
 func set_spawn_position(pos: Vector2):
 	global_position = pos
 	
@@ -51,18 +51,9 @@ func respawn():
 	position = Vector2.ZERO
 	health = 0
 	
-func throw():
-	if (!can_throw): return
-	
-	ammo_count -= 1
-	can_throw = false
-	throw_power = MAX_THROW_POWER
-	
-	await get_tree().create_timer(bomb_delay_throw_time).timeout
-	
-	can_throw = true
-	
 func controller_aim(delta) -> void:
+	if (!GlobalGameInformation.CONTROLLER_ENABLED): return
+	
 	var direction : Vector2
 	var movement : Vector2
 	
@@ -87,6 +78,8 @@ func move_player(delta) -> void:
 
 @rpc("any_peer", "call_local")
 func take_damage(damage_dealt: float, damage_pos: Vector2) -> void:
+	can_bounce = true
+	
 	health += damage_dealt
 	velocity += damage_pos * (-1 * health)
 	
@@ -102,8 +95,11 @@ func flip_body() -> void:
 		walk_particles.process_material.direction = Vector3(-20, -3, 0)
 		
 func debug_options():
-	GlobalDebugMananger.add_debug_item(self, "name")	
+	if (!is_multiplayer_authority()): return
+	
+	GlobalDebugMananger.add_debug_item(self, "name", true)
 	GlobalDebugMananger.add_debug_item(self, "position")
+	GlobalDebugMananger.add_debug_item(self, "velocity")
 	GlobalDebugMananger.add_debug_item(self, "ammo_count")
 	GlobalDebugMananger.add_debug_item(state_machine, "state")
 	GlobalDebugMananger.add_debug_item(action_state_machine, "state")

@@ -1,4 +1,5 @@
 extends CanvasLayer
+class_name JoinGame
 
 # Signals
 signal join_pressed
