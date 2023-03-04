@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://385uped2d8nh"]
+[gd_scene load_steps=4 format=3 uid="uid://385uped2d8nh"]
 
 [ext_resource type="Texture2D" uid="uid://bva6p80q8guwr" path="res://icon.svg" id="1_cxywi"]
+[ext_resource type="Theme" uid="uid://bj2q0bvxlmix" path="res://Assets/GUI/Fonts/BombahBrosTheme.tres" id="1_d7d84"]
 [ext_resource type="Script" path="res://Assets/GUI/Misc/PlayerInformation.gd" id="1_gxw57"]
 
 [node name="PlayerInformation" type="VBoxContainer"]
 offset_right = 128.0
 offset_bottom = 164.0
+theme = ExtResource("1_d7d84")
 theme_override_constants/separation = 10
 script = ExtResource("1_gxw57")
 

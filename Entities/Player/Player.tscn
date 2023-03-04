@@ -17,10 +17,11 @@
 [ext_resource type="Script" path="res://Entities/StateMachine/States/Player/PostThrow.gd" id="13_a2yai"]
 [ext_resource type="Script" path="res://Entities/StateMachine/States/Player/Reloading.gd" id="14_8i3gn"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8d3vx"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2xlfw"]
+resource_local_to_scene = true
 shader = ExtResource("1_44idu")
 shader_parameter/line_color = Color(0, 0, 0, 1)
-shader_parameter/line_thickness = 0.5
+shader_parameter/line_thickness = 0.6
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y6whm"]
 size = Vector2(8, 15)
@@ -189,13 +190,13 @@ animation = &"Throw"
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_348h8"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_x6hud"]
-graph_offset = Vector2(-985.469, -215.504)
+graph_offset = Vector2(-650.433, -147.487)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_ix7lk")
-nodes/Animation/position = Vector2(26.6667, -160)
+nodes/Animation/position = Vector2(-106.667, -160)
 nodes/ChargeThrow/node = SubResource("AnimationNodeAnimation_sie86")
-nodes/ChargeThrow/position = Vector2(-626.667, -93.3333)
+nodes/ChargeThrow/position = Vector2(-480, 293.333)
 nodes/ChargeThrowSeek/node = SubResource("AnimationNodeTimeSeek_bqehm")
-nodes/ChargeThrowSeek/position = Vector2(-426.667, -106.667)
+nodes/ChargeThrowSeek/position = Vector2(-280, 280)
 nodes/IdleRunBlend/node = SubResource("AnimationNodeBlend2_kcmfp")
 nodes/IdleRunBlend/position = Vector2(186.667, 0)
 nodes/MovementThrowBlend/node = SubResource("AnimationNodeBlend2_0sgpf")
@@ -205,15 +206,15 @@ nodes/Run/position = Vector2(-320, 80)
 nodes/RunningTimeScale/node = SubResource("AnimationNodeTimeScale_teyj7")
 nodes/RunningTimeScale/position = Vector2(-106.667, 53.3333)
 nodes/Throw/node = SubResource("AnimationNodeAnimation_ltifc")
-nodes/Throw/position = Vector2(-320, 320)
+nodes/Throw/position = Vector2(-293.333, 480)
 nodes/ThrowOneShot/node = SubResource("AnimationNodeOneShot_ljete")
-nodes/ThrowOneShot/position = Vector2(133.333, 240)
+nodes/ThrowOneShot/position = Vector2(160, 400)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_348h8")
-nodes/TimeScale/position = Vector2(-106.667, 293.333)
+nodes/TimeScale/position = Vector2(-80, 453.333)
 "nodes/TimeScale 2/node" = SubResource("AnimationNodeTimeScale_lual3")
-"nodes/TimeScale 2/position" = Vector2(-226.667, -120)
+"nodes/TimeScale 2/position" = Vector2(-80, 266.667)
 nodes/output/position = Vector2(626.667, -40)
-node_connections = [&"output", 0, &"MovementThrowBlend", &"RunningTimeScale", 0, &"Run", &"ThrowOneShot", 0, &"TimeScale 2", &"ThrowOneShot", 1, &"TimeScale", &"IdleRunBlend", 0, &"Animation", &"IdleRunBlend", 1, &"RunningTimeScale", &"MovementThrowBlend", 0, &"IdleRunBlend", &"MovementThrowBlend", 1, &"ThrowOneShot", &"TimeScale", 0, &"Throw", &"TimeScale 2", 0, &"ChargeThrowSeek", &"ChargeThrowSeek", 0, &"ChargeThrow"]
+node_connections = [&"output", 0, &"MovementThrowBlend", &"ChargeThrowSeek", 0, &"ChargeThrow", &"IdleRunBlend", 0, &"Animation", &"IdleRunBlend", 1, &"RunningTimeScale", &"MovementThrowBlend", 0, &"IdleRunBlend", &"MovementThrowBlend", 1, &"ThrowOneShot", &"RunningTimeScale", 0, &"Run", &"ThrowOneShot", 0, &"TimeScale 2", &"ThrowOneShot", 1, &"TimeScale", &"TimeScale", 0, &"Throw", &"TimeScale 2", 0, &"ChargeThrowSeek"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_w06ba"]
 advance_mode = 2
@@ -246,6 +247,7 @@ properties/3/sync = true
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 1
+material = SubResource("ShaderMaterial_2xlfw")
 collision_layer = 2
 collision_mask = 3
 platform_floor_layers = 4294967291
@@ -254,7 +256,7 @@ metadata/_edit_group_ = true
 
 [node name="Body" type="Sprite2D" parent="."]
 y_sort_enabled = true
-material = SubResource("ShaderMaterial_8d3vx")
+use_parent_material = true
 texture = ExtResource("3_illw5")
 
 [node name="Head" type="Sprite2D" parent="Body"]

@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 class_name GUI
 
 # Configuration
@@ -15,6 +15,7 @@ var settings: Settings = load("res://Assets/GUI/Settings/Settings.tscn").instant
 # Signals
 signal join_match
 signal host_server
+signal disconnect
 
 func _ready() -> void:
 	init_signal_connections()
@@ -27,6 +28,7 @@ func load_connecting_menu() -> void:
 	load_ui_element(loading_menu)	
 	
 func load_main_menu() -> void:
+	GlobalSignalManager.signal_main_menu_load_change(false)
 	main_menu = main_menu.instantiate()
 	main_menu.host_pressed.connect(_host_server)
 	main_menu.join_pressed.connect(_join_server)
@@ -46,18 +48,21 @@ func _host_server() -> void:
 func _join_match(connection_string: String) -> void:
 	emit_signal("join_match", connection_string)
 	
-func load_ui_element(ui: CanvasLayer) -> void:
+func load_ui_element(ui: Control) -> void:
 	if (current_ui_reference):
 		remove_ui_element(current_ui_reference.get_ref())
 	
 	current_ui_reference = weakref(ui)
 	self.add_child(ui)
 	
-func remove_ui_element(ui: CanvasLayer) -> void:
+func remove_ui_element(ui: Control) -> void:
 	previous_ui_element_reference = weakref(ui)
 	self.remove_child(ui)
 	
-func ui_go_back():
+func ui_go_back(triggers_disconnect: bool = false):
+	if (triggers_disconnect):
+		emit_signal("disconnect")
+		
 	var temp = previous_ui_element_reference.get_ref()
 	remove_ui_element(current_ui_reference.get_ref())
 	load_ui_element(temp)

@@ -16,7 +16,12 @@ func signal_screen_shake(new_shake, shake_time) -> void:
 	
 # UI
 signal game_menu_back
-func signal_game_menu_back() -> void:
-	emit_signal("game_menu_back")
+func signal_game_menu_back(triggers_disconnect: bool = false) -> void:
+	emit_signal("game_menu_back", triggers_disconnect)
+	
+# Music
+signal main_menu_load_change
+func signal_main_menu_load_change(closing) -> void:
+	emit_signal("main_menu_load_change", closing)
 
 

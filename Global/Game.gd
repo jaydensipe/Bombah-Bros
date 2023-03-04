@@ -20,6 +20,7 @@ func _ready() -> void:
 func init_signal_connections() -> void:
 	gui.host_server.connect(_host_server)
 	gui.join_match.connect(_join_match)
+	gui.disconnect.connect(_disconnect)
 	
 # Server Setup
 func initialize_multiplayer_bridge() -> void:
@@ -47,6 +48,8 @@ func _start_match() -> void:
 	
 @rpc("call_local")
 func host_start_game() -> void:
+	GlobalSignalManager.signal_main_menu_load_change(true)
+	gui.remove_child($GUI/Decoration)
 	gui.remove_ui_element(gui.current_ui_reference.get_ref())
 	add_map()
 
@@ -84,3 +87,6 @@ func _join_match(connection_string: String) -> void:
 	multiplayer_bridge.match_joined.connect(gui.initalize_game_menu.client_connected_ui.bind(multiplayer_bridge))
 	
 	gui.load_ui_element(gui.initalize_game_menu)	
+	
+func _disconnect() -> void:
+	multiplayer_bridge.leave()

@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 class_name InitializeGame
 
 # Instances
@@ -20,7 +20,7 @@ func _ready() -> void:
 		game_id_button.hide()
 
 func _on_back_button_pressed() -> void:
-	GlobalSignalManager.signal_game_menu_back()
+	GlobalSignalManager.signal_game_menu_back(true)
 
 func _on_copy_game_id_button_pressed() -> void:
 	DisplayServer.clipboard_set(GlobalGameInformation.current_game_id)

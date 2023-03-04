@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ocoluk7kgx1"]
+
+[ext_resource type="AudioStream" uid="uid://egcelomqg4ss" path="res://Assets/Audio/Music/mainmenumusic.wav" id="1_m2rij"]
+[ext_resource type="Script" path="res://Global/GlobalAudioManager.gd" id="1_m7xwm"]
+
+[node name="GlobalAudioManager" type="Node2D"]
+script = ExtResource("1_m7xwm")
+
+[node name="Music" type="Node2D" parent="."]
+
+[node name="MainMenuMusic" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("1_m2rij")
+volume_db = -20.0
+bus = &"Music"

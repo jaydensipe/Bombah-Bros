@@ -1,10 +1,29 @@
-[gd_scene load_steps=6 format=3 uid="uid://bww4xeesbgw0e"]
+[gd_scene load_steps=9 format=3 uid="uid://bww4xeesbgw0e"]
 
 [ext_resource type="Script" path="res://Entities/Bomb/Bomb.gd" id="1_x7y6g"]
 [ext_resource type="Texture2D" uid="uid://ds6n037nxh5nk" path="res://Assets/Items/Bomb/bomb.png" id="2_qljrt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3l8su"]
 radius = 4.0
+
+[sub_resource type="Gradient" id="Gradient_0gkb6"]
+offsets = PackedFloat32Array(0.0138889, 1)
+colors = PackedColorArray(0.866667, 0.501961, 0, 1, 1, 1, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_04e5h"]
+gradient = SubResource("Gradient_0gkb6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wmv2f"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+tangential_accel_min = 96.64
+tangential_accel_max = 100.0
+color_ramp = SubResource("GradientTexture1D_04e5h")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t60d0"]
 radius = 20.8696
@@ -27,6 +46,12 @@ shape = SubResource("CircleShape2D_3l8su")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_qljrt")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Sprite2D"]
+z_index = 1
+position = Vector2(1, -5)
+process_material = SubResource("ParticleProcessMaterial_wmv2f")
+lifetime = 0.02
 
 [node name="ExplosionRadius" type="Area2D" parent="."]
 scale = Vector2(2.3, 2.3)

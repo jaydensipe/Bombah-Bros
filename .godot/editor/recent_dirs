@@ -1,13 +1,14 @@
+res://Global
+res://Assets/GUI/MainMenu
+res://Assets/GUI/Fonts
 J:/GodotGames/BombahBros Versions/V3 Server Name Fix
 res://Global/Game
 res://Entities/StateMachine/States/Player
-res://Global
 J:/GodotGames/BombahBros Versions/V2
 res://Entities/Player
 res://Assets/GUI/InitializeGame
 res://Entities/StateMachine
 J:/GodotGames/BombahBros Versions/V1 Multiplayer Test
-res://Assets/GUI/Fonts
 res://Global/Integrations
 res://Addons/com.heroiclabs.nakama
 C:/Users/Jayden/Desktop

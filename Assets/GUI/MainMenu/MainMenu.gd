@@ -1,5 +1,8 @@
-extends CanvasLayer
+extends Control
 class_name MainMenu
+
+# Instances
+@onready var title_text: Label = $TitleContainer/MarginContainer/TitleText
 
 # Signals
 signal host_pressed

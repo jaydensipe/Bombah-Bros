@@ -4,20 +4,17 @@ extends PlayerState
 var bomb_delay_throw_time: float = 0.2
 
 # Virtual function. Corresponds to the `_process()` callback.
-func _update_process(_delta: float) -> void:
-	pass
+func _update_process(delta: float) -> void:
+	display_aim_line(delta)
+	update_trajectory(delta)
 
 # Virtual function. Corresponds to the `_physics_process()` callback.
 func _update_physics_process(delta: float) -> void:
-	
 	if (Input.is_action_just_released("Hold_Attack")):
 		GlobalSignalManager.signal_throw_bomb(player.bomb_throw_location.global_position, player.get_global_mouse_position(), player.throw_power)			
 		throw()
 
 		assigned_state_machine.transfer_to("PostThrow", {Reload = true})
-
-	display_aim_line(delta)
-	update_trajectory(delta)
 	
 	player.throw_power = clampf(player.throw_power - 2.5, 0.0, player.MAX_THROW_POWER)
 	

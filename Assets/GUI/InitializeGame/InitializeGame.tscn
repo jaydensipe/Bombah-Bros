@@ -1,20 +1,27 @@
-[gd_scene load_steps=5 format=3 uid="uid://fsskjbg5fbx5"]
+[gd_scene load_steps=5 format=3 uid="uid://b1c8fk06nj6ep"]
 
 [ext_resource type="Script" path="res://Assets/GUI/InitializeGame/InitializeGame.gd" id="1_00ajb"]
 [ext_resource type="PackedScene" uid="uid://385uped2d8nh" path="res://Assets/GUI/Misc/PlayerInformation.tscn" id="1_6q6jg"]
-[ext_resource type="Theme" uid="uid://bj2q0bvxlmix" path="res://Assets/GUI/Fonts/Theme.tres" id="2_h3den"]
-[ext_resource type="PackedScene" uid="uid://bt5b6uqdqojt4" path="res://Assets/GUI/Misc/MapSelection.tscn" id="4_8wr5c"]
+[ext_resource type="Theme" uid="uid://bj2q0bvxlmix" path="res://Assets/GUI/Fonts/BombahBrosTheme.tres" id="1_tu5mr"]
+[ext_resource type="PackedScene" uid="uid://fnxolftklj0t" path="res://Assets/GUI/Misc/MapSelection.tscn" id="4_8wr5c"]
 
-[node name="InitializeGame" type="CanvasLayer"]
-script = ExtResource("1_00ajb")
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="InitializeGame" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_h3den")
+theme = ExtResource("1_tu5mr")
+script = ExtResource("1_00ajb")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="InformationContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
@@ -81,7 +88,7 @@ theme_override_constants/separation = 400
 
 [node name="BackButton" type="Button" parent="PanelContainer/ButtonContainer/HBoxContainer"]
 layout_mode = 2
-text = "Leave"
+text = "Disconnect"
 
 [node name="StartButton" type="Button" parent="PanelContainer/ButtonContainer/HBoxContainer"]
 layout_mode = 2

@@ -28,7 +28,7 @@ func _shake(new_shake: float, shake_time: float):
 	
 func _end_shake():
 	shake_amount = 0
-	var tween = get_tree().create_tween()
+	var tween = create_tween()
 	
 	if (tween.is_valid()):
 		tween.tween_property(camera, "offset", default_offset, 0.1)

@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bdvst18uanmp1"]
+[gd_scene load_steps=3 format=3 uid="uid://bl7dtjjxpcm4m"]
 
-[ext_resource type="Theme" uid="uid://bj2q0bvxlmix" path="res://Assets/GUI/Fonts/Theme.tres" id="1_agqbi"]
+[ext_resource type="Theme" uid="uid://bj2q0bvxlmix" path="res://Assets/GUI/Fonts/BombahBrosTheme.tres" id="1_agqbi"]
 [ext_resource type="Script" path="res://Global/GlobalDebugMananger.gd" id="2_l271o"]
 
 [node name="GlobalDebugManager" type="Window"]

@@ -32,6 +32,8 @@ const MAX_THROW_POWER = 150.0
 signal taken_damage(damage_dealt)
 	
 func _ready() -> void:
+	if (!is_multiplayer_authority()): material.set_shader_parameter("line_color", Color.RED)
+	
 	debug_options()
 	
 func _enter_tree() -> void:
