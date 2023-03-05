@@ -10,6 +10,9 @@ class_name InitializeGame
 # Signals
 signal start_match
 
+func _enter_tree() -> void:
+	request_ready()
+
 func _ready() -> void:
 	if (multiplayer.is_server()):
 		host_information.set_username_text(GlobalGameInformation.username, true)
@@ -18,7 +21,8 @@ func _ready() -> void:
 		start_button.hide()
 		game_id_button.disabled = true
 		game_id_button.hide()
-
+	
+	
 func _on_back_button_pressed() -> void:
 	GlobalSignalManager.signal_game_menu_back(true)
 

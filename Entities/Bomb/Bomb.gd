@@ -26,15 +26,17 @@ func _physics_process(delta) -> void:
 func move(delta) -> void:
 	if (has_exploded): return
 	
+	# Spin and apply gravity
 	bomb_sprite.rotate(spin_velocity * delta)
 	velocity.y += gravity * delta 
 	var collision = move_and_collide(velocity * delta)
+	
 	if (collision):
 		has_exploded = true
-		bomb_effects(collision.get_collider(), collision.get_collider_rid())
 		explode.rpc()
+		bomb_effects(collision.get_collider(), collision.get_collider_rid())		
 	
-@rpc("any_peer", "unreliable")
+@rpc("any_peer", "call_local")
 func explode() -> void:
 	if (!multiplayer.is_server()): return
 	
@@ -47,8 +49,14 @@ func explode() -> void:
 		# Does damage to hit player and calculates damage falloff
 		if (result && result.collider.is_in_group("Player")):
 			var distance: float = player.global_position.distance_to(self.global_position)
-			player.take_damage.rpc_id(player.get_multiplayer_authority(), bomb_damage * PhysicsUtil.inverse_square_law(distance) * 100.0, \
-				player.global_position.direction_to(self.global_position).normalized())
+			
+			# If we are against a bot, do not send RPC
+			if (GlobalGameInformation.SINGLEPLAYER_SESSION):
+				player.take_damage(bomb_damage * PhysicsUtil.inverse_square_law(distance) * 100.0, \
+					player.global_position.direction_to(self.global_position).normalized())
+			else:
+				player.take_damage.rpc_id(player.get_multiplayer_authority(), bomb_damage * PhysicsUtil.inverse_square_law(distance) * 100.0, \
+					player.global_position.direction_to(self.global_position).normalized())
 	
 func bomb_effects(body, body_rid) -> void:
 	GlobalSignalManager.signal_screen_shake(screen_shake_amount, 0.05)

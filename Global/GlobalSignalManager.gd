@@ -2,8 +2,8 @@ extends Node
 
 # Gameplay
 signal throw_bomb
-func signal_throw_bomb(instance_pos: Vector2, throw_pos: Vector2, throw_strength: float) -> void:
-	emit_signal("throw_bomb", instance_pos, throw_pos, throw_strength)
+func signal_throw_bomb(instance_pos: Vector2, throw_pos: Vector2, throw_strength: float, bot_throwing: bool = false) -> void:
+	emit_signal("throw_bomb", instance_pos, throw_pos, throw_strength, bot_throwing)
 	
 # VFX
 signal instance_particles

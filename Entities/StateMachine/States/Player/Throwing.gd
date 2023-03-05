@@ -9,7 +9,7 @@ func _update_process(delta: float) -> void:
 	update_trajectory(delta)
 
 # Virtual function. Corresponds to the `_physics_process()` callback.
-func _update_physics_process(delta: float) -> void:
+func _update_physics_process(_delta: float) -> void:
 	if (Input.is_action_just_released("Hold_Attack")):
 		GlobalSignalManager.signal_throw_bomb(player.bomb_throw_location.global_position, player.get_global_mouse_position(), player.throw_power)			
 		throw()

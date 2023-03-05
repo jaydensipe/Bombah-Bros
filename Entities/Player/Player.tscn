@@ -34,7 +34,7 @@ point_count = 2
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.853846, 0.0245398), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_27i6j"]
+[sub_resource type="CurveTexture" id="CurveTexture_y813r"]
 curve = SubResource("Curve_w8vyf")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1yjfo"]
@@ -48,7 +48,7 @@ initial_velocity_max = 80.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 scale_max = 2.0
-scale_curve = SubResource("CurveTexture_27i6j")
+scale_curve = SubResource("CurveTexture_y813r")
 color = Color(0.427451, 0.784314, 0.270588, 1)
 hue_variation_min = -0.09
 hue_variation_max = 0.45

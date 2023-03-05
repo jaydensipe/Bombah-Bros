@@ -10,11 +10,11 @@ func _ready() -> void:
 	GlobalSignalManager.throw_bomb.connect(_instance_bomb)
 	GlobalSignalManager.instance_particles.connect(_instance_particles)
 	
-func _instance_bomb(instance_pos: Vector2, throw_pos: Vector2, throw_strength: float) -> void:
-	spawn_bomb_instance.rpc(instance_pos, throw_pos, throw_strength)
+func _instance_bomb(instance_pos: Vector2, throw_pos: Vector2, throw_strength: float, bot_throwing: bool = false) -> void:
+	spawn_bomb_instance.rpc(instance_pos, throw_pos, throw_strength, bot_throwing)
 	
 @rpc("any_peer", "call_local")
-func spawn_bomb_instance(instance_pos: Vector2, throw_pos: Vector2, throw_strength: float) -> void:
+func spawn_bomb_instance(instance_pos: Vector2, throw_pos: Vector2, throw_strength: float, bot_throwing: bool = false) -> void:
 	var b: Bomb = bomb.instantiate()
 	
 	add_child(b, true)
@@ -23,6 +23,11 @@ func spawn_bomb_instance(instance_pos: Vector2, throw_pos: Vector2, throw_streng
 	var arc_height = throw_pos.y - instance_pos.y - throw_strength
 	arc_height = min(arc_height, -32)
 	b.velocity = PhysicsUtil.calculate_arc_velocity(instance_pos, throw_pos, arc_height)
+	
+	# If bot is throwing the bomb, apply small variation in aim
+	if bot_throwing:
+		b.velocity = b.velocity.rotated(randf_range(-0.1, 0.1))
+		
 	
 func _instance_particles(instance_pos: Vector2, terrain_type: String) -> void:
 	var explosion_particles: GPUParticles2D

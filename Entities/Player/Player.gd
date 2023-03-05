@@ -1,19 +1,5 @@
-extends CharacterBody2D
+extends Character
 class_name Player
-
-# Player configuration
-var health: float = 0.0
-var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
-var throw_power: float = MAX_THROW_POWER
-var can_throw: bool = true
-var can_bounce: bool = false
-@export var speed: int = 150
-@export var jump_height: int = -300
-@export var ammo_count: int = 6
-@export_range(0.0, 1.0) var friction: float = 0.1
-@export_range(0.0, 1.0) var acceleration: float = 0.25
-@export_range(0.0, 1.0) var air_acceleration: float = 0.05
-const MAX_THROW_POWER = 150.0
 
 # Instances
 @onready var aim_line: Line2D = $VFX/AimLine
@@ -38,6 +24,7 @@ func _ready() -> void:
 	
 func _enter_tree() -> void:
 	set_multiplayer_authority(str(name).to_int())
+	GlobalGameInformation.current_player = self
 	
 func _physics_process(delta) -> void:
 	if (!is_multiplayer_authority()): return

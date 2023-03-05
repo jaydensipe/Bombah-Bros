@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3vqsyio3hcoj"]
+
+[ext_resource type="Script" path="res://Entities/AI/Actions/ThrowBombAction.gd" id="1_y7tgu"]
+
+[node name="ThrowBombAction" type="Node"]
+script = ExtResource("1_y7tgu")

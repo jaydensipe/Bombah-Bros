@@ -1211,6 +1211,7 @@ texture = ExtResource("4_fvkuk")
 region_enabled = true
 region_rect = Rect2(3.8674, 52.7163, 42.2959, 28.2423)
 
+[connection signal="pressed" from="ButtonContainer/MarginContainer/VBoxContainer/PlayWithABotButton" to="." method="_on_play_with_a_bot_button_pressed"]
 [connection signal="pressed" from="ButtonContainer/MarginContainer/VBoxContainer/HBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="ButtonContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
 [connection signal="pressed" from="ButtonContainer/MarginContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]

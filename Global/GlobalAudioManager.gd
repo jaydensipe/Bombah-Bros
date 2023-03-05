@@ -9,6 +9,5 @@ func _ready() -> void:
 func _update_main_menu_music(closing) -> void:
 	if closing:
 		main_menu_music.stop()
-		return
-	
-	main_menu_music.play()
+	else:
+		main_menu_music.play()

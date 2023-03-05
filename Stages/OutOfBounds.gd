@@ -2,7 +2,7 @@ extends Area2D
 class_name OutOfBounds
 
 func _on_body_entered(body):
-	if (body is Player):
+	if (body is Character):
 		respawn.rpc_id(body.get_multiplayer_authority(), body)
 		return
 	

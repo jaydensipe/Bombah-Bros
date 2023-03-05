@@ -4,6 +4,7 @@ class_name StateMachine
 # Thanks https://www.gdquest.com/tutorial/godot/design-patterns/finite-state-machine/ and https://youtu.be/BQwNiU5v9as
 # Configuration
 @export var initial_state: State
+@export var controls_bot_state: bool = false
 @onready var state: State = initial_state
 
 # Signals
@@ -19,12 +20,12 @@ func _ready() -> void:
 
 # The state machine subscribes to node callbacks and delegates them to the state objects.
 func _process(delta: float) -> void:
-	if (!is_multiplayer_authority()): return
+	if (!is_multiplayer_authority() && !controls_bot_state): return
 	
 	state._update_process(delta)
 
 func _physics_process(delta: float) -> void:
-	if (!is_multiplayer_authority()): return
+	if (!is_multiplayer_authority() && !controls_bot_state): return
 
 	state._update_physics_process(delta)
 
@@ -32,7 +33,7 @@ func _physics_process(delta: float) -> void:
 # and calls its enter function.
 # It optionally takes a `msg` dictionary to pass to the next state's enter() function.
 func transfer_to(target_state_name: String, msg: Dictionary = {}) -> void:
-	if (!is_multiplayer_authority()): return
+	if (!is_multiplayer_authority() && !controls_bot_state): return
 	
 	# Safety check, you could use an assert() here to report an error if the state name is incorrect.
 	# We don't use an assert here to help with code reuse. If you reuse a state in different state machines

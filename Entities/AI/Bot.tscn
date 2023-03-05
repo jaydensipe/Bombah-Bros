@@ -1,0 +1,365 @@
+[gd_scene load_steps=45 format=3 uid="uid://be3ot2n405c04"]
+
+[ext_resource type="Shader" path="res://Entities/Player/Player.gdshader" id="1_v11ye"]
+[ext_resource type="Script" path="res://Entities/AI/Bot.gd" id="1_yq0kh"]
+[ext_resource type="Texture2D" uid="uid://crmoo8o2yrf8u" path="res://Assets/Characters/BombBill/bombbill_body.png" id="3_lycpb"]
+[ext_resource type="Texture2D" uid="uid://mepwcxf2cpy" path="res://Assets/Characters/BombBill/bombbill_head.png" id="4_px5rm"]
+[ext_resource type="Texture2D" uid="uid://3skr0upcqmhm" path="res://Assets/Characters/BombBill/bombbill_leg.png" id="5_v5vn4"]
+[ext_resource type="Texture2D" uid="uid://cqowa1rbud2kr" path="res://Assets/Characters/BombBill/bombbill_arm.png" id="6_k7nh4"]
+[ext_resource type="AudioStream" uid="uid://bfw5sls107dwv" path="res://Assets/Audio/walk.wav" id="8_m3cvj"]
+[ext_resource type="Script" path="res://Entities/StateMachine/StateMachine.gd" id="9_k52e6"]
+[ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/Run.gd" id="9_xh5uq"]
+[ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/Idle.gd" id="10_n446e"]
+[ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/Air.gd" id="11_ipb52"]
+[ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/Throwing.gd" id="12_ovbgl"]
+[ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/PostThrow.gd" id="13_jexek"]
+[ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/None.gd" id="14_gs1so"]
+[ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/Reloading.gd" id="15_1otou"]
+[ext_resource type="Script" path="res://Addons/beehave/nodes/beehave_tree.gd" id="16_827ro"]
+[ext_resource type="PackedScene" uid="uid://b3vqsyio3hcoj" path="res://Entities/AI/Actions/ThrowBombAction.tscn" id="17_6g77a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2xlfw"]
+resource_local_to_scene = true
+shader = ExtResource("1_v11ye")
+shader_parameter/line_color = Color(0, 0, 0, 1)
+shader_parameter/line_thickness = 0.6
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y6whm"]
+size = Vector2(8, 15)
+
+[sub_resource type="Curve" id="Curve_w8vyf"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.853846, 0.0245398), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_y813r"]
+curve = SubResource("Curve_w8vyf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1yjfo"]
+lifetime_randomness = 1.0
+particle_flag_disable_z = true
+direction = Vector3(1, 90, 0)
+spread = 5.0
+gravity = Vector3(0, -98, 0)
+initial_velocity_min = 40.0
+initial_velocity_max = 80.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_y813r")
+color = Color(0.427451, 0.784314, 0.270588, 1)
+hue_variation_min = -0.09
+hue_variation_max = 0.45
+
+[sub_resource type="Animation" id="Animation_3wrr8"]
+resource_name = "ChargeThrow"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body/Arm1:rotation")
+tracks/0/interp = 4
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.523599, 1.0472, 1.5708]
+}
+
+[sub_resource type="Animation" id="Animation_syw60"]
+resource_name = "Idle"
+
+[sub_resource type="Animation" id="Animation_vd3dp"]
+resource_name = "Run"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body/Leg1:rotation")
+tracks/0/interp = 4
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.785397, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body/Leg2:rotation")
+tracks/1/interp = 4
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.785397, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body/Arm1:rotation")
+tracks/2/interp = 4
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.5708, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body/Arm2:rotation")
+tracks/3/interp = 4
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -1.5708, 0.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_0wfgg"]
+resource_name = "Throw"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body/Arm1:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [1.5708, 3.14134, 4.79966]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eo6p5"]
+_data = {
+"ChargeThrow": SubResource("Animation_3wrr8"),
+"Idle": SubResource("Animation_syw60"),
+"Run": SubResource("Animation_vd3dp"),
+"Throw": SubResource("Animation_0wfgg")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ix7lk"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sie86"]
+animation = &"ChargeThrow"
+
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_bqehm"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_kcmfp"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_0sgpf"]
+filter_enabled = true
+filters = ["Body/Arm1:rotation"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_v4fkb"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_teyj7"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ltifc"]
+animation = &"Throw"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_ljete"]
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_lual3"]
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_348h8"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_x6hud"]
+graph_offset = Vector2(-706.25, -141.081)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_ix7lk")
+nodes/Animation/position = Vector2(-106.667, -160)
+nodes/ChargeThrow/node = SubResource("AnimationNodeAnimation_sie86")
+nodes/ChargeThrow/position = Vector2(-480, 293.333)
+nodes/ChargeThrowSeek/node = SubResource("AnimationNodeTimeSeek_bqehm")
+nodes/ChargeThrowSeek/position = Vector2(-280, 280)
+nodes/IdleRunBlend/node = SubResource("AnimationNodeBlend2_kcmfp")
+nodes/IdleRunBlend/position = Vector2(186.667, 0)
+nodes/MovementThrowBlend/node = SubResource("AnimationNodeBlend2_0sgpf")
+nodes/MovementThrowBlend/position = Vector2(360, -26.6667)
+nodes/Run/node = SubResource("AnimationNodeAnimation_v4fkb")
+nodes/Run/position = Vector2(-320, 80)
+nodes/RunningTimeScale/node = SubResource("AnimationNodeTimeScale_teyj7")
+nodes/RunningTimeScale/position = Vector2(-106.667, 53.3333)
+nodes/Throw/node = SubResource("AnimationNodeAnimation_ltifc")
+nodes/Throw/position = Vector2(-293.333, 480)
+nodes/ThrowOneShot/node = SubResource("AnimationNodeOneShot_ljete")
+nodes/ThrowOneShot/position = Vector2(160, 400)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_348h8")
+nodes/TimeScale/position = Vector2(-80, 453.333)
+"nodes/TimeScale 2/node" = SubResource("AnimationNodeTimeScale_lual3")
+"nodes/TimeScale 2/position" = Vector2(-80, 266.667)
+nodes/output/position = Vector2(626.667, -40)
+node_connections = [&"output", 0, &"MovementThrowBlend", &"ChargeThrowSeek", 0, &"ChargeThrow", &"IdleRunBlend", 0, &"Animation", &"IdleRunBlend", 1, &"RunningTimeScale", &"MovementThrowBlend", 0, &"IdleRunBlend", &"MovementThrowBlend", 1, &"ThrowOneShot", &"RunningTimeScale", 0, &"Run", &"ThrowOneShot", 0, &"TimeScale 2", &"ThrowOneShot", 1, &"TimeScale", &"TimeScale", 0, &"Throw", &"TimeScale 2", 0, &"ChargeThrowSeek"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_w06ba"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nhtqw"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_aqjp4"]
+states/End/position = Vector2(469.555, -32.4276)
+states/Movement/node = SubResource("AnimationNodeBlendTree_x6hud")
+states/Movement/position = Vector2(241, -32.8695)
+states/Start/position = Vector2(48.0001, -32.9383)
+transitions = ["Start", "Movement", SubResource("AnimationNodeStateMachineTransition_w06ba"), "Movement", "End", SubResource("AnimationNodeStateMachineTransition_nhtqw")]
+graph_offset = Vector2(-369, -158)
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_h7y72"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dw6a0"]
+radius = 43.566
+
+[node name="Bot" type="CharacterBody2D" groups=["Bot", "Player"]]
+z_index = 1
+material = SubResource("ShaderMaterial_2xlfw")
+collision_layer = 2
+collision_mask = 3
+platform_floor_layers = 4294967291
+script = ExtResource("1_yq0kh")
+
+[node name="Body" type="Sprite2D" parent="."]
+y_sort_enabled = true
+use_parent_material = true
+texture = ExtResource("3_lycpb")
+
+[node name="Head" type="Sprite2D" parent="Body"]
+use_parent_material = true
+texture = ExtResource("4_px5rm")
+
+[node name="Leg1" type="Sprite2D" parent="Body"]
+z_index = -1
+use_parent_material = true
+position = Vector2(-1, 1)
+texture = ExtResource("5_v5vn4")
+
+[node name="Leg2" type="Sprite2D" parent="Body"]
+use_parent_material = true
+position = Vector2(0, 1)
+texture = ExtResource("5_v5vn4")
+
+[node name="Arm2" type="Sprite2D" parent="Body"]
+z_index = -1
+use_parent_material = true
+texture = ExtResource("6_k7nh4")
+
+[node name="Arm1" type="Sprite2D" parent="Body"]
+use_parent_material = true
+texture = ExtResource("6_k7nh4")
+
+[node name="BombSpawnPoint" type="Marker2D" parent="Body"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_y6whm")
+
+[node name="VFX" type="Node2D" parent="."]
+
+[node name="WalkParticles" type="GPUParticles2D" parent="VFX"]
+position = Vector2(0, 9)
+emitting = false
+amount = 10
+process_material = SubResource("ParticleProcessMaterial_1yjfo")
+lifetime = 0.2
+fixed_fps = 60
+
+[node name="WalkAudio" type="AudioStreamPlayer2D" parent="VFX"]
+stream = ExtResource("8_m3cvj")
+
+[node name="Animation" type="Node2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Animation"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_eo6p5")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="Animation"]
+tree_root = SubResource("AnimationNodeStateMachine_aqjp4")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_h7y72")
+parameters/Movement/ChargeThrowSeek/seek_request = -1.0
+parameters/Movement/IdleRunBlend/blend_amount = 0.0
+parameters/Movement/MovementThrowBlend/blend_amount = 0.0
+parameters/Movement/RunningTimeScale/scale = 1.0
+parameters/Movement/ThrowOneShot/active = false
+parameters/Movement/ThrowOneShot/request = 0
+parameters/Movement/TimeScale/scale = 8.0
+"parameters/Movement/TimeScale 2/scale" = 8.0
+
+[node name="Timers" type="Node2D" parent="."]
+
+[node name="ReloadTimer" type="Timer" parent="Timers"]
+wait_time = 0.25
+
+[node name="WaitForReloadTimer" type="Timer" parent="Timers"]
+wait_time = 0.75
+one_shot = true
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("9_k52e6")
+initial_state = NodePath("Idle")
+controls_bot_state = true
+
+[node name="Run" type="Node" parent="StateMachine"]
+script = ExtResource("9_xh5uq")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("10_n446e")
+
+[node name="Air" type="Node" parent="StateMachine"]
+script = ExtResource("11_ipb52")
+
+[node name="ActionStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("9_k52e6")
+initial_state = NodePath("None")
+controls_bot_state = true
+
+[node name="Throwing" type="Node" parent="ActionStateMachine"]
+script = ExtResource("12_ovbgl")
+
+[node name="PostThrow" type="Node" parent="ActionStateMachine"]
+script = ExtResource("13_jexek")
+
+[node name="None" type="Node" parent="ActionStateMachine"]
+script = ExtResource("14_gs1so")
+
+[node name="Reloading" type="Node" parent="ActionStateMachine"]
+script = ExtResource("15_1otou")
+
+[node name="AI" type="Node2D" parent="."]
+
+[node name="ForwardWallDetector" type="RayCast2D" parent="AI"]
+rotation = -1.5708
+target_position = Vector2(0, 9)
+
+[node name="BackwardWallDetector" type="RayCast2D" parent="AI"]
+rotation = 1.5708
+target_position = Vector2(0, 9)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="AI"]
+target_desired_distance = 50.0
+debug_enabled = true
+
+[node name="PlayerAreaDetector" type="Area2D" parent="AI"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AI/PlayerAreaDetector"]
+shape = SubResource("CircleShape2D_dw6a0")
+
+[node name="BeehaveTree" type="Node" parent="."]
+script = ExtResource("16_827ro")
+actor_node_path = NodePath("..")
+
+[node name="ThrowBombAction" parent="BeehaveTree" instance=ExtResource("17_6g77a")]
+
+[connection signal="animation_finished" from="Animation/AnimationTree" to="ActionStateMachine/PostThrow" method="_on_animation_tree_animation_finished"]

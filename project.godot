@@ -26,6 +26,7 @@ GlobalGameInformation="*res://Global/GlobalGameInformation.gd"
 GlobalSignalManager="*res://Global/GlobalSignalManager.gd"
 GlobalDebugMananger="*res://Global/GlobalDebugMananger.tscn"
 GlobalAudioManager="*res://Global/GlobalAudioManager.tscn"
+BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
 
 [debug]
 
@@ -43,7 +44,7 @@ window/stretch/aspect="ignore"
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/beehave/plugin.cfg")
 
 [input]
 
