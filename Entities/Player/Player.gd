@@ -87,6 +87,7 @@ func debug_options():
 	if (!is_multiplayer_authority()): return
 	
 	GlobalDebugMananger.add_debug_item(self, "name", true)
+	GlobalDebugMananger.add_debug_item(self, "health")
 	GlobalDebugMananger.add_debug_item(self, "position")
 	GlobalDebugMananger.add_debug_item(self, "velocity")
 	GlobalDebugMananger.add_debug_item(self, "ammo_count")

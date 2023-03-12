@@ -51,7 +51,7 @@ func remove_ui_element(ui: Control, go_back: bool = false) -> void:
 		
 	self.remove_child(ui)
 	
-func ui_go_back(triggers_disconnect: bool = false):
+func ui_go_back(triggers_disconnect: bool = false) -> void:
 	if (triggers_disconnect):
 		emit_signal("disconnect")
 		

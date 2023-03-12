@@ -18,7 +18,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	camera.offset = Vector2(randf_range(-shake_amount, shake_amount), randf_range(shake_amount, -shake_amount)) * delta + default_offset
 	
-func _shake(new_shake: float, shake_time: float):
+func _shake(new_shake: float, shake_time: float) -> void:
 	get_tree().create_timer(shake_time).timeout.connect(_end_shake)
 	shake_amount += new_shake
 	if (shake_amount > shake_limit):
@@ -26,7 +26,7 @@ func _shake(new_shake: float, shake_time: float):
 	
 	set_process(true)
 	
-func _end_shake():
+func _end_shake() -> void:
 	shake_amount = 0
 	var tween = create_tween()
 	

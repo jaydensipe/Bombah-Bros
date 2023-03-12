@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4lolkfcolfb5"]
+
+[ext_resource type="Script" path="res://Entities/AI/Actions/FindNewPosition.gd" id="1_3aln3"]
+
+[node name="FindNewPosition" type="Node"]
+script = ExtResource("1_3aln3")

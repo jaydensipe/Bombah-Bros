@@ -190,7 +190,7 @@ animation = &"Throw"
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_348h8"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_x6hud"]
-graph_offset = Vector2(-650.433, -147.487)
+graph_offset = Vector2(-596.609, -100.737)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_ix7lk")
 nodes/Animation/position = Vector2(-106.667, -160)
 nodes/ChargeThrow/node = SubResource("AnimationNodeAnimation_sie86")

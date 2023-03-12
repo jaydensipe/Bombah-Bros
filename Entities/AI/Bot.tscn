@@ -9,14 +9,14 @@
 [ext_resource type="AudioStream" uid="uid://bfw5sls107dwv" path="res://Assets/Audio/walk.wav" id="8_m3cvj"]
 [ext_resource type="Script" path="res://Entities/StateMachine/StateMachine.gd" id="9_k52e6"]
 [ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/Run.gd" id="9_xh5uq"]
-[ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/Idle.gd" id="10_n446e"]
 [ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/Air.gd" id="11_ipb52"]
 [ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/Throwing.gd" id="12_ovbgl"]
 [ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/PostThrow.gd" id="13_jexek"]
-[ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/None.gd" id="14_gs1so"]
-[ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/Reloading.gd" id="15_1otou"]
+[ext_resource type="Script" path="res://Addons/beehave/nodes/composites/sequence_star.gd" id="16_0c34a"]
 [ext_resource type="Script" path="res://Addons/beehave/nodes/beehave_tree.gd" id="16_827ro"]
-[ext_resource type="PackedScene" uid="uid://b3vqsyio3hcoj" path="res://Entities/AI/Actions/ThrowBombAction.tscn" id="17_6g77a"]
+[ext_resource type="PackedScene" uid="uid://dt1xlyk5rflfv" path="res://Entities/AI/Actions/IsOnGround.tscn" id="17_8xpn6"]
+[ext_resource type="PackedScene" uid="uid://b4lolkfcolfb5" path="res://Entities/AI/Actions/FindNewPosition.tscn" id="18_ae6ts"]
+[ext_resource type="PackedScene" uid="uid://pwmlqpsbyn0i" path="res://Entities/AI/Actions/MoveToPosition.tscn" id="19_fwo0m"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2xlfw"]
 resource_local_to_scene = true
@@ -214,8 +214,37 @@ graph_offset = Vector2(-369, -158)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_h7y72"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_dw6a0"]
-radius = 43.566
+[sub_resource type="GDScript" id="GDScript_2nrvr"]
+script/source = "extends BotState
+
+# Virtual function. Corresponds to the `_process()` callback.
+func _update_process(_delta: float) -> void:
+	pass
+
+# Virtual function. Corresponds to the `_physics_process()` callback.
+func _update_physics_process(_delta: float) -> void:
+	if !bot.is_on_floor():
+		assigned_state_machine.transfer_to(\"Air\")
+		return
+		
+	do_animations()
+
+	bot.velocity.x = lerp(bot.velocity.x, 0.0, bot.friction)
+	bot.can_bounce = false
+
+func do_animations() -> void:
+	bot.anim_tree.set(\"parameters/Movement/IdleRunBlend/blend_amount\", 0.0)
+	
+# Virtual function. Called by the state machine upon changing the active state. The `msg` parameter
+# is a dictionary with arbitrary data the state can use to initialize itself.
+func enter(_msg := {}) -> void:
+	pass
+
+# Virtual function. Called by the state machine before changing the active state. Use this function
+# to clean up the state.
+func exit() -> void:
+	pass
+"
 
 [node name="Bot" type="CharacterBody2D" groups=["Bot", "Player"]]
 z_index = 1
@@ -295,33 +324,22 @@ parameters/Movement/ThrowOneShot/request = 0
 parameters/Movement/TimeScale/scale = 8.0
 "parameters/Movement/TimeScale 2/scale" = 8.0
 
-[node name="Timers" type="Node2D" parent="."]
-
-[node name="ReloadTimer" type="Timer" parent="Timers"]
-wait_time = 0.25
-
-[node name="WaitForReloadTimer" type="Timer" parent="Timers"]
-wait_time = 0.75
-one_shot = true
-
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("9_k52e6")
-initial_state = NodePath("Idle")
-controls_bot_state = true
+initial_state = NodePath("Run")
 
 [node name="Run" type="Node" parent="StateMachine"]
 script = ExtResource("9_xh5uq")
 
 [node name="Idle" type="Node" parent="StateMachine"]
-script = ExtResource("10_n446e")
+script = SubResource("GDScript_2nrvr")
 
 [node name="Air" type="Node" parent="StateMachine"]
 script = ExtResource("11_ipb52")
 
 [node name="ActionStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("9_k52e6")
-initial_state = NodePath("None")
-controls_bot_state = true
+initial_state = NodePath("Throwing")
 
 [node name="Throwing" type="Node" parent="ActionStateMachine"]
 script = ExtResource("12_ovbgl")
@@ -329,37 +347,30 @@ script = ExtResource("12_ovbgl")
 [node name="PostThrow" type="Node" parent="ActionStateMachine"]
 script = ExtResource("13_jexek")
 
-[node name="None" type="Node" parent="ActionStateMachine"]
-script = ExtResource("14_gs1so")
-
-[node name="Reloading" type="Node" parent="ActionStateMachine"]
-script = ExtResource("15_1otou")
-
 [node name="AI" type="Node2D" parent="."]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="AI"]
+path_desired_distance = 70.0
 
 [node name="ForwardWallDetector" type="RayCast2D" parent="AI"]
 rotation = -1.5708
-target_position = Vector2(0, 9)
+target_position = Vector2(-4.70599e-05, 13)
 
 [node name="BackwardWallDetector" type="RayCast2D" parent="AI"]
 rotation = 1.5708
-target_position = Vector2(0, 9)
+target_position = Vector2(4.70599e-05, 13)
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="AI"]
-target_desired_distance = 50.0
-debug_enabled = true
-
-[node name="PlayerAreaDetector" type="Area2D" parent="AI"]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AI/PlayerAreaDetector"]
-shape = SubResource("CircleShape2D_dw6a0")
-
-[node name="BeehaveTree" type="Node" parent="."]
+[node name="BotBehaviorTree" type="Node" parent="."]
 script = ExtResource("16_827ro")
 actor_node_path = NodePath("..")
 
-[node name="ThrowBombAction" parent="BeehaveTree" instance=ExtResource("17_6g77a")]
+[node name="Bot Movement" type="Node" parent="BotBehaviorTree"]
+script = ExtResource("16_0c34a")
 
-[connection signal="animation_finished" from="Animation/AnimationTree" to="ActionStateMachine/PostThrow" method="_on_animation_tree_animation_finished"]
+[node name="Is Bot On Ground?" parent="BotBehaviorTree/Bot Movement" instance=ExtResource("17_8xpn6")]
+
+[node name="Find New Position" parent="BotBehaviorTree/Bot Movement" instance=ExtResource("18_ae6ts")]
+
+[node name="Move To Position" parent="BotBehaviorTree/Bot Movement" instance=ExtResource("19_fwo0m")]
+
+[connection signal="navigation_finished" from="AI/NavigationAgent2D" to="BotBehaviorTree/Bot Movement/Move To Position" method="_on_navigation_agent_2d_navigation_finished"]

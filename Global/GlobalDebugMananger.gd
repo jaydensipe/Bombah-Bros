@@ -5,12 +5,12 @@ class DebugItem:
 	var property: String
 	var label: Label
 	
-	func _init(obj, prop, lab):
+	func _init(obj, prop, lab) -> void:
 		self.object = obj
 		self.property = prop
 		self.label = lab
 		
-	func update_label():
+	func update_label() -> void:
 		label.text = "%s: %s" % [property, str(object.get_indexed(property))]
 		
 # Configuration
@@ -33,13 +33,13 @@ func _process(_delta: float) -> void:
 	for item in debug_items:
 		item.update_label()
 
-func debug_menu():
+func debug_menu() -> void:
 	if (DEBUG_MODE): 
 		self.show()
 	else: 
 		self.hide()
 	
-func add_debug_item(object: Object, property, root: bool = false):
+func add_debug_item(object: Object, property, root: bool = false) -> void:
 	var label = Label.new()
 	
 	if root:

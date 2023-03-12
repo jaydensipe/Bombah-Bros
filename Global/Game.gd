@@ -37,9 +37,10 @@ func _host_server() -> void:
 	multiplayer.multiplayer_peer = multiplayer_bridge.multiplayer_peer
 	GlobalGameInformation.current_game_id = multiplayer_bridge.match_id
 	
-	if not multiplayer.peer_connected.is_connected(add_player):
+	if !multiplayer.peer_connected.is_connected(add_player):
 		multiplayer.peer_connected.connect(add_player)
 		multiplayer.peer_connected.connect(gui.initalize_game_menu.host_connected_ui.bind(multiplayer_bridge))
+		multiplayer.peer_disconnected.connect(_client_disconnect)
 		gui.initalize_game_menu.start_match.connect(_start_match)
 	
 	add_player(multiplayer.get_unique_id())
@@ -63,6 +64,10 @@ func _start_match() -> void:
 	host_start_game.rpc()
 	instance_and_set_player_spawn()
 	
+func _client_disconnect(peer_id: int) -> void:
+	gui.initalize_game_menu.player_disconnected(peer_id)
+	connected_peers.erase(peer_id)
+	
 @rpc("call_local")
 func host_start_game() -> void:
 	GlobalSignalManager.signal_main_menu_load_change(true)
@@ -71,8 +76,14 @@ func host_start_game() -> void:
 	gui.remove_ui_element(gui.current_ui_reference.get_ref())
 	add_map()
 
-func instance_and_set_player_spawn():
+func instance_and_set_player_spawn() -> void:
 	if (!multiplayer.is_server()): return
+	
+	# Spawn a bot in Singleplayer mode
+	if (GlobalGameInformation.SINGLEPLAYER_SESSION):
+		var bot: Bot = load("res://Entities/AI/Bot.tscn").instantiate()
+		players.add_child(bot)
+		bot.set_spawn_position(get_random_spawn_location_from_current_map())
 	
 	for peer_id in connected_peers:
 		var ply: Player = player.instantiate()
@@ -104,7 +115,8 @@ func _join_match(connection_string: String) -> void:
 	await multiplayer_bridge.join_match(connection_string)
 	
 	multiplayer.multiplayer_peer = multiplayer_bridge.multiplayer_peer
-	multiplayer_bridge.match_joined.connect(gui.initalize_game_menu.client_connected_ui.bind(multiplayer_bridge))
+	if !multiplayer_bridge.match_joined.is_connected(gui.initalize_game_menu.client_connected_ui):
+		multiplayer_bridge.match_joined.connect(gui.initalize_game_menu.client_connected_ui.bind(multiplayer_bridge))
 	
 	gui.load_ui_element(gui.initalize_game_menu)
 	

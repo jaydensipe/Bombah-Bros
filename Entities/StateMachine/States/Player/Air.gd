@@ -21,7 +21,7 @@ func _update_physics_process(_delta: float) -> void:
 		player.velocity.x = lerp(player.velocity.x, dir * player.speed, player.air_acceleration)
 		
 func bounce() -> void:
-	if player.velocity.x !=0:
+	if player.velocity.x != 0:
 		last_velocity = player.velocity.x
 	for i in range(player.get_slide_collision_count()):
 		var collision = player.get_slide_collision(i)

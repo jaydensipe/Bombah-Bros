@@ -9,13 +9,13 @@ class_name Bot
 @onready var head: Sprite2D = $Body/Head
 @onready var bomb_throw_location: Marker2D = $Body/BombSpawnPoint
 @onready var walk_particles: GPUParticles2D = $VFX/WalkParticles
-@onready var reload_timer: Timer = $Timers/ReloadTimer
-@onready var wait_for_reload_timer: Timer = $Timers/WaitForReloadTimer
 @onready var walk_audio: AudioStreamPlayer2D = $VFX/WalkAudio
 @onready var forward_wall_detector: RayCast2D = $AI/ForwardWallDetector
 @onready var backward_wall_detector: RayCast2D = $AI/BackwardWallDetector
 @onready var navigation_agent: NavigationAgent2D = $AI/NavigationAgent2D
-@onready var player_area_detector: Area2D = $AI/PlayerAreaDetector
+
+# Configuration
+@export var max_delay_between_throws: float = 2.0
 
 # Signals
 signal taken_damage(damage_dealt)
@@ -69,6 +69,7 @@ func debug_options():
 	if (!is_multiplayer_authority()): return
 	
 	GlobalDebugMananger.add_debug_item(self, "name", true)
+	GlobalDebugMananger.add_debug_item(self, "health", true)
 	GlobalDebugMananger.add_debug_item(self, "position")
 	GlobalDebugMananger.add_debug_item(self, "velocity")
 	GlobalDebugMananger.add_debug_item(self, "ammo_count")

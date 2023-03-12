@@ -2,28 +2,21 @@ extends BotState
 
 # Configuration
 var last_velocity: float = 0.0
+var dir: Vector2 = Vector2.ZERO
 
 # Virtual function. Corresponds to the `_process()` callback.
 func _update_process(_delta: float) -> void:
-	bot.navigation_agent.target_position = GlobalGameInformation.current_player.global_position
+	pass
 
 # Virtual function. Corresponds to the `_physics_process()` callback.
 func _update_physics_process(_delta: float) -> void:
-	if (bot.navigation_agent.is_navigation_finished()): return
-	
-	if bot.is_on_floor():
-		assigned_state_machine.transfer_to("Idle")
-		return
-	
 	if bot.can_bounce:
 		bounce()
-	
-	var dir = bot.global_position.direction_to(bot.navigation_agent.get_next_path_position())
-	if dir.x != 0:
-		bot.velocity.x = lerp(bot.velocity.x, dir.x * 150.0, bot.air_acceleration)
+		
+	bot.acceleration = bot.air_acceleration
 		
 func bounce() -> void:
-	if bot.velocity.x !=0:
+	if bot.velocity.x != 0:
 		last_velocity = bot.velocity.x
 	for i in range(bot.get_slide_collision_count()):
 		var collision = bot.get_slide_collision(i)
