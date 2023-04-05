@@ -2,9 +2,9 @@ extends Control
 class_name InitializeGame
 
 # Instances
-var default_text: String = "Waiting"
-@onready var player_information = $PanelContainer/InformationContainer/VBoxContainer/HBoxContainer/PlayerInformation
-@onready var host_information = $PanelContainer/InformationContainer/VBoxContainer/HBoxContainer/HostInformation
+var default_text: String = "Waiting..."
+@onready var player_information: PlayerInformation = $PanelContainer/InformationContainer/VBoxContainer/HBoxContainer/PlayerInformation
+@onready var host_information: PlayerInformation = $PanelContainer/InformationContainer/VBoxContainer/HBoxContainer/HostInformation
 @onready var start_button = $PanelContainer/ButtonContainer/HBoxContainer/StartButton
 @onready var game_id_button = $PanelContainer/GameIDContainer/HBoxContainer/CopyGameIDButton
 
@@ -39,10 +39,13 @@ func _on_copy_game_id_button_pressed() -> void:
 	
 func host_connected_ui(peer_id: int, multiplayer_bridge: NakamaMultiplayerBridge) -> void:
 	player_information.set_username_text(multiplayer_bridge.get_user_presence_for_peer(peer_id).username)
+	var user_info = await NakamaIntegration.get_another_player_info(multiplayer_bridge.get_user_presence_for_peer(peer_id).user_id)
+	player_information.set_avatar_image(await GlobalGameInformation.request_avatar(user_info.users[0].avatar_url))
 	
 func client_connected_ui(multiplayer_bridge: NakamaMultiplayerBridge) -> void:
 	host_information.set_username_text(multiplayer_bridge.get_user_presence_for_peer(1).username, true)
 	player_information.set_username_text(GlobalGameInformation.username)
+	player_information.set_avatar_image(GlobalGameInformation.avatar_image)
 	
 func player_disconnected(_peer_id: int) -> void:
 	player_information.set_username_text(default_text)

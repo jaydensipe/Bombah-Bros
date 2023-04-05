@@ -27,7 +27,10 @@ func init_signal_connections() -> void:
 func initialize_multiplayer_bridge() -> void:
 	gui.load_connecting_menu()
 	multiplayer_bridge = await NakamaIntegration.initialize_nakama()
+	multiplayer_bridge.match_join_error.connect(func(error): GlobalDebugMananger.display_error_dialog(error.message))
 	gui.load_main_menu()
+	
+	GlobalGameInformation.avatar_image = await GlobalGameInformation.request_avatar(GlobalGameInformation.avatar_url)
 	
 func _host_server() -> void:
 	GlobalGameInformation.SINGLEPLAYER_SESSION = false
@@ -117,7 +120,7 @@ func _join_match(connection_string: String) -> void:
 	multiplayer.multiplayer_peer = multiplayer_bridge.multiplayer_peer
 	if !multiplayer_bridge.match_joined.is_connected(gui.initalize_game_menu.client_connected_ui):
 		multiplayer_bridge.match_joined.connect(gui.initalize_game_menu.client_connected_ui.bind(multiplayer_bridge))
-	
+		
 	gui.load_ui_element(gui.initalize_game_menu)
 	
 func _disconnect() -> void:

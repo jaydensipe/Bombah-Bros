@@ -1,3 +1,11 @@
+PanelContainer
+Window
+Label
+CollisionShape2D
+Area2D
+Marker2D
+Node2D
+Timer
 SequenceReactiveComposite
 SequenceStarComposite
 ActionLeaf
@@ -8,11 +16,8 @@ SelectorComposite
 BlackboardSetAction
 ConditionLeaf
 Leaf
-CollisionShape2D
-Area2D
 NavigationAgent2D
 Decorator
-Node2D
 RayCast2D
 Node
 BeehaveTree
@@ -26,7 +31,3 @@ CanvasLayer
 GPUParticles2D
 AudioStreamPlayer2D
 ParallaxLayer
-ParallaxBackground
-DirectionalLight2D
-Tree
-WorldEnvironment

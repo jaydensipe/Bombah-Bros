@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0j387ig0e2tl"]
+
+[ext_resource type="Script" path="res://Entities/AI/Nav/NavPoint.gd" id="1_y3bvq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_44nir"]
+size = Vector2(8, 33)
+
+[node name="NavPoint" type="Marker2D" groups=["NavPoint"]]
+script = ExtResource("1_y3bvq")
+default_color = Color(0, 1, 0, 1)
+jump_color = Color(1, 0, 0, 1)
+selected_color = Color(0, 0, 1, 1)
+
+[node name="JumpPoint" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="JumpPoint"]
+position = Vector2(0, -7.5)
+shape = SubResource("RectangleShape2D_44nir")
+disabled = true
+
+[connection signal="body_entered" from="JumpPoint" to="." method="_on_area_2d_body_entered"]

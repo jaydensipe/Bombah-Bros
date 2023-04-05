@@ -13,6 +13,8 @@ class_name Bot
 @onready var forward_wall_detector: RayCast2D = $AI/ForwardWallDetector
 @onready var backward_wall_detector: RayCast2D = $AI/BackwardWallDetector
 @onready var navigation_agent: NavigationAgent2D = $AI/NavigationAgent2D
+@onready var bomb_throw_timer: Timer = $Timers/BombThrowTimer
+@onready var attempted_travel_point: NavPoint = null
 
 # Configuration
 @export var max_delay_between_throws: float = 2.0
@@ -26,6 +28,17 @@ func _ready() -> void:
 	
 func _physics_process(delta) -> void:
 	move_player(delta)
+	
+func pick_random_nav_mesh_point() -> NavPoint: 
+	if (attempted_travel_point):
+		attempted_travel_point.attempting_to_travel = false
+		
+	var picked = GlobalGameInformation.current_map_nav_mesh.pick_random() as NavPoint
+	picked.attempting_to_travel = true
+	
+	attempted_travel_point = picked
+	
+	return picked
 
 func set_spawn_position(pos: Vector2):
 	global_position = pos
@@ -69,10 +82,9 @@ func debug_options():
 	if (!is_multiplayer_authority()): return
 	
 	GlobalDebugMananger.add_debug_item(self, "name", true)
-	GlobalDebugMananger.add_debug_item(self, "health", true)
+	GlobalDebugMananger.add_debug_item(self, "health")
 	GlobalDebugMananger.add_debug_item(self, "position")
 	GlobalDebugMananger.add_debug_item(self, "velocity")
-	GlobalDebugMananger.add_debug_item(self, "ammo_count")
 	GlobalDebugMananger.add_debug_item(state_machine, "state")
 	GlobalDebugMananger.add_debug_item(action_state_machine, "state")
 

@@ -33,10 +33,15 @@ func move(delta) -> void:
 	
 	if (collision):
 		has_exploded = true
-		explode.rpc()
+		# If we are against a bot, handle local explosion
+		if (GlobalGameInformation.SINGLEPLAYER_SESSION):
+			explode()
+		else:
+			explode.rpc()
+			
 		bomb_effects(collision.get_collider(), collision.get_collider_rid())		
 	
-@rpc("any_peer", "call_local")
+@rpc("any_peer")
 func explode() -> void:
 	if (!multiplayer.is_server()): return
 	

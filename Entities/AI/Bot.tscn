@@ -21,7 +21,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2xlfw"]
 resource_local_to_scene = true
 shader = ExtResource("1_v11ye")
-shader_parameter/line_color = Color(0, 0, 0, 1)
+shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/line_thickness = 0.6
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y6whm"]
@@ -173,7 +173,7 @@ animation = &"Throw"
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_348h8"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_x6hud"]
-graph_offset = Vector2(-706.25, -141.081)
+graph_offset = Vector2(-597.349, -65.5297)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_ix7lk")
 nodes/Animation/position = Vector2(-106.667, -160)
 nodes/ChargeThrow/node = SubResource("AnimationNodeAnimation_sie86")
@@ -324,6 +324,10 @@ parameters/Movement/ThrowOneShot/request = 0
 parameters/Movement/TimeScale/scale = 8.0
 "parameters/Movement/TimeScale 2/scale" = 8.0
 
+[node name="Timers" type="Node2D" parent="."]
+
+[node name="BombThrowTimer" type="Timer" parent="Timers"]
+
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("9_k52e6")
 initial_state = NodePath("Run")
@@ -373,4 +377,5 @@ script = ExtResource("16_0c34a")
 
 [node name="Move To Position" parent="BotBehaviorTree/Bot Movement" instance=ExtResource("19_fwo0m")]
 
+[connection signal="animation_finished" from="Animation/AnimationTree" to="ActionStateMachine/PostThrow" method="_on_animation_tree_animation_finished"]
 [connection signal="navigation_finished" from="AI/NavigationAgent2D" to="BotBehaviorTree/Bot Movement/Move To Position" method="_on_navigation_agent_2d_navigation_finished"]

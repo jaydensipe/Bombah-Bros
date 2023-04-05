@@ -10,9 +10,13 @@ func _update_process(_delta: float) -> void:
 
 # Virtual function. Corresponds to the `_physics_process()` callback.
 func _update_physics_process(_delta: float) -> void:
+	if bot.is_on_floor():
+		assigned_state_machine.transfer_to("Run")
+		return
+		
 	if bot.can_bounce:
 		bounce()
-		
+	
 	bot.acceleration = bot.air_acceleration
 		
 func bounce() -> void:
@@ -26,7 +30,7 @@ func bounce() -> void:
 # Virtual function. Called by the state machine upon changing the active state. The `msg` parameter
 # is a dictionary with arbitrary data the state can use to initialize itself.
 func enter(_msg := {}) -> void:
-	if (_msg.has("Jump")):
+	if (_msg.has("Jump") and bot.is_on_floor()):
 		bot.velocity.y = bot.jump_height
 
 # Virtual function. Called by the state machine before changing the active state. Use this function

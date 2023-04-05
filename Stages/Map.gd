@@ -3,8 +3,8 @@ extends TileMap
 class_name Map
 
 # Configuration
-var bot_nav_mesh: Array[Marker2D] = []
 @export var map_name: StringName = ""
+@onready var nav_point = preload("res://Entities/AI/Nav/NavPoint.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -13,17 +13,28 @@ func _ready() -> void:
 		generate_ai_navmesh()
 
 func generate_ai_navmesh() -> void:
-	for tile in get_used_cells(0):
-		var cell_pos = Vector2(tile.x, tile.y - 1)
-		if is_above_tile_air(cell_pos):
-			var marker: Marker2D = Marker2D.new()
-			marker.global_position = cell_pos
-			bot_nav_mesh.append(marker)
-			
-	GlobalGameInformation.current_map_nav_mesh = bot_nav_mesh
+	GlobalGameInformation.current_map_nav_mesh.clear()
 	
+	for tile in get_used_cells(0):
+		var cell_pos = Vector2(tile.x, tile.y)
+		if is_above_tile_air(cell_pos):
+			var marker: NavPoint = nav_point.instantiate()
+			if (is_jump_tile(cell_pos)): 
+				marker.is_jump_point = true
+				
+			marker.position = map_to_local(cell_pos)
+			GlobalGameInformation.current_map_nav_mesh.append(marker)
+			add_child(marker)
+			
 func is_above_tile_air(cell_position: Vector2) -> bool:
 	if get_cell_source_id(0, Vector2(cell_position.x, cell_position.y - 1)) == -1:
 		return true
 	else:
 		return false
+	
+func is_jump_tile(cell_position: Vector2) -> bool:
+	if get_cell_source_id(0, Vector2(cell_position.x - 1, cell_position.y)) == -1 || get_cell_source_id(0, Vector2(cell_position.x + 1, cell_position.y)) == -1:
+		return true
+	else:
+		return false
+	

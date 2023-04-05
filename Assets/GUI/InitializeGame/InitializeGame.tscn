@@ -39,7 +39,6 @@ theme_override_constants/separation = 50
 
 [node name="HostInformation" parent="PanelContainer/InformationContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_6q6jg")]
 layout_mode = 2
-host_label = true
 
 [node name="MapSelection" parent="PanelContainer/InformationContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_8wr5c")]
 layout_mode = 2
