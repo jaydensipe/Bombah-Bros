@@ -11,7 +11,7 @@ func signal_instance_particles(instance_pos: Vector2, terrain_type: String) -> v
 	emit_signal("instance_particles", instance_pos, terrain_type)
 	
 signal screen_shake
-func signal_screen_shake(new_shake, shake_time) -> void:
+func signal_screen_shake(new_shake: float, shake_time: float) -> void:
 	emit_signal("screen_shake", new_shake, shake_time)
 	
 # UI

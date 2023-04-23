@@ -19,11 +19,7 @@ class_name Bot
 # Configuration
 @export var max_delay_between_throws: float = 2.0
 
-# Signals
-signal taken_damage(damage_dealt)
-	
 func _ready() -> void:
-	material.set_shader_parameter("line_color", Color.RED)
 	debug_options()
 	
 func _physics_process(delta) -> void:
@@ -33,20 +29,13 @@ func pick_random_nav_mesh_point() -> NavPoint:
 	if (attempted_travel_point):
 		attempted_travel_point.attempting_to_travel = false
 		
-	var picked = GlobalGameInformation.current_map_nav_mesh.pick_random() as NavPoint
+	var picked = GlobalGameInformation.get_current_game_information().current_map_nav_mesh.pick_random() as NavPoint
 	picked.attempting_to_travel = true
 	
 	attempted_travel_point = picked
 	
 	return picked
 
-func set_spawn_position(pos: Vector2):
-	global_position = pos
-	
-func respawn():
-	position = Vector2.ZERO
-	health = 0
-	
 func move_player(delta) -> void:
 	# Apply gravity
 	velocity.y += gravity * delta
@@ -54,12 +43,6 @@ func move_player(delta) -> void:
 	# Moving
 	flip_body()
 	move_and_slide()
-	
-func take_damage(damage_dealt: float, damage_pos: Vector2) -> void:
-	can_bounce = true
-	
-	health += damage_dealt
-	velocity += damage_pos * (-1 * health)
 	
 func set_state(state_machine_name: NodePath, target_state_name: String, msg: Dictionary = {}):
 	var selected_state_machine = get_node(state_machine_name) as StateMachine
@@ -85,6 +68,8 @@ func debug_options():
 	GlobalDebugMananger.add_debug_item(self, "health")
 	GlobalDebugMananger.add_debug_item(self, "position")
 	GlobalDebugMananger.add_debug_item(self, "velocity")
+	GlobalDebugMananger.add_debug_item(self, "ammo_count")
+	GlobalDebugMananger.add_debug_item(self, "lives")
 	GlobalDebugMananger.add_debug_item(state_machine, "state")
 	GlobalDebugMananger.add_debug_item(action_state_machine, "state")
 

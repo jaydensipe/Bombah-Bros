@@ -9,22 +9,22 @@ collision_layer = 0
 collision_mask = 6
 script = ExtResource("1_goa18")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Top" type="CollisionShape2D" parent="."]
 scale = Vector2(20, 1)
 shape = SubResource("RectangleShape2D_bj7bo")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+[node name="Bottom" type="CollisionShape2D" parent="."]
 position = Vector2(0, 200)
 scale = Vector2(20, 1)
 shape = SubResource("RectangleShape2D_bj7bo")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+[node name="Right" type="CollisionShape2D" parent="."]
 position = Vector2(210, 100)
 rotation = 1.5708
 scale = Vector2(10, 1)
 shape = SubResource("RectangleShape2D_bj7bo")
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="."]
+[node name="Left" type="CollisionShape2D" parent="."]
 position = Vector2(-210, 100)
 rotation = 1.5708
 scale = Vector2(10, 1)

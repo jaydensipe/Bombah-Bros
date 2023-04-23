@@ -1,4 +1,3 @@
-@tool
 extends TileMap
 class_name Map
 
@@ -8,22 +7,28 @@ class_name Map
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	GlobalGameInformation.current_map_name = map_name
+	GlobalGameInformation.get_current_game_information().current_map = self
+	
+	# Generates nav mesh if singleplayer mode
 	if (GlobalGameInformation.SINGLEPLAYER_SESSION):
 		generate_ai_navmesh()
 
 func generate_ai_navmesh() -> void:
-	GlobalGameInformation.current_map_nav_mesh.clear()
+	GlobalGameInformation.get_current_game_information().current_map_nav_mesh.clear()
 	
 	for tile in get_used_cells(0):
 		var cell_pos = Vector2(tile.x, tile.y)
+		# If a tile has air above it, add it as a nav point
 		if is_above_tile_air(cell_pos):
 			var marker: NavPoint = nav_point.instantiate()
+			
+			# If a tile has air above it and one or both sides contain air
 			if (is_jump_tile(cell_pos)): 
 				marker.is_jump_point = true
 				
 			marker.position = map_to_local(cell_pos)
-			GlobalGameInformation.current_map_nav_mesh.append(marker)
+			
+			GlobalGameInformation.get_current_game_information().current_map_nav_mesh.append(marker)
 			add_child(marker)
 			
 func is_above_tile_air(cell_position: Vector2) -> bool:

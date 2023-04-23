@@ -14,12 +14,8 @@ class_name Player
 @onready var wait_for_reload_timer: Timer = $Timers/WaitForReloadTimer
 @onready var walk_audio: AudioStreamPlayer2D = $VFX/WalkAudio
 
-# Signals
-signal taken_damage(damage_dealt)
 	
 func _ready() -> void:
-	if (!is_multiplayer_authority()): material.set_shader_parameter("line_color", Color.RED)
-	
 	debug_options()
 	
 func _enter_tree() -> void:
@@ -31,14 +27,6 @@ func _physics_process(delta) -> void:
 	
 	move_player(delta)
 	controller_aim(delta)
-
-@rpc("call_local", "any_peer")
-func set_spawn_position(pos: Vector2):
-	global_position = pos
-	
-func respawn():
-	position = Vector2.ZERO
-	health = 0
 	
 func controller_aim(delta) -> void:
 	if (!GlobalGameInformation.CONTROLLER_ENABLED): return
@@ -65,12 +53,6 @@ func move_player(delta) -> void:
 	flip_body()
 	move_and_slide()
 
-@rpc("any_peer", "call_local")
-func take_damage(damage_dealt: float, damage_pos: Vector2) -> void:
-	can_bounce = true
-	
-	health += damage_dealt
-	velocity += damage_pos * (-1 * health)
 	
 func flip_body() -> void:
 	head.look_at(get_global_mouse_position())
@@ -91,5 +73,6 @@ func debug_options():
 	GlobalDebugMananger.add_debug_item(self, "position")
 	GlobalDebugMananger.add_debug_item(self, "velocity")
 	GlobalDebugMananger.add_debug_item(self, "ammo_count")
+	GlobalDebugMananger.add_debug_item(self, "lives")
 	GlobalDebugMananger.add_debug_item(state_machine, "state")
 	GlobalDebugMananger.add_debug_item(action_state_machine, "state")

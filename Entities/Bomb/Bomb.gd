@@ -33,6 +33,7 @@ func move(delta) -> void:
 	
 	if (collision):
 		has_exploded = true
+		
 		# If we are against a bot, handle local explosion
 		if (GlobalGameInformation.SINGLEPLAYER_SESSION):
 			explode()

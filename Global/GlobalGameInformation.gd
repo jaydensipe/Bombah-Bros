@@ -4,20 +4,27 @@ extends Node
 var CONTROLLER_ENABLED: bool = false
 var SINGLEPLAYER_SESSION: bool = false
 
-# Current game information
+# Player Information
 var current_player: Player = null
-var current_game_id: String = ""
 var username: String = ""
 var avatar_url: String = ""
 var avatar_image: ImageTexture
 var user_id: String = ""
 
-# Current map information
-var current_map_name: String = ""
-var current_map_nav_mesh: Array[Marker2D] = []
+# Current game information
+var current_game_information: CurrentGameInformation = null
 
 func _ready() -> void:
 	check_for_controller()
+	
+func get_current_game_information() -> CurrentGameInformation:
+	if (current_game_information == null):
+		current_game_information = CurrentGameInformation.new()
+		
+	return current_game_information
+	
+func clear_current_game_information() -> void:
+	current_game_information = null
 	
 func check_for_controller() -> void:
 	if (Input.get_connected_joypads().size() == 0): return

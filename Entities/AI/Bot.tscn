@@ -1,11 +1,7 @@
-[gd_scene load_steps=45 format=3 uid="uid://be3ot2n405c04"]
+[gd_scene load_steps=41 format=3 uid="uid://bkuih6et1ntd4"]
 
 [ext_resource type="Shader" path="res://Entities/Player/Player.gdshader" id="1_v11ye"]
 [ext_resource type="Script" path="res://Entities/AI/Bot.gd" id="1_yq0kh"]
-[ext_resource type="Texture2D" uid="uid://crmoo8o2yrf8u" path="res://Assets/Characters/BombBill/bombbill_body.png" id="3_lycpb"]
-[ext_resource type="Texture2D" uid="uid://mepwcxf2cpy" path="res://Assets/Characters/BombBill/bombbill_head.png" id="4_px5rm"]
-[ext_resource type="Texture2D" uid="uid://3skr0upcqmhm" path="res://Assets/Characters/BombBill/bombbill_leg.png" id="5_v5vn4"]
-[ext_resource type="Texture2D" uid="uid://cqowa1rbud2kr" path="res://Assets/Characters/BombBill/bombbill_arm.png" id="6_k7nh4"]
 [ext_resource type="AudioStream" uid="uid://bfw5sls107dwv" path="res://Assets/Audio/walk.wav" id="8_m3cvj"]
 [ext_resource type="Script" path="res://Entities/StateMachine/StateMachine.gd" id="9_k52e6"]
 [ext_resource type="Script" path="res://Entities/StateMachine/States/Bot/Run.gd" id="9_xh5uq"]
@@ -257,31 +253,25 @@ script = ExtResource("1_yq0kh")
 [node name="Body" type="Sprite2D" parent="."]
 y_sort_enabled = true
 use_parent_material = true
-texture = ExtResource("3_lycpb")
 
 [node name="Head" type="Sprite2D" parent="Body"]
 use_parent_material = true
-texture = ExtResource("4_px5rm")
 
 [node name="Leg1" type="Sprite2D" parent="Body"]
 z_index = -1
 use_parent_material = true
 position = Vector2(-1, 1)
-texture = ExtResource("5_v5vn4")
 
 [node name="Leg2" type="Sprite2D" parent="Body"]
 use_parent_material = true
 position = Vector2(0, 1)
-texture = ExtResource("5_v5vn4")
 
 [node name="Arm2" type="Sprite2D" parent="Body"]
 z_index = -1
 use_parent_material = true
-texture = ExtResource("6_k7nh4")
 
 [node name="Arm1" type="Sprite2D" parent="Body"]
 use_parent_material = true
-texture = ExtResource("6_k7nh4")
 
 [node name="BombSpawnPoint" type="Marker2D" parent="Body"]
 

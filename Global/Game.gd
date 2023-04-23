@@ -13,6 +13,16 @@ var multiplayer_bridge: NakamaMultiplayerBridge
 var map = load("res://Stages/MapGrass/MapGrass.tscn")
 var player = load("res://Entities/Player/Player.tscn")
 
+# Game Logic
+@rpc("call_local")
+func end_game() -> void:
+	
+	gui.load_ui_element(gui.initalize_game_menu)
+	reset_game()
+	
+func _character_death(character: Character):
+	end_game.rpc()
+	
 func _ready() -> void:
 	init_signal_connections()
 	initialize_multiplayer_bridge()
@@ -38,7 +48,7 @@ func _host_server() -> void:
 	await multiplayer_bridge.create_match()
 	
 	multiplayer.multiplayer_peer = multiplayer_bridge.multiplayer_peer
-	GlobalGameInformation.current_game_id = multiplayer_bridge.match_id
+	GlobalGameInformation.get_current_game_information().current_game_id = multiplayer_bridge.match_id
 	
 	if !multiplayer.peer_connected.is_connected(add_player):
 		multiplayer.peer_connected.connect(add_player)
@@ -87,10 +97,12 @@ func instance_and_set_player_spawn() -> void:
 		var bot: Bot = load("res://Entities/AI/Bot.tscn").instantiate()
 		players.add_child(bot)
 		bot.set_spawn_position(get_random_spawn_location_from_current_map())
+		bot.has_died.connect(_character_death)
 	
 	for peer_id in connected_peers:
 		var ply: Player = player.instantiate()
 		ply.name = str(peer_id)
+		ply.has_died.connect(_character_death)
 
 		players.add_child(ply)
 		ply.set_spawn_position.rpc(get_random_spawn_location_from_current_map())
@@ -105,11 +117,23 @@ func get_random_spawn_location_from_current_map() -> Vector2:
 func add_map() -> void:
 	current_map.add_child(map.instantiate())
 	
+func remove_map() -> void:
+	current_map.call_deferred("remove_child", current_map.get_children()[0])
+	
 func get_current_map() -> Node2D:
 	return current_map.get_child(0)
 	
 func add_player(peer_id: int) -> void:
 	connected_peers.append(peer_id)
+	
+func remove_players() -> void:
+	for player in players.get_children():
+		players.remove_child(player)
+		player.queue_free()
+	
+func reset_game() -> void:
+	remove_map()
+	remove_players()
 	
 # Client Setup
 func _join_match(connection_string: String) -> void:
@@ -124,5 +148,7 @@ func _join_match(connection_string: String) -> void:
 	gui.load_ui_element(gui.initalize_game_menu)
 	
 func _disconnect() -> void:
+	GlobalGameInformation.clear_current_game_information()
+	
 	connected_peers.clear()
 	multiplayer_bridge.leave()

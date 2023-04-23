@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ca16pyffvwdia"]
+[gd_scene load_steps=19 format=3]
 
 [ext_resource type="Script" path="res://Assets/GUI/MainMenu/MainMenu.gd" id="1_2ensq"]
 [ext_resource type="Theme" uid="uid://bj2q0bvxlmix" path="res://Assets/GUI/Fonts/BombahBrosTheme.tres" id="2_j77km"]

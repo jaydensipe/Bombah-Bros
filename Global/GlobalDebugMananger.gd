@@ -38,7 +38,8 @@ func _process(_delta: float) -> void:
 		queue_redraw()
 		
 	for item in debug_items:
-		item.update_label()
+		if(SHOW_DEBUG_MENU):
+			item.update_label()
 		
 	if SHOW_DEBUG_VIEWABLES:
 		queue_redraw()
@@ -58,7 +59,7 @@ func display_error_dialog(text: String) -> void:
 	error_window.show()
 		
 func draw_debug_objects() -> void:
-	for marker in GlobalGameInformation.current_map_nav_mesh:
+	for marker in GlobalGameInformation.get_current_game_information().current_map_nav_mesh:
 		draw_circle(marker.global_position, 5.0, marker.color_to_display)
 
 func debug_menu() -> void:
