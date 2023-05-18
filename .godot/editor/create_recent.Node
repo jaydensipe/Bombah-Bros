@@ -1,3 +1,4 @@
+Control
 PanelContainer
 Window
 Label
@@ -26,8 +27,6 @@ Blackboard
 AudioStreamPlayer
 TileMap
 TextureRect
-Control
 CanvasLayer
 GPUParticles2D
 AudioStreamPlayer2D
-ParallaxLayer

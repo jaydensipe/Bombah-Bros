@@ -16,11 +16,13 @@ class_name Player
 
 	
 func _ready() -> void:
+	super()
+	
 	debug_options()
 	
 func _enter_tree() -> void:
 	set_multiplayer_authority(str(name).to_int())
-	GlobalGameInformation.current_player = self
+	GlobalGameInformation.get_current_player().current_player = self
 	
 func _physics_process(delta) -> void:
 	if (!is_multiplayer_authority()): return

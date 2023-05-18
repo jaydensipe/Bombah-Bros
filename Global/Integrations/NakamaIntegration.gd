@@ -8,7 +8,7 @@ var session: NakamaSession
 func _ready() -> void:
 	client = Nakama.create_client("01132476322718204193", "nakamabbrosdev.games", 7350, "https")
 
-func initialize_nakama() -> void:
+func initialize_nakama() -> NakamaMultiplayerBridge:
 	# Unique ID for each player
 	var id = OS.get_unique_id()
 	
@@ -35,9 +35,9 @@ func initialize_nakama() -> void:
 	
 func init_user() -> void:
 	var account = await client.get_account_async(session)
-	GlobalGameInformation.username = account.user.username
-	GlobalGameInformation.avatar_url = account.user.avatar_url
-	GlobalGameInformation.user_id = account.user.id
+	GlobalGameInformation.get_current_player().username = account.user.username
+	GlobalGameInformation.get_current_player().avatar_url = account.user.avatar_url
+	GlobalGameInformation.get_current_player().user_id = account.user.id
 	
 func get_player_info(user_id: String):
 	return await client.get_users_async(session, [user_id])

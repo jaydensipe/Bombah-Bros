@@ -17,7 +17,7 @@ var player = load("res://Entities/Player/Player.tscn")
 @rpc("call_local")
 func end_game() -> void:
 	
-	gui.load_ui_element(gui.initalize_game_menu)
+	gui.current_ui_reference.show()
 	reset_game()
 	
 func _character_death(character: Character):
@@ -28,9 +28,10 @@ func _ready() -> void:
 	initialize_multiplayer_bridge()
 	
 func init_signal_connections() -> void:
-	gui.main_menu.host_pressed.connect(_host_server)
-	gui.main_menu.play_with_bot_pressed.connect(_host_bot_match)
-	gui.join_game_menu.join_pressed.connect(_join_match)
+	# UI Signals
+	GlobalSignalManager.host_pressed.connect(_host_server)
+	GlobalSignalManager.play_with_bot_pressed.connect(_host_bot_match)
+	GlobalSignalManager.join_game_pressed.connect(_join_match)
 	gui.disconnect.connect(_disconnect)
 	
 # Server Setup
@@ -40,7 +41,7 @@ func initialize_multiplayer_bridge() -> void:
 	multiplayer_bridge.match_join_error.connect(func(error): GlobalDebugMananger.display_error_dialog(error.message))
 	gui.load_main_menu()
 	
-	GlobalGameInformation.avatar_image = await GlobalGameInformation.request_avatar(GlobalGameInformation.avatar_url)
+	GlobalGameInformation.get_current_player().avatar_image = await GlobalGameInformation.request_avatar(GlobalGameInformation.get_current_player().avatar_url)
 	
 func _host_server() -> void:
 	GlobalGameInformation.SINGLEPLAYER_SESSION = false
@@ -52,12 +53,12 @@ func _host_server() -> void:
 	
 	if !multiplayer.peer_connected.is_connected(add_player):
 		multiplayer.peer_connected.connect(add_player)
-		multiplayer.peer_connected.connect(gui.initalize_game_menu.host_connected_ui.bind(multiplayer_bridge))
+		multiplayer.peer_connected.connect(GlobalSignalManager.signal_host_connected_ui.bind(multiplayer_bridge))
 		multiplayer.peer_disconnected.connect(_client_disconnect)
-		gui.initalize_game_menu.start_match.connect(_start_match)
+		GlobalSignalManager.start_match.connect(_start_match)
 	
 	add_player(multiplayer.get_unique_id())
-	gui.load_ui_element(gui.initalize_game_menu)
+	gui.load_ui_element(gui.initialize_game_menu)
 	
 func _host_bot_match() -> void:
 	GlobalGameInformation.SINGLEPLAYER_SESSION = true
@@ -68,25 +69,26 @@ func _host_bot_match() -> void:
 	
 	if not multiplayer.peer_connected.is_connected(add_player):
 		multiplayer.peer_connected.connect(add_player)
-		gui.initalize_game_menu.start_match.connect(_start_match)
+		GlobalSignalManager.start_match.connect(_start_match)
 		
 	add_player(multiplayer.get_unique_id())
-	gui.load_ui_element(gui.initalize_game_menu)
+	gui.load_ui_element(gui.initialize_game_menu)
 	
 func _start_match() -> void:
 	host_start_game.rpc()
 	instance_and_set_player_spawn()
 	
 func _client_disconnect(peer_id: int) -> void:
-	gui.initalize_game_menu.player_disconnected(peer_id)
+	GlobalSignalManager.signal_client_disconnected(peer_id)
 	connected_peers.erase(peer_id)
 	
 @rpc("call_local")
 func host_start_game() -> void:
 	GlobalSignalManager.signal_main_menu_load_change(true)
 	
+	gui.current_ui_reference.hide()	
+	# TODO: Fix
 	gui.remove_child($GUI/Decoration)
-	gui.remove_ui_element(gui.current_ui_reference.get_ref())
 	add_map()
 
 func instance_and_set_player_spawn() -> void:
@@ -127,9 +129,9 @@ func add_player(peer_id: int) -> void:
 	connected_peers.append(peer_id)
 	
 func remove_players() -> void:
-	for player in players.get_children():
-		players.remove_child(player)
-		player.queue_free()
+	for ply in players.get_children():
+		players.remove_child(ply)
+		ply.queue_free()
 	
 func reset_game() -> void:
 	remove_map()
@@ -142,13 +144,13 @@ func _join_match(connection_string: String) -> void:
 	await multiplayer_bridge.join_match(connection_string)
 	
 	multiplayer.multiplayer_peer = multiplayer_bridge.multiplayer_peer
-	if !multiplayer_bridge.match_joined.is_connected(gui.initalize_game_menu.client_connected_ui):
-		multiplayer_bridge.match_joined.connect(gui.initalize_game_menu.client_connected_ui.bind(multiplayer_bridge))
+	if !multiplayer_bridge.match_joined.is_connected(GlobalSignalManager.signal_client_connected_ui):
+		multiplayer_bridge.match_joined.connect(GlobalSignalManager.signal_client_connected_ui.bind(multiplayer_bridge))
 		
-	gui.load_ui_element(gui.initalize_game_menu)
+	gui.load_ui_element(gui.initialize_game_menu)
 	
 func _disconnect() -> void:
-	GlobalGameInformation.clear_current_game_information()
+#	GlobalGameInformation.clear_current_game_information()
 	
 	connected_peers.clear()
 	multiplayer_bridge.leave()

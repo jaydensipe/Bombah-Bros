@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3]
+[gd_scene load_steps=15 format=3 uid="uid://browwxhjr5fph"]
 
 [ext_resource type="Script" path="res://Global/Game.gd" id="1_ma1et"]
 [ext_resource type="Script" path="res://Global/Game/Camera.gd" id="2_gs472"]
@@ -1067,6 +1067,8 @@ script = ExtResource("2_tttpa")
 script = ExtResource("4_dbwgp")
 
 [node name="Decoration" type="Node2D" parent="GUI"]
+z_index = -100
+z_as_relative = false
 position = Vector2(0, 144)
 
 [node name="Bombbill" type="Sprite2D" parent="GUI/Decoration"]

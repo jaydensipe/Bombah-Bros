@@ -38,9 +38,9 @@ window/size/viewport_width=640
 window/size/viewport_height=360
 window/size/window_width_override=1280
 window/size/window_height_override=720
-window/vsync/vsync_mode=0
 window/stretch/mode="canvas_items"
 window/stretch/aspect="ignore"
+window/vsync/vsync_mode=0
 
 [editor_plugins]
 
@@ -117,5 +117,5 @@ common/max_physics_steps_per_frame=16
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0.137255, 0.34902, 0.431373, 1)
 textures/canvas_textures/default_texture_filter=0
+environment/defaults/default_clear_color=Color(0.137255, 0.34902, 0.431373, 1)

@@ -5,17 +5,19 @@ var CONTROLLER_ENABLED: bool = false
 var SINGLEPLAYER_SESSION: bool = false
 
 # Player Information
-var current_player: Player = null
-var username: String = ""
-var avatar_url: String = ""
-var avatar_image: ImageTexture
-var user_id: String = ""
+var current_player_information: MultiplayerPlayer = null
 
-# Current game information
+# Current Game Information
 var current_game_information: CurrentGameInformation = null
 
 func _ready() -> void:
 	check_for_controller()
+	
+func get_current_player() -> MultiplayerPlayer:
+	if (current_player_information == null):
+		current_player_information = MultiplayerPlayer.new()
+		
+	return current_player_information
 	
 func get_current_game_information() -> CurrentGameInformation:
 	if (current_game_information == null):
@@ -59,7 +61,7 @@ func request_avatar(avatar_url: String) -> ImageTexture:
 
 	var texture = ImageTexture.new()
 	
-	avatar_image = texture.create_from_image(image)
+	var avatar_image: ImageTexture = texture.create_from_image(image)
 	avatar_image.set_size_override(Vector2i(128, 128))
 	
 	return avatar_image

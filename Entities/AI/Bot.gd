@@ -20,6 +20,7 @@ class_name Bot
 @export var max_delay_between_throws: float = 2.0
 
 func _ready() -> void:
+	material.set_shader_parameter("line_color", Color.RED)
 	debug_options()
 	
 func _physics_process(delta) -> void:
@@ -51,9 +52,9 @@ func set_state(state_machine_name: NodePath, target_state_name: String, msg: Dic
 	selected_state_machine.transfer_to(target_state_name, msg)
 
 func flip_body() -> void:
-	head.look_at(GlobalGameInformation.current_player.global_position)
+	head.look_at(GlobalGameInformation.get_current_player().current_player.global_position)
 
-	var direction = sign(GlobalGameInformation.current_player.global_position.x - global_position.x)
+	var direction = sign(GlobalGameInformation.get_current_player().current_player.global_position.x - global_position.x)
 	if direction < 0:
 		body.scale.x = -1
 		walk_particles.process_material.direction = Vector3(20, -3, 0)

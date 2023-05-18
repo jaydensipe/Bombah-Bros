@@ -35,7 +35,7 @@ func do_animations() -> void:
 func throw():
 	do_animations()
 	
-	GlobalSignalManager.signal_throw_bomb(bot.bomb_throw_location.global_position, GlobalGameInformation.current_player.global_position, bot.throw_power, true)
+	GlobalSignalManager.signal_throw_bomb(bot.bomb_throw_location.global_position, GlobalGameInformation.get_current_player().current_player.global_position, bot.throw_power, true)
 	bot.throw_power = bot.MAX_THROW_POWER
 	
 	assigned_state_machine.transfer_to("PostThrow")
