@@ -2,8 +2,10 @@ extends VBoxContainer
 class_name MapSelection
 
 # Instances
-@onready var button_container: HBoxContainer = $ButtonContainer
+@onready var previous_map_button: Button = $ButtonContainer/PreviousMapButton
+@onready var next_map_button: Button = $ButtonContainer/NextMapButton
 
-func _ready() -> void:
-	if (!multiplayer.is_server()):
-		button_container.hide()
+
+func disable_controls() -> void:
+	previous_map_button.disabled = true
+	next_map_button.disabled = true

@@ -2,6 +2,7 @@ extends CanvasLayer
 class_name GUI
 
 # Configuration
+@onready var game_ui_holder: Control = $GameUI
 var previous_ui_references: Array[PackedScene] = []
 var current_ui_scene_reference: PackedScene
 var current_ui_reference: Control
@@ -12,7 +13,7 @@ var loading_menu = load("res://Assets/GUI/Loading/Loading.tscn")
 var join_game_menu = load("res://Assets/GUI/JoinGame/JoinGame.tscn")
 var initialize_game_menu = load("res://Assets/GUI/InitializeGame/InitializeGame.tscn")
 var settings = load("res://Assets/GUI/Settings/Settings.tscn")
-var game_ui = load("res://Assets/GUI/GameUI/GameUI.tscn")
+var game_ui = preload("res://Assets/GUI/GameUI/GameUI.tscn")
 
 # Signals
 signal disconnect
@@ -38,6 +39,13 @@ func _settings() -> void:
 	
 func _join_server() -> void:
 	load_ui_element(join_game_menu)
+	
+func init_game_ui() -> void:
+	game_ui_holder.add_child(game_ui.instantiate())
+	
+func remove_game_ui() -> void:
+	for i in game_ui_holder.get_children():
+		i.queue_free()
 	
 func load_ui_element(ui: PackedScene, go_back: bool = false) -> void:
 	if current_ui_reference:

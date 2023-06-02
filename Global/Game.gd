@@ -14,14 +14,13 @@ var map = load("res://Stages/MapGrass/MapGrass.tscn")
 var player = load("res://Entities/Player/Player.tscn")
 
 # Game Logic
-@rpc("call_local")
+@rpc("any_peer", "call_local")
 func end_game() -> void:
-	
 	gui.current_ui_reference.show()
 	reset_game()
 	
-func _character_death(character: Character):
-	end_game.rpc()
+func _character_death(character: Character, end: bool):
+	if (end): end_game.rpc()
 	
 func _ready() -> void:
 	init_signal_connections()
@@ -32,6 +31,7 @@ func init_signal_connections() -> void:
 	GlobalSignalManager.host_pressed.connect(_host_server)
 	GlobalSignalManager.play_with_bot_pressed.connect(_host_bot_match)
 	GlobalSignalManager.join_game_pressed.connect(_join_match)
+	GlobalSignalManager.player_died.connect(_character_death)
 	gui.disconnect.connect(_disconnect)
 	
 # Server Setup
@@ -89,6 +89,7 @@ func host_start_game() -> void:
 	gui.current_ui_reference.hide()	
 	# TODO: Fix
 	gui.remove_child($GUI/Decoration)
+	gui.init_game_ui()
 	add_map()
 
 func instance_and_set_player_spawn() -> void:
@@ -99,12 +100,10 @@ func instance_and_set_player_spawn() -> void:
 		var bot: Bot = load("res://Entities/AI/Bot.tscn").instantiate()
 		players.add_child(bot)
 		bot.set_spawn_position(get_random_spawn_location_from_current_map())
-		bot.has_died.connect(_character_death)
 	
 	for peer_id in connected_peers:
 		var ply: Player = player.instantiate()
 		ply.name = str(peer_id)
-		ply.has_died.connect(_character_death)
 
 		players.add_child(ply)
 		ply.set_spawn_position.rpc(get_random_spawn_location_from_current_map())
@@ -150,7 +149,7 @@ func _join_match(connection_string: String) -> void:
 	gui.load_ui_element(gui.initialize_game_menu)
 	
 func _disconnect() -> void:
-#	GlobalGameInformation.clear_current_game_information()
+	GlobalGameInformation.clear_current_game_information()
 	
 	connected_peers.clear()
 	multiplayer_bridge.leave()

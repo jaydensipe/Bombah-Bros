@@ -83,7 +83,7 @@ offset_left = 16.0
 offset_top = 13.0
 offset_right = 410.0
 offset_bottom = 32.0
-text = "* You must refresh the game to update these settings!"
+text = "* You must restart the game to update these settings!"
 
 [node name="Video" type="TabBar" parent="PanelContainer/TabContainer"]
 visible = false
@@ -173,12 +173,5 @@ theme_override_constants/margin_bottom = 20
 [node name="SaveButton" type="Button" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
 text = "Save & Exit"
-
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
-size = Vector2i(343, 100)
-transparent = true
-theme = ExtResource("1_mkcon")
-ok_button_text = "Confirm"
-dialog_text = "Are you sure you want to submit changes?"
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/SaveButton" to="." method="_on_save_button_pressed"]

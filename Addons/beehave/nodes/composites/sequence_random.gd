@@ -41,7 +41,8 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 			c.before_run(actor, blackboard)
 
 		var response = c.tick(actor, blackboard)
-		BeehaveDebuggerMessages.process_tick(c.get_instance_id(), response)
+		if can_send_message(blackboard):
+			BeehaveDebuggerMessages.process_tick(c.get_instance_id(), response)
 
 		if c is ConditionLeaf:
 			blackboard.set_value("last_condition", c, str(actor.get_instance_id()))
@@ -67,6 +68,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 func after_run(actor: Node, blackboard: Blackboard) -> void:
 	if not resume_on_failure:
 		_reset()
+	super(actor, blackboard)
 
 
 func interrupt(actor: Node, blackboard: Blackboard) -> void:

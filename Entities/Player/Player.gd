@@ -14,15 +14,16 @@ class_name Player
 @onready var wait_for_reload_timer: Timer = $Timers/WaitForReloadTimer
 @onready var walk_audio: AudioStreamPlayer2D = $VFX/WalkAudio
 
-	
 func _ready() -> void:
 	super()
 	
 	debug_options()
 	
 func _enter_tree() -> void:
-	set_multiplayer_authority(str(name).to_int())
 	GlobalGameInformation.get_current_player().current_player = self
+	
+	set_multiplayer_authority(str(name).to_int())
+	
 	
 func _physics_process(delta) -> void:
 	if (!is_multiplayer_authority()): return

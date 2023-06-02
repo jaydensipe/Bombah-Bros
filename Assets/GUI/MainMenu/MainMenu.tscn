@@ -1211,7 +1211,7 @@ texture = ExtResource("4_fvkuk")
 region_enabled = true
 region_rect = Rect2(3.8674, 52.7163, 42.2959, 28.2423)
 
-[node name="Label" type="Label" parent="."]
+[node name="CreditsLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 320.0

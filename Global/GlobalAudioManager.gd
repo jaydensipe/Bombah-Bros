@@ -11,7 +11,7 @@ func play_sound_random_pitch(sound_to_play: AudioStreamPlayer2D, pitch_lower: fl
 	sound_to_play.pitch_scale = randf_range(pitch_lower, pitch_upper)
 	sound_to_play.play()
 	
-func _update_main_menu_music(closing) -> void:
+func _update_main_menu_music(closing: bool) -> void:
 	if closing:
 		main_menu_music.stop()
 	else:

@@ -4,7 +4,7 @@ class_name NakamaMultiplayerPeer
 const MAX_PACKET_SIZE := 1 << 24
 
 var _self_id := 0
-var _connection_status: int = CONNECTION_DISCONNECTED
+var _connection_status: ConnectionStatus = CONNECTION_DISCONNECTED
 var _refusing_new_connections := false
 var _target_id := 0
 
@@ -25,7 +25,7 @@ func _get_packet_script() -> PackedByteArray:
 		return PackedByteArray()
 	return _incoming_packets.pop_front().data
 
-func _get_packet_mode() -> int:
+func _get_packet_mode() -> TransferMode:
 	return TRANSFER_MODE_RELIABLE
 
 func _get_packet_channel() -> int:

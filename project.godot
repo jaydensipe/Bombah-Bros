@@ -27,6 +27,7 @@ GlobalSignalManager="*res://Global/GlobalSignalManager.gd"
 GlobalDebugMananger="*res://Global/GlobalDebugMananger.tscn"
 GlobalAudioManager="*res://Global/GlobalAudioManager.tscn"
 BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
+BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 
 [debug]
 

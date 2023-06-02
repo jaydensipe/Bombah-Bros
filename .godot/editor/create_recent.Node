@@ -1,7 +1,12 @@
 Control
 PanelContainer
-Window
+CenterContainer
+MarginContainer
+RichTextLabel
 Label
+HBoxContainer
+VBoxContainer
+Window
 CollisionShape2D
 Area2D
 Marker2D
@@ -25,8 +30,3 @@ BeehaveTree
 Character
 Blackboard
 AudioStreamPlayer
-TileMap
-TextureRect
-CanvasLayer
-GPUParticles2D
-AudioStreamPlayer2D

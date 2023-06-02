@@ -1066,6 +1066,12 @@ script = ExtResource("2_tttpa")
 [node name="GUI" type="CanvasLayer" parent="."]
 script = ExtResource("4_dbwgp")
 
+[node name="GameUI" type="Control" parent="GUI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="Decoration" type="Node2D" parent="GUI"]
 z_index = -100
 z_as_relative = false

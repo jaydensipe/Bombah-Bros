@@ -9,6 +9,14 @@ signal start_match
 func signal_start_match():
 	emit_signal("start_match")
 	
+signal taken_damage
+func signal_taken_damage(player_damaged: Character, damage_taken: float):
+	emit_signal("taken_damage", player_damaged, damage_taken)
+	
+signal player_died
+func signal_player_died(player_killed: Character, end_game: bool = false):
+	emit_signal("player_died", player_killed, end_game)
+	
 signal client_disconnected
 func signal_client_disconnected(peer_id: int):
 	emit_signal("client_disconnected", peer_id)
