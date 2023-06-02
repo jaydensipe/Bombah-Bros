@@ -20,7 +20,7 @@ class_name Bot
 @export var max_delay_between_throws: float = 2.0
 
 func _ready() -> void:
-	material.set_shader_parameter("line_color", Color.RED)
+	material.set_shader_parameter("line_color", Color.BLUE)
 	debug_options()
 	
 func _physics_process(delta) -> void:

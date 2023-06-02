@@ -1,10 +1,13 @@
-Control
-PanelContainer
-CenterContainer
 MarginContainer
+HBoxContainer
+PanelContainer
+TextureRect
+Control
+CanvasLayer
+HSplitContainer
+CenterContainer
 RichTextLabel
 Label
-HBoxContainer
 VBoxContainer
 Window
 CollisionShape2D
@@ -27,6 +30,3 @@ Decorator
 RayCast2D
 Node
 BeehaveTree
-Character
-Blackboard
-AudioStreamPlayer

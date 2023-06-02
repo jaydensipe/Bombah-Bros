@@ -2,7 +2,7 @@ extends CanvasLayer
 class_name GUI
 
 # Configuration
-@onready var game_ui_holder: Control = $GameUI
+@onready var game_ui_holder: CanvasLayer = $GameUI
 var previous_ui_references: Array[PackedScene] = []
 var current_ui_scene_reference: PackedScene
 var current_ui_reference: Control

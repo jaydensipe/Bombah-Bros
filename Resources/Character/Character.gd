@@ -12,12 +12,15 @@ var can_bounce: bool = false
 @export var speed: int = 150
 @export var jump_height: int = -300
 @export var ammo_count: int = 6
+@export var is_bot: bool = false
 @export_range(0.0, 1.0) var friction: float = 0.1
 @export_range(0.0, 1.0) var acceleration: float = 0.25
 @export_range(0.0, 1.0) var air_acceleration: float = 0.05
 
 func _ready() -> void:
-	if (!is_multiplayer_authority()): material.set_shader_parameter("line_color", Color.RED)
+	if (is_multiplayer_authority()): material.set_shader_parameter("line_color", Color.RED)
+	else: material.set_shader_parameter("line_color", Color.BLUE)
+		
 
 # Respawns
 @rpc("any_peer")
@@ -31,6 +34,7 @@ func respawn() -> void:
 			
 	# Reset position and health
 	position = Vector2.ZERO
+	velocity = Vector2.ZERO
 	health = 0
 	
 # Set spawn position for character
@@ -41,11 +45,12 @@ func set_spawn_position(pos: Vector2) -> void:
 # Take damage
 @rpc("any_peer", "call_local")
 func take_damage(damage_dealt: float, damage_pos: Vector2) -> void:
-	GlobalSignalManager.signal_taken_damage(self, damage_dealt)	
-	
 	can_bounce = true
 	health += damage_dealt
 	velocity += damage_pos * (-1 * health)
+	
+	GlobalSignalManager.signal_taken_damage(self, damage_dealt)	
+	
 	
 	
 	
