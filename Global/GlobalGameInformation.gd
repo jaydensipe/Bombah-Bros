@@ -3,6 +3,7 @@ extends Node
 # Configuration
 var CONTROLLER_ENABLED: bool = false
 var SINGLEPLAYER_SESSION: bool = false
+var OFFLINE_MODE: bool = false
 
 # Player Information
 var current_player_information: MultiplayerPlayer = null
@@ -12,6 +13,7 @@ var current_game_information: CurrentGameInformation = null
 
 func _ready() -> void:
 	check_for_controller()
+	check_for_offline_mode()
 	
 func get_current_player() -> MultiplayerPlayer:
 	if (current_player_information == null):
@@ -32,6 +34,21 @@ func check_for_controller() -> void:
 	if (Input.get_connected_joypads().size() == 0): return
 	
 	CONTROLLER_ENABLED = true
+	
+func check_for_offline_mode() -> void:
+	var arguments = {}
+	for argument in OS.get_cmdline_args():
+		if argument.find("=") > -1:
+			var key_value = argument.split("=")
+			arguments[key_value[0].lstrip("--")] = key_value[1]
+		else:
+			# Options without an argument will be present in the dictionary,
+			# with the value set to an empty string.
+			arguments[argument.lstrip("--")] = ""
+
+
+	if (str_to_var(arguments.offline) == true):
+		OFFLINE_MODE = true
 
 func request_avatar(avatar_url: String) -> ImageTexture:
 	# Create an HTTP request node and connect its completion signal.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://xgir5uydaw3v"]
+[gd_scene load_steps=10 format=3 uid="uid://xgir5uydaw3v"]
 
 [ext_resource type="Script" path="res://Assets/GUI/GameUI/GameUI.gd" id="1_g6nd7"]
 [ext_resource type="Theme" uid="uid://bj2q0bvxlmix" path="res://Assets/GUI/Fonts/BombahBrosTheme.tres" id="1_qib1w"]
@@ -7,7 +7,91 @@
 [ext_resource type="Texture2D" uid="uid://0o7d2l12d3c1" path="res://Assets/GUI/GameUI/p2_health.png" id="3_5b5t7"]
 [ext_resource type="Texture2D" uid="uid://dc6ofl7fcobpv" path="res://Assets/GUI/GameUI/p2_framex2.png" id="5_ndaqt"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pipg6"]
+[sub_resource type="Animation" id="Animation_m1n5f"]
+resource_name = "P1Damage"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../P1Health:scale")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../P1Health:theme_override_colors/font_color")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.419608, 0.443137, 1), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:rotation")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -0.213547, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_m5krn"]
+resource_name = "P2Damage"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../P2Health:scale")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../P2Health:theme_override_colors/font_color")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.419608, 0.443137, 1), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../P2Frame:rotation")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.21293, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vld0s"]
+_data = {
+"P1Damage": SubResource("Animation_m1n5f"),
+"P2Damage": SubResource("Animation_m5krn")
+}
 
 [node name="GameUI" type="Control"]
 layout_mode = 3
@@ -19,64 +103,35 @@ grow_vertical = 2
 scale = Vector2(1.0048, 1)
 script = ExtResource("1_g6nd7")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 183.121
-offset_top = 280.0
-offset_right = 231.121
-offset_bottom = 296.0
-scale = Vector2(2, 2)
-texture = ExtResource("2_exuud")
-stretch_mode = 1
-
-[node name="TextureRect2" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 366.242
-offset_top = 280.0
-offset_right = 414.242
-offset_bottom = 296.0
-scale = Vector2(2, 2)
-texture = ExtResource("3_5b5t7")
-stretch_mode = 1
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_pipg6")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+[node name="P1Frame" type="TextureRect" parent="."]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 8
-theme_override_constants/separation = 150
-
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_bottom = 30
-
-[node name="P1Frame" type="TextureRect" parent="PanelContainer/HBoxContainer/MarginContainer"]
-layout_mode = 2
+offset_left = 207.108
+offset_top = 295.896
+offset_right = 247.108
+offset_bottom = 335.896
+pivot_offset = Vector2(19.8028, 20.1037)
 texture = ExtResource("2_dbcfy")
 stretch_mode = 4
 
-[node name="P2Frame" type="TextureRect" parent="PanelContainer/HBoxContainer"]
+[node name="P2Frame" type="TextureRect" parent="."]
 layout_mode = 2
+offset_left = 390.127
+offset_top = 296.0
+offset_right = 430.127
+offset_bottom = 336.0
+pivot_offset = Vector2(19.9048, 20)
 texture = ExtResource("5_ndaqt")
 stretch_mode = 4
 
 [node name="P2Health" type="Label" parent="."]
 layout_mode = 2
-offset_left = 414.013
+offset_left = 350.319
 offset_top = 312.0
-offset_right = 478.013
+offset_right = 414.319
 offset_bottom = 347.0
 size_flags_horizontal = 4
 theme = ExtResource("1_qib1w")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0.0392157, 0, 0.411765, 1)
 theme_override_constants/shadow_outline_size = 10
 theme_override_font_sizes/font_size = 32
@@ -86,15 +141,43 @@ vertical_alignment = 2
 
 [node name="P1Health" type="Label" parent="."]
 layout_mode = 2
-offset_left = 230.892
+offset_left = 167.197
 offset_top = 312.0
-offset_right = 294.892
+offset_right = 231.197
 offset_bottom = 347.0
 size_flags_horizontal = 4
 theme = ExtResource("1_qib1w")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0.262745, 0, 0, 1)
 theme_override_constants/shadow_outline_size = 10
 theme_override_font_sizes/font_size = 32
 text = "0.0%"
 horizontal_alignment = 1
 vertical_alignment = 2
+
+[node name="P1Lives" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 239.0
+offset_top = 296.0
+offset_right = 266.0
+offset_bottom = 308.0
+rotation = -0.00233367
+scale = Vector2(2, 2)
+texture = ExtResource("2_exuud")
+stretch_mode = 1
+
+[node name="P2Lives" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 421.975
+offset_top = 296.0
+offset_right = 449.975
+offset_bottom = 308.0
+scale = Vector2(2, 2)
+texture = ExtResource("3_5b5t7")
+stretch_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../P1Frame")
+libraries = {
+"": SubResource("AnimationLibrary_vld0s")
+}

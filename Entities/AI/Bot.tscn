@@ -355,7 +355,7 @@ script = ExtResource("13_jexek")
 [node name="AI" type="Node2D" parent="."]
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="AI"]
-path_desired_distance = 70.0
+path_desired_distance = 100.0
 
 [node name="ForwardWallDetector" type="RayCast2D" parent="AI"]
 rotation = -1.5708

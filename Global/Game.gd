@@ -37,6 +37,10 @@ func init_signal_connections() -> void:
 	
 # Server Setup
 func initialize_multiplayer_bridge() -> void:
+	if (GlobalGameInformation.OFFLINE_MODE): 
+		gui.load_main_menu()
+		return
+	
 	gui.load_connecting_menu()
 	multiplayer_bridge = await NakamaIntegration.initialize_nakama()
 	multiplayer_bridge.match_join_error.connect(func(error): GlobalDebugMananger.display_error_dialog(error.message))
@@ -153,4 +157,6 @@ func _disconnect() -> void:
 	GlobalGameInformation.clear_current_game_information()
 	
 	connected_peers.clear()
-	multiplayer_bridge.leave()
+	
+	if (!GlobalGameInformation.OFFLINE_MODE):
+		multiplayer_bridge.leave()

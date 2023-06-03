@@ -3,7 +3,14 @@ class_name MainMenu
 
 # Instances
 @onready var title_text: Label = $TitleContainer/MarginContainer/TitleText
+@onready var host_button: Button = $ButtonContainer/MarginContainer/VBoxContainer/HBoxContainer/HostButton
+@onready var join_button: Button = $ButtonContainer/MarginContainer/VBoxContainer/HBoxContainer/JoinButton
 
+func _ready() -> void:
+	if (GlobalGameInformation.OFFLINE_MODE):
+		host_button.disabled = true
+		join_button.disabled = true
+		
 func _on_host_button_pressed():
 	GlobalSignalManager.signal_host_game_pressed()
 

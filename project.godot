@@ -11,12 +11,13 @@ config_version=5
 [application]
 
 config/name="BombahBros"
-config/description="BombahBros!"
+config/description="BombahBros - A multiplayer smash-bros esque game made with Godot 4.0!"
 run/main_scene="res://Global/Game.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 run/max_fps=144
 boot_splash/bg_color=Color(0.917647, 0.576471, 0, 1)
-config/icon="res://icon.svg"
+config/icon="res://Assets/Items/Bomb/bomb.png"
+config/windows_native_icon="res://Assets/Items/Bomb/bomb256.ico"
 
 [autoload]
 
@@ -42,6 +43,10 @@ window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="ignore"
 window/vsync/vsync_mode=0
+
+[editor]
+
+run/main_run_args="offline=false"
 
 [editor_plugins]
 
