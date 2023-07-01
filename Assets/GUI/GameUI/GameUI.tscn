@@ -139,6 +139,39 @@ text = "0.0%"
 horizontal_alignment = 1
 vertical_alignment = 2
 
+[node name="P2Health2" type="Label" parent="."]
+layout_mode = 2
+offset_left = 401.075
+offset_top = 280.0
+offset_right = 418.075
+offset_bottom = 299.0
+size_flags_horizontal = 4
+theme = ExtResource("1_qib1w")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.0392157, 0, 0.411765, 1)
+theme_override_constants/shadow_outline_size = 10
+theme_override_font_sizes/font_size = 16
+text = "P2
+"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="P1Health2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 219.944
+offset_top = 280.0
+offset_right = 232.944
+offset_bottom = 299.0
+size_flags_horizontal = 4
+theme = ExtResource("1_qib1w")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.262745, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 10
+theme_override_font_sizes/font_size = 16
+text = "P1"
+horizontal_alignment = 1
+vertical_alignment = 2
+
 [node name="P1Health" type="Label" parent="."]
 layout_mode = 2
 offset_left = 167.197
@@ -155,15 +188,64 @@ text = "0.0%"
 horizontal_alignment = 1
 vertical_alignment = 2
 
+[node name="P1WinText" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -17.5
+offset_right = 97.0
+offset_bottom = 17.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_qib1w")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.262745, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 10
+theme_override_font_sizes/font_size = 1
+text = "Player 1 Wins!"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="P2WinText" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -17.5
+offset_right = 97.0
+offset_bottom = 17.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_qib1w")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.0392157, 0, 0.411765, 1)
+theme_override_constants/shadow_outline_size = 10
+theme_override_font_sizes/font_size = 1
+text = "Player 2 Wins!"
+horizontal_alignment = 1
+vertical_alignment = 2
+
 [node name="P1Lives" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = 239.0
 offset_top = 296.0
-offset_right = 266.0
+offset_right = 267.0
 offset_bottom = 308.0
 rotation = -0.00233367
 scale = Vector2(2, 2)
 texture = ExtResource("2_exuud")
+expand_mode = 1
 stretch_mode = 1
 
 [node name="P2Lives" type="TextureRect" parent="."]
@@ -174,6 +256,7 @@ offset_right = 449.975
 offset_bottom = 308.0
 scale = Vector2(2, 2)
 texture = ExtResource("3_5b5t7")
+expand_mode = 1
 stretch_mode = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

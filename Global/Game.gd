@@ -16,9 +16,12 @@ var player = load("res://Entities/Player/Player.tscn")
 # Game Logic
 @rpc("any_peer", "call_local")
 func end_game() -> void:
-	gui.current_ui_reference.show()
-	gui.remove_game_ui()
-	reset_game()
+	create_tween().tween_property(Engine, "time_scale", 0.1, 1.0).finished.connect(func() -> void:
+		Engine.time_scale = 1.0
+		
+		gui.current_ui_reference.show()
+		gui.remove_game_ui()
+		reset_game())
 	
 func _character_death(character: Character, end: bool):
 	if (end): end_game.rpc()

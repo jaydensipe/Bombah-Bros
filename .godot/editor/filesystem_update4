@@ -1,6 +1,4 @@
 res://Assets/GUI/GameUI/GameUI.tscn
 res://Assets/GUI/Fonts/BombahBrosTheme.tres
-res://Assets/GUI/GameUI/GameUI.gd
-res://Global/Game.gd
-res://Entities/AI/Bot.tscn
 res://Entities/Player/Player.gdshader
+res://Entities/Player/Player.tscn

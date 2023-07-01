@@ -31,11 +31,13 @@ func respawn() -> void:
 	
 	if (lives <= 0):
 		GlobalSignalManager.signal_player_died(self, true)
-			
-	# Reset position and health
-	position = Vector2.ZERO
-	velocity = Vector2.ZERO
-	health = 0
+	else:
+		# Reset position and health
+		position = Vector2.ZERO
+		velocity = Vector2.ZERO
+		health = 0
+				
+	
 	
 # Set spawn position for character
 @rpc("call_local", "any_peer")

@@ -1,14 +1,14 @@
+PanelContainer
+Label
 AnimationPlayer
 MarginContainer
 HBoxContainer
-PanelContainer
 TextureRect
 Control
 CanvasLayer
 HSplitContainer
 CenterContainer
 RichTextLabel
-Label
 VBoxContainer
 Window
 CollisionShape2D
@@ -30,4 +30,3 @@ NavigationAgent2D
 Decorator
 RayCast2D
 Node
-BeehaveTree

@@ -46,7 +46,7 @@ window/vsync/vsync_mode=0
 
 [editor]
 
-run/main_run_args="offline=false"
+run/main_run_args="offline=false`"
 
 [editor_plugins]
 

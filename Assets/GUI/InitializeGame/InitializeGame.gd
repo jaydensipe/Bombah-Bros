@@ -58,9 +58,8 @@ func _client_connected_ui(multiplayer_bridge: NakamaMultiplayerBridge) -> void:
 	
 func set_local_opponent_info(is_opponent_host: bool, opp_name: String, opp_avatar_url: String) -> void: 
 	var opp_avatar: ImageTexture = null
-	
 	# Loads default avatar if none exists
-	if (opp_avatar_url == null):
+	if (opp_avatar_url == ""):
 		opp_avatar = ImageTexture.create_from_image(load("res://icon.svg").get_image())
 	else:
 		opp_avatar = await GlobalGameInformation.request_avatar(opp_avatar_url)
