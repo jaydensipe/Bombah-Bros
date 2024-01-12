@@ -1,2 +1,2 @@
-# BombahBros
- Multiplayer game made with Godot 4.0.
+# 💣 Bombah Bros 💣
+W.I.P. Multiplayer game made with Godot 4.0.
